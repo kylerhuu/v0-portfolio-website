@@ -37,6 +37,12 @@
     --sidebar-accent-foreground: 30 10% 92%;
     --sidebar-border: 240 6% 18%;
     --sidebar-ring: 15 80% 55%;
+
+    /* Scroll-reactive defaults (overridden by JS inline styles) */
+    --scroll-fg: rgba(245,241,235,0.95);
+    --scroll-muted-fg: rgba(215,200,185,0.6);
+    --scroll-border: rgba(255,255,255,0.08);
+    --scroll-card-bg: rgba(255,255,255,0.04);
   }
 }
 
@@ -45,7 +51,8 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background: transparent;
   }
   html {
     scroll-behavior: smooth;
@@ -55,5 +62,14 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@keyframes horizon-pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
   }
 }
