@@ -36,15 +36,10 @@ export function NeuralBackground() {
 
     let animationFrameId: number;
     let nodes: Node[] = [];
-    const NODE_COUNT = 65;
-    const CONNECTION_DISTANCE = 190;
-    const NODE_SPEED = 0.22;
+    const NODE_COUNT = 60;
+    const CONNECTION_DISTANCE = 180;
+    const NODE_SPEED = 0.25;
     let time = 0;
-
-    // Wispy line state
-    const wisps = [
-      { y: 0.3, speed: 0.08, offset: 0, amplitude: 40, frequency: 0.003 },
-    ];
 
     function resize() {
       if (!canvas) return;
@@ -56,7 +51,7 @@ export function NeuralBackground() {
       if (!canvas) return;
       nodes = [];
       for (let i = 0; i < NODE_COUNT; i++) {
-        const baseRadius = Math.random() * 1.8 + 0.5;
+        const baseRadius = Math.random() * 1.5 + 0.5;
         nodes.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
@@ -71,21 +66,22 @@ export function NeuralBackground() {
 
     function animate() {
       if (!canvas || !ctx) return;
-      time += 0.004;
+      time += 0.005;
 
       const p = progressRef.current;
-      // Enhanced opacity curve: visible on dark, subtle on light
-      const baseOpacity = Math.max(0.15, 1 - p * 0.6);
+      // On dark backgrounds, nodes are warm amber. On light, they become dark brown.
+      // Opacity also decreases as background lightens for subtlety
+      const baseOpacity = 1 - p * 0.4; // fade slightly toward bottom
 
-      // Node color: warm amber → dark sienna (slightly more contrast now)
-      const nr = Math.round(220 - p * 145);
-      const ng = Math.round(130 - p * 80);
-      const nb = Math.round(65 - p * 35);
+      // Node color interpolation: warm amber → dark burnt sienna
+      const nr = Math.round(215 - p * 135); // 215 → 80
+      const ng = Math.round(120 - p * 70);  // 120 → 50
+      const nb = Math.round(60 - p * 30);   // 60  → 30
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Slow animated gradient overlay
-      const gradAngle = time * 0.25;
+      // Slow animated gradient overlay (more transparent as bg lightens)
+      const gradAngle = time * 0.3;
       const gx = Math.cos(gradAngle) * canvas.width * 0.5 + canvas.width * 0.5;
       const gy = Math.sin(gradAngle) * canvas.height * 0.5 + canvas.height * 0.5;
       const gradient = ctx.createRadialGradient(
@@ -96,8 +92,8 @@ export function NeuralBackground() {
         canvas.height * 0.5,
         canvas.width * 0.8
       );
-      const overlayMult = baseOpacity * 0.8;
-      gradient.addColorStop(0, `rgba(${nr}, ${ng}, ${nb}, ${0.07 * overlayMult})`);
+      const overlayMult = baseOpacity * 0.7;
+      gradient.addColorStop(0, `rgba(${nr}, ${ng}, ${nb}, ${0.06 * overlayMult})`);
       gradient.addColorStop(0.5, `rgba(${nr}, ${ng}, ${nb}, ${0.04 * overlayMult})`);
       gradient.addColorStop(1, `rgba(${nr}, ${ng}, ${nb}, ${0.02 * overlayMult})`);
       ctx.fillStyle = gradient;
@@ -113,10 +109,10 @@ export function NeuralBackground() {
 
         node.radius =
           node.baseRadius +
-          Math.sin(time * 2 + node.pulseOffset) * node.baseRadius * 0.45;
+          Math.sin(time * 2 + node.pulseOffset) * node.baseRadius * 0.4;
       }
 
-      // Draw connections (slightly more visible)
+      // Draw connections
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const dx = nodes[i].x - nodes[j].x;
@@ -125,12 +121,12 @@ export function NeuralBackground() {
 
           if (distance < CONNECTION_DISTANCE) {
             const opacity =
-              (1 - distance / CONNECTION_DISTANCE) * 0.15 * baseOpacity;
+              (1 - distance / CONNECTION_DISTANCE) * 0.12 * baseOpacity;
             ctx.beginPath();
             ctx.moveTo(nodes[i].x, nodes[i].y);
             ctx.lineTo(nodes[j].x, nodes[j].y);
             ctx.strokeStyle = `rgba(${nr}, ${ng}, ${nb}, ${opacity})`;
-            ctx.lineWidth = 0.6;
+            ctx.lineWidth = 0.5;
             ctx.stroke();
           }
         }
@@ -139,48 +135,19 @@ export function NeuralBackground() {
       // Draw nodes with pulse glow
       for (const node of nodes) {
         const pulseIntensity =
-          0.35 + Math.sin(time * 2 + node.pulseOffset) * 0.18;
+          0.3 + Math.sin(time * 2 + node.pulseOffset) * 0.15;
 
         // Glow
         ctx.beginPath();
-        ctx.arc(node.x, node.y, node.radius * 3.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${nr}, ${ng}, ${nb}, ${pulseIntensity * 0.09 * baseOpacity})`;
+        ctx.arc(node.x, node.y, node.radius * 3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${nr}, ${ng}, ${nb}, ${pulseIntensity * 0.08 * baseOpacity})`;
         ctx.fill();
 
         // Core
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${nr}, ${ng}, ${nb}, ${(pulseIntensity + 0.12) * baseOpacity})`;
+        ctx.fillStyle = `rgba(${nr}, ${ng}, ${nb}, ${(pulseIntensity + 0.1) * baseOpacity})`;
         ctx.fill();
-      }
-
-      // Wispy atmospheric line (desktop only: skip if <768 wide)
-      if (canvas.width >= 768) {
-        for (const wisp of wisps) {
-          const baseY = canvas.height * wisp.y;
-          const shift = time * wisp.speed * canvas.width;
-          ctx.beginPath();
-          ctx.moveTo(0, baseY);
-          for (let x = 0; x <= canvas.width; x += 4) {
-            const waveY =
-              baseY +
-              Math.sin((x + shift) * wisp.frequency + wisp.offset) *
-                wisp.amplitude +
-              Math.sin((x + shift) * wisp.frequency * 2.3 + 1.5) *
-                wisp.amplitude * 0.3;
-            ctx.lineTo(x, waveY);
-          }
-          // Very faint: 5-8% opacity, white on dark, dark on light
-          const wispOpacity = (0.04 + Math.sin(time * 0.5) * 0.02) * baseOpacity;
-          const wR = p < 0.5 ? 255 : Math.round(255 - p * 200);
-          const wG = p < 0.5 ? 255 : Math.round(255 - p * 200);
-          const wB = p < 0.5 ? 255 : Math.round(255 - p * 200);
-          ctx.strokeStyle = `rgba(${wR}, ${wG}, ${wB}, ${wispOpacity})`;
-          ctx.lineWidth = 1.2;
-          ctx.filter = "blur(2px)";
-          ctx.stroke();
-          ctx.filter = "none";
-        }
       }
 
       animationFrameId = requestAnimationFrame(animate);
