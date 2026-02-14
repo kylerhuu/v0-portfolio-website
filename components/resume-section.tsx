@@ -1,10 +1,20 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Download, FileText } from "lucide-react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export function ResumeSection() {
+  const { ref, isVisible } = useScrollReveal();
+
   return (
     <section id="resume" className="relative z-10 px-6 py-24 md:py-32">
-      <div className="mx-auto max-w-4xl">
+      <div
+        ref={ref}
+        className={`mx-auto max-w-4xl transition-all duration-700 ease-out ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+        }`}
+      >
         <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-4">
           Resume
         </h2>
@@ -24,7 +34,7 @@ export function ResumeSection() {
             <Button
               variant="outline"
               size="sm"
-              className="rounded-full border-border text-foreground hover:bg-secondary hover:text-foreground"
+              className="rounded-full border-border text-foreground hover:bg-secondary hover:text-foreground hover:border-[hsl(15,80%,55%)]/40 hover:shadow-[0_0_15px_rgba(215,120,60,0.15)] transition-all duration-300"
               asChild
             >
               <a href="#" download>

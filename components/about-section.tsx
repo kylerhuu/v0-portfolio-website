@@ -1,4 +1,7 @@
+"use client";
+
 import { FlaskConical, Rocket, Layers } from "lucide-react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 const HIGHLIGHTS = [
   {
@@ -22,25 +25,47 @@ const HIGHLIGHTS = [
 ];
 
 export function AboutSection() {
+  const { ref: headingRef, isVisible: headingVisible } = useScrollReveal();
+  const { ref: cardsRef, isVisible: cardsVisible } = useScrollReveal(0.1);
+
   return (
     <section id="about" className="relative z-10 px-6 py-24 md:py-32">
       <div className="mx-auto max-w-4xl">
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-4">
-          About
-        </h2>
-        <p className="text-2xl md:text-3xl font-medium text-foreground leading-relaxed text-pretty max-w-2xl">
-          I build systems at the intersection of biology, AI, and software
-          engineering. My work focuses on creating tools that are robust,
-          scalable, and genuinely useful.
-        </p>
+        <div
+          ref={headingRef}
+          className={`transition-all duration-700 ease-out ${
+            headingVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-6"
+          }`}
+        >
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-4">
+            About
+          </h2>
+          <p className="text-2xl md:text-3xl font-medium text-foreground leading-relaxed text-pretty max-w-2xl">
+            I build systems at the intersection of biology, AI, and software
+            engineering. My work focuses on creating tools that are robust,
+            scalable, and genuinely useful.
+          </p>
+        </div>
 
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {HIGHLIGHTS.map((item) => (
+        <div
+          ref={cardsRef}
+          className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8"
+        >
+          {HIGHLIGHTS.map((item, i) => (
             <div
               key={item.title}
-              className="group p-6 rounded-lg bg-card border border-border hover:border-[hsl(15,80%,55%)]/30 transition-colors duration-300"
+              className={`group p-6 rounded-lg bg-card border border-border hover:border-[hsl(15,80%,55%)]/30 hover:shadow-[0_4px_24px_rgba(215,120,60,0.08)] transition-all duration-500 ease-out ${
+                cardsVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-6"
+              }`}
+              style={{
+                transitionDelay: cardsVisible ? `${i * 120}ms` : "0ms",
+              }}
             >
-              <item.icon className="h-6 w-6 text-[hsl(15,80%,55%)] mb-4" />
+              <item.icon className="h-6 w-6 text-[hsl(15,80%,55%)] mb-4 transition-transform duration-300 group-hover:scale-110" />
               <h3 className="text-lg font-semibold text-foreground mb-2">
                 {item.title}
               </h3>

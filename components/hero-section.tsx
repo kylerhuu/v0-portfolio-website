@@ -1,13 +1,25 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Mail } from "lucide-react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export function HeroSection() {
+  const { ref, isVisible } = useScrollReveal(0.1);
+
   return (
     <section
       id="hero"
+      ref={ref}
       className="relative min-h-screen flex items-center justify-center px-6"
     >
-      <div className="relative z-10 max-w-3xl text-center">
+      <div
+        className={`relative z-10 max-w-3xl text-center transition-all duration-1000 ease-out ${
+          isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-foreground text-balance leading-tight">
           Building Systems
           <br />
@@ -23,7 +35,7 @@ export function HeroSection() {
           <Button
             asChild
             size="lg"
-            className="bg-[hsl(15,80%,55%)] text-[hsl(0,0%,100%)] hover:bg-[hsl(15,80%,45%)] rounded-full px-8"
+            className="bg-[hsl(15,80%,55%)] text-[hsl(0,0%,100%)] hover:bg-[hsl(15,80%,45%)] hover:shadow-[0_0_20px_rgba(215,120,60,0.3)] rounded-full px-8 transition-all duration-300"
           >
             <a href="#projects">
               <ArrowDown className="h-4 w-4" />
@@ -34,7 +46,7 @@ export function HeroSection() {
             asChild
             variant="outline"
             size="lg"
-            className="rounded-full px-8 border-border text-foreground hover:bg-secondary hover:text-foreground"
+            className="rounded-full px-8 border-border text-foreground hover:bg-secondary hover:text-foreground hover:border-[hsl(15,80%,55%)]/40 hover:shadow-[0_0_15px_rgba(215,120,60,0.15)] transition-all duration-300"
           >
             <a href="#contact">
               <Mail className="h-4 w-4" />
