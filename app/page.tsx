@@ -6,10 +6,11 @@ import { ProjectsSection } from "@/components/projects-section";
 import { GallerySection } from "@/components/gallery-section";
 import { ResumeSection } from "@/components/resume-section";
 import { ContactSection } from "@/components/contact-section";
+import { ScrollColorProvider } from "@/components/scroll-color-provider";
 
 export default function Home() {
   return (
-    <>
+    <ScrollColorProvider>
       <NeuralBackground />
       <Navbar />
       <main>
@@ -20,6 +21,6 @@ export default function Home() {
         <ResumeSection />
         <ContactSection />
       </main>
-    </>
+    </ScrollColorProvider>
   );
 }

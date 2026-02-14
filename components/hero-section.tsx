@@ -20,14 +20,20 @@ export function HeroSection() {
             : "opacity-0 translate-y-8"
         }`}
       >
-        <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-foreground text-balance leading-tight">
+        <h1
+          className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-balance leading-tight"
+          style={{ color: "var(--scroll-fg)" }}
+        >
           Building Systems
           <br />
           <span className="bg-gradient-to-r from-[hsl(0,70%,50%)] via-[hsl(20,85%,50%)] to-[hsl(40,90%,55%)] bg-clip-text text-transparent">
             That Scale.
           </span>
         </h1>
-        <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-xl mx-auto leading-relaxed text-pretty">
+        <p
+          className="mt-6 text-lg md:text-xl max-w-xl mx-auto leading-relaxed text-pretty"
+          style={{ color: "var(--scroll-muted-fg)" }}
+        >
           Quantitative Biology @ USC expanding into Computer Science. Focused on
           AI-driven products and high-leverage tools.
         </p>
@@ -46,7 +52,11 @@ export function HeroSection() {
             asChild
             variant="outline"
             size="lg"
-            className="rounded-full px-8 border-border text-foreground hover:bg-secondary hover:text-foreground hover:border-[hsl(15,80%,55%)]/40 hover:shadow-[0_0_15px_rgba(215,120,60,0.15)] transition-all duration-300"
+            className="rounded-full px-8 transition-all duration-300"
+            style={{
+              borderColor: "var(--scroll-border)",
+              color: "var(--scroll-fg)",
+            }}
           >
             <a href="#contact">
               <Mail className="h-4 w-4" />
@@ -58,8 +68,14 @@ export function HeroSection() {
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-        <div className="w-5 h-8 border-2 border-muted-foreground/30 rounded-full flex items-start justify-center p-1">
-          <div className="w-1 h-2 bg-muted-foreground/50 rounded-full animate-bounce" />
+        <div
+          className="w-5 h-8 rounded-full flex items-start justify-center p-1"
+          style={{ border: "2px solid var(--scroll-muted-fg)" }}
+        >
+          <div
+            className="w-1 h-2 rounded-full animate-bounce"
+            style={{ backgroundColor: "var(--scroll-muted-fg)" }}
+          />
         </div>
       </div>
     </section>

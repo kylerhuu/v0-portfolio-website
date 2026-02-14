@@ -35,7 +35,10 @@ export function ContactSection() {
         <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-4">
           Contact
         </h2>
-        <p className="text-2xl md:text-3xl font-medium text-foreground mb-12 text-pretty">
+        <p
+          className="text-2xl md:text-3xl font-medium mb-12 text-pretty"
+          style={{ color: "var(--scroll-fg)" }}
+        >
           {"Let's build something together."}
         </p>
 
@@ -46,7 +49,8 @@ export function ContactSection() {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative flex items-center gap-3 text-muted-foreground hover:text-foreground transition-all duration-300"
+              className="group relative flex items-center gap-3 transition-all duration-300 hover:opacity-100"
+              style={{ color: "var(--scroll-muted-fg)" }}
             >
               <link.icon className="h-5 w-5 text-[hsl(15,80%,55%)] group-hover:text-[hsl(30,85%,55%)] group-hover:drop-shadow-[0_0_6px_rgba(215,120,60,0.5)] transition-all duration-300" />
               <span className="text-base relative">
@@ -57,8 +61,14 @@ export function ContactSection() {
           ))}
         </div>
 
-        <div className="mt-24 pt-8 border-t border-border">
-          <p className="text-xs text-muted-foreground">
+        <div
+          className="mt-24 pt-8"
+          style={{ borderTop: "1px solid var(--scroll-border)" }}
+        >
+          <p
+            className="text-xs"
+            style={{ color: "var(--scroll-muted-fg)" }}
+          >
             {"Built with intention. \u00A9 2026"}
           </p>
         </div>

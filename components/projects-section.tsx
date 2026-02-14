@@ -157,18 +157,31 @@ function ProjectCard({
   return (
     <button
       onClick={onClick}
-      className={`group w-full text-left p-6 rounded-lg bg-card border border-border hover:border-[hsl(15,80%,55%)]/40 hover:shadow-[0_8px_32px_rgba(215,120,60,0.1)] transition-all duration-500 ease-out hover:-translate-y-1 ${
+      className={`group w-full text-left p-6 rounded-lg hover:border-[hsl(15,80%,55%)]/40 hover:shadow-[0_8px_32px_rgba(215,120,60,0.1)] transition-all duration-500 ease-out hover:-translate-y-1 ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
       }`}
-      style={{ transitionDelay: isVisible ? `${index * 80}ms` : "0ms" }}
+      style={{
+        transitionDelay: isVisible ? `${index * 80}ms` : "0ms",
+        backgroundColor: "var(--scroll-card-bg)",
+        border: "1px solid var(--scroll-border)",
+      }}
     >
       <div className="flex items-start justify-between mb-1">
-        <h3 className="text-lg font-semibold text-foreground group-hover:text-[hsl(15,80%,55%)] transition-colors duration-300">
+        <h3
+          className="text-lg font-semibold group-hover:text-[hsl(15,80%,55%)] transition-colors duration-300"
+          style={{ color: "var(--scroll-fg)" }}
+        >
           {project.title}
         </h3>
-        <ExternalLink className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <ExternalLink
+          className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{ color: "var(--scroll-muted-fg)" }}
+        />
       </div>
-      <p className="text-sm text-muted-foreground mb-2 leading-relaxed">
+      <p
+        className="text-sm mb-2 leading-relaxed"
+        style={{ color: "var(--scroll-muted-fg)" }}
+      >
         {project.summary}
       </p>
       <p className="text-xs text-[hsl(15,80%,55%)]/80 font-medium mb-4">
@@ -179,7 +192,12 @@ function ProjectCard({
           <Badge
             key={tag}
             variant="secondary"
-            className="text-xs bg-secondary text-secondary-foreground"
+            className="text-xs"
+            style={{
+              backgroundColor: "var(--scroll-card-bg)",
+              color: "var(--scroll-muted-fg)",
+              border: "1px solid var(--scroll-border)",
+            }}
           >
             {tag}
           </Badge>
@@ -208,7 +226,10 @@ export function ProjectsSection() {
           <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-4">
             Projects
           </h2>
-          <p className="text-2xl md:text-3xl font-medium text-foreground mb-12 text-pretty">
+          <p
+            className="text-2xl md:text-3xl font-medium mb-12 text-pretty"
+            style={{ color: "var(--scroll-fg)" }}
+          >
             Selected work across AI, infrastructure, and biotech.
           </p>
         </div>

@@ -42,7 +42,10 @@ export function AboutSection() {
           <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-4">
             About
           </h2>
-          <p className="text-2xl md:text-3xl font-medium text-foreground leading-relaxed text-pretty max-w-2xl">
+          <p
+            className="text-2xl md:text-3xl font-medium leading-relaxed text-pretty max-w-2xl"
+            style={{ color: "var(--scroll-fg)" }}
+          >
             I build systems at the intersection of biology, AI, and software
             engineering. My work focuses on creating tools that are robust,
             scalable, and genuinely useful.
@@ -56,20 +59,28 @@ export function AboutSection() {
           {HIGHLIGHTS.map((item, i) => (
             <div
               key={item.title}
-              className={`group p-6 rounded-lg bg-card border border-border hover:border-[hsl(15,80%,55%)]/30 hover:shadow-[0_4px_24px_rgba(215,120,60,0.08)] transition-all duration-500 ease-out ${
+              className={`group p-6 rounded-lg hover:border-[hsl(15,80%,55%)]/30 hover:shadow-[0_4px_24px_rgba(215,120,60,0.08)] transition-all duration-500 ease-out ${
                 cardsVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-6"
               }`}
               style={{
                 transitionDelay: cardsVisible ? `${i * 120}ms` : "0ms",
+                backgroundColor: "var(--scroll-card-bg)",
+                border: "1px solid var(--scroll-border)",
               }}
             >
               <item.icon className="h-6 w-6 text-[hsl(15,80%,55%)] mb-4 transition-transform duration-300 group-hover:scale-110" />
-              <h3 className="text-lg font-semibold text-foreground mb-2">
+              <h3
+                className="text-lg font-semibold mb-2"
+                style={{ color: "var(--scroll-fg)" }}
+              >
                 {item.title}
               </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p
+                className="text-sm leading-relaxed"
+                style={{ color: "var(--scroll-muted-fg)" }}
+              >
                 {item.description}
               </p>
             </div>

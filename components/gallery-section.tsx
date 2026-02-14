@@ -29,7 +29,10 @@ export function GallerySection() {
           <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-4">
             Gallery
           </h2>
-          <p className="text-2xl md:text-3xl font-medium text-foreground mb-12 text-pretty">
+          <p
+            className="text-2xl md:text-3xl font-medium mb-12 text-pretty"
+            style={{ color: "var(--scroll-fg)" }}
+          >
             Moments from the journey.
           </p>
         </div>
@@ -55,9 +58,9 @@ export function GallerySection() {
                 alt={item.alt}
                 className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-out group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-background/40 group-hover:bg-transparent transition-colors duration-700" />
-              <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-background/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <p className="text-xs text-foreground font-medium">
+              <div className="absolute inset-0 bg-[rgba(42,15,15,0.3)] group-hover:bg-transparent transition-colors duration-700" />
+              <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-[rgba(42,15,15,0.7)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <p className="text-xs text-[rgba(245,241,235,0.95)] font-medium">
                   {item.alt}
                 </p>
               </div>
