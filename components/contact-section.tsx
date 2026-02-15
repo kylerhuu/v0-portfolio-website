@@ -6,18 +6,18 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 const LINKS = [
   {
     icon: Mail,
-    label: "hello@example.com",
-    href: "mailto:hello@example.com",
+    label: "kylerhu1549@gmail.com",
+    href: "mailto:kylerhu1549@gmail.com",
   },
   {
     icon: Linkedin,
-    label: "linkedin.com/in/yourname",
-    href: "https://linkedin.com/in/yourname",
+    label: "linkedin.com/in/kyler-hu",
+    href: "https://www.linkedin.com/in/kyler-hu/",
   },
   {
     icon: Phone,
-    label: "+1 (555) 123-4567",
-    href: "tel:+15551234567",
+    label: "+1 (925) 931-2012",
+    href: "tel:+19259312012",
   },
 ];
 
