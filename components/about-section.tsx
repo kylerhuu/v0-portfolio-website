@@ -6,21 +6,21 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 const HIGHLIGHTS = [
   {
     icon: FlaskConical,
-    title: "Research & Labs",
+    title: "Quantitative Research",
     description:
-      "Deep experience in computational biology, data pipelines, and research-grade analysis tools.",
+      "Background in quantitative biology with hands-on experience modeling complex systems, working with data, and translating research questions into code.",
   },
   {
     icon: Rocket,
     title: "Startup Experience",
     description:
-      "Shipped products from zero to one in fast-paced environments. Comfortable with ambiguity and iteration.",
+      "Experience working in startup and early-stage environments where goals are unclear, speed matters, and ownership is expected from day one.",
   },
   {
     icon: Layers,
-    title: "Systems Thinking",
+    title: "Systemic Thinking",
     description:
-      "Obsessed with architecture, scalability, and building reliable infrastructure that compounds over time.",
+      "I think in systems — how components interact, where bottlenecks form, and how small design choices scale over time in both software and science.",
   },
 ];
 
