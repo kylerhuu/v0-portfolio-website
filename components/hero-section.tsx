@@ -44,8 +44,8 @@ export function HeroSection() {
           className="mt-8 text-lg md:text-xl max-w-xl mx-auto leading-relaxed text-pretty"
           style={{ color: "var(--scroll-muted-fg)" }}
         >
-          Quantitative Biology @ USC expanding into Computer Science. Focused on
-          AI-driven products and high-leverage tools.
+          Business Administration @ USC expanding into Computer Science. Focused on
+          AI-driven products and scaling high-leverage tools.
         </p>
         <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button
