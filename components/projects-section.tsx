@@ -28,61 +28,61 @@ interface Project {
 
 const PROJECTS: Project[] = [
   {
-    title: "NeuroSync",
-    summary: "AI pipeline for real-time neural signal processing",
-    role: "Lead Engineer",
-    tags: ["AI", "Backend", "Research"],
+    title: "ThinkNeuro Research Internship",
+    summary: "Research-focused programming and team leadership experience",
+    role: "Associate Researcher",
+    tags: ["Research", "Leadership", "Programming"],
     problem:
-      "Existing neural signal processing pipelines had high latency and could not handle real-time streaming data from lab instruments.",
+      "Existing neural research on TMS and tDCS was overly generalized and redacted other contributing factors to neural disabilities. Additionally within the internship, research terms lacked uniformity, structure, and technical support.",
     roleDetail:
-      "Led architecture design and implementation of the entire data pipeline. Owned model optimization, streaming infrastructure, and deployment across three research labs.",
-    techStack: ["Python", "TensorFlow", "Apache Kafka", "Docker", "GCP"],
+      "Led a meta-analysis of current research surrounding our research question, supported programming applications, collaborated with interns, and cultivated innovation within our group to bring unique perspective on prior research.",
+    techStack: ["Python", "R", "Excel", "Google Sheets"],
     architecture:
-      "Event-driven microservices architecture with Kafka for message brokering, containerized ML inference workers, and a real-time WebSocket API for lab clients.",
+      "Research workflows emphasizing clarity, reproducibility, and collaboration rather than production-scale systems.",
     impact:
-      "Reduced processing latency by 85%, enabling real-time neuroscience experiments. Deployed across 3 research labs processing 10M+ signals/day.",
+      "Improved team coordination and contributed to smoother project execution, Placed Top3 out of 100+ groups within the same cohort, brought unique and in-depth findings that addressed gaps within neurorehabilitation research.",
     keyLessons:
-      "Learned that streaming ML systems need careful backpressure management. Invested in observability early, which saved weeks of debugging later.",
+      "Practiced real-world applications of R programming in a research-heavy team-coordinated effort, Clear communication is just as important as technical skill in research environments.",
     futureImprovements:
-      "Migrate to a more efficient model serving framework (e.g., Triton). Add auto-scaling based on signal throughput metrics.",
+      "Standardize research workflows and documentation to reduce onboarding friction for new team members.",
   },
   {
-    title: "BioGraph",
-    summary: "Knowledge graph for biological pathway visualization",
-    role: "Full-Stack Developer",
-    tags: ["Full-Stack", "Data Viz", "Research"],
+    title: "NightBite",
+    summary: "Late-night food truck preorder app for college students",
+    role: "Founder & Developer",
+    tags: ["Mobile App", "Product", "Startup", "Full-Stack"],
     problem:
-      "Researchers needed a way to explore complex biological pathway relationships without navigating fragmented databases.",
+      "College students struggle to find reliable late-night food options, and food trucks lack an easy way to handle preorders and recurring customers.",
     roleDetail:
-      "Built the graph engine, API layer, and interactive frontend. Designed the data ingestion pipeline from multiple biological databases.",
-    techStack: ["React", "D3.js", "Neo4j", "FastAPI", "AWS"],
+      "Designed the product concept, core user flows, and MVP feature set. Planned authentication, vendor subscriptions, and order flow while iterating on UX and backend structure.",
+    techStack: ["React Native", "TypeScript", "Firebase", "Stripe"],
     architecture:
-      "Graph database (Neo4j) with a FastAPI middleware layer. React frontend with D3.js for force-directed graph rendering and interactive exploration.",
+      "Client-side mobile app with Firebase authentication and database. Stripe subscription model for vendors, designed for future scalability.",
     impact:
-      "Adopted by 200+ researchers at 4 institutions. Reduced pathway exploration time from hours to minutes.",
+      "Built a functional MVP and validated demand for a vendor subscription model. Learned how to balance user experience with technical constraints.",
     keyLessons:
-      "Graph databases shine for relationship-heavy data but require careful query optimization. D3.js force layouts need performance tuning for large datasets.",
+      "Product decisions matter as much as code. Small UX issues can completely break adoption if not addressed early.",
     futureImprovements:
-      "Add collaborative annotation features. Implement WebGL-based rendering for graphs with 10K+ nodes.",
+      "Improve login reliability, optimize ordering speed, and expand vendor tools for analytics and menu management.",
   },
   {
-    title: "ScaleKit",
-    summary: "Auto-scaling infrastructure toolkit for ML workloads",
-    role: "Core Contributor",
-    tags: ["Infrastructure", "ML", "DevOps"],
+    title: "Vie.game Growth Strategy",
+    summary: "Marketing and outreach systems for an AI game design startup",
+    role: "Growth Intern",
+    tags: ["Marketing", "Strategy", "Startup"],
     problem:
-      "ML teams struggled to efficiently provision and scale GPU resources for training and inference workloads.",
+      "The startup needed clearer positioning, stronger outreach, and consistent growth channels to reach creators and developers.",
     roleDetail:
-      "Designed the scheduling algorithm and resource allocation system. Built the monitoring dashboard and cost optimization engine.",
-    techStack: ["Go", "Kubernetes", "Terraform", "Prometheus", "gRPC"],
+      "Worked on growth strategy, outreach messaging, and market research. Helped refine branding, analyze engagement data, and support launch efforts.",
+    techStack: ["Notion", "Google Sheets", "Analytic Tools", "Social Media"],
     architecture:
-      "Custom Kubernetes operator with a bin-packing scheduler for GPU allocation. Prometheus-based monitoring with custom metrics for cost tracking.",
+      "Lightweight growth stack focused on experimentation, fast iteration, and feedback loops rather than heavy tooling.",
     impact:
-      "Cut infrastructure costs by 40% while improving job throughput by 3x across the organization.",
+      "Scaled product from 0 users and contributed to improved outreach clarity and engagement. Gained firsthand exposure to early-stage startup operations.",
     keyLessons:
-      "GPU scheduling is fundamentally different from CPU scheduling. Preemption policies need careful tuning to avoid thrashing.",
+      "Growth is about testing fast and learning faster. Clear messaging beats complex strategy.",
     futureImprovements:
-      "Add spot instance support for fault-tolerant training jobs. Build a cost prediction model for budget planning.",
+      "Automate outreach tracking and build more structured experiments around user acquisition channels.",
   },
   {
     title: "CellMap",
