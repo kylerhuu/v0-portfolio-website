@@ -1,4 +1,4 @@
-"use client";
+e"use client";
 
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -7,7 +7,7 @@ import { useScrollColor } from "@/components/scroll-color-provider";
 
 const NAV_LINKS = [
   { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
+  { label: "Experience", href: "#experience" },
   { label: "Gallery", href: "#gallery" },
   { label: "Resume", href: "#resume" },
   { label: "Contact", href: "#contact" },
