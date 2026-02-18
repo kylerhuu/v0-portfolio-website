@@ -12,7 +12,7 @@ import {
 import { ExternalLink } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
-interface Project {
+interface Experience {
   title: string;
   summary: string;
   role: string;
@@ -26,7 +26,7 @@ interface Project {
   futureImprovements: string;
 }
 
-const PROJECTS: Project[] = [
+const Experiences: Experience[] = [
   {
     title: "ThinkNeuro Research Internship",
     summary: "Research-focused programming and team leadership experience",
@@ -40,7 +40,7 @@ const PROJECTS: Project[] = [
     architecture:
       "Research workflows emphasizing clarity, reproducibility, and collaboration rather than production-scale systems.",
     impact:
-      "Improved team coordination and contributed to smoother project execution, Placed Top3 out of 100+ groups within the same cohort, brought unique and in-depth findings that addressed gaps within neurorehabilitation research.",
+      "Improved team coordination and contributed to smoother experience execution, Placed Top3 out of 100+ groups within the same cohort, brought unique and in-depth findings that addressed gaps within neurorehabilitation research.",
     keyLessons:
       "Practiced real-world applications of R programming in a research-heavy team-coordinated effort, Clear communication is just as important as technical skill in research environments.",
     futureImprovements:
@@ -86,13 +86,13 @@ const PROJECTS: Project[] = [
   },
 ];
 
-function ProjectCard({
-  project,
+function ExperienceCard({
+  experience,
   onClick,
   index,
   isVisible,
 }: {
-  project: Project;
+  experience: Experiences;
   onClick: () => void;
   index: number;
   isVisible: boolean;
@@ -114,7 +114,7 @@ function ProjectCard({
           className="text-lg font-semibold group-hover:text-[hsl(15,80%,55%)] transition-colors duration-300"
           style={{ color: "var(--scroll-fg)" }}
         >
-          {project.title}
+          {experience.title}
         </h3>
         <ExternalLink
           className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -125,13 +125,13 @@ function ProjectCard({
         className="text-sm mb-2 leading-relaxed"
         style={{ color: "var(--scroll-muted-fg)" }}
       >
-        {project.summary}
+        {experience.summary}
       </p>
       <p className="text-xs text-[hsl(15,80%,55%)]/80 font-medium mb-4">
-        {project.role}
+        {experience.role}
       </p>
       <div className="flex flex-wrap gap-2">
-        {project.tags.map((tag) => (
+        {experience.tags.map((tag) => (
           <Badge
             key={tag}
             variant="secondary"
@@ -150,13 +150,13 @@ function ProjectCard({
   );
 }
 
-export function ProjectsSection() {
+export function ExperiencesSection() {
   const [selected, setSelected] = useState<Project | null>(null);
   const { ref: headingRef, isVisible: headingVisible } = useScrollReveal();
   const { ref: cardsRef, isVisible: cardsVisible } = useScrollReveal(0.05);
 
   return (
-    <section id="projects" className="relative z-10 px-6 py-24 md:py-32">
+    <section id="experiences" className="relative z-10 px-6 py-24 md:py-32">
       <div className="mx-auto max-w-4xl">
         <div
           ref={headingRef}
@@ -178,11 +178,11 @@ export function ProjectsSection() {
         </div>
 
         <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {PROJECTS.map((project, i) => (
-            <ProjectCard
-              key={project.title}
-              project={project}
-              onClick={() => setSelected(project)}
+          {Experiences.map((experience, i) => (
+            <ExperienceCard
+              key={experience.title}
+              experience={experience}
+              onClick={() => setSelected(experience)}
               index={i}
               isVisible={cardsVisible}
             />
