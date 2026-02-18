@@ -167,7 +167,7 @@ export function ExperiencesSection() {
           }`}
         >
           <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-4">
-            Projects
+            Experiences
           </h2>
           <p
             className="text-2xl md:text-3xl font-medium mb-12 text-pretty"
