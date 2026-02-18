@@ -84,63 +84,6 @@ const PROJECTS: Project[] = [
     futureImprovements:
       "Automate outreach tracking and build more structured experiments around user acquisition channels.",
   },
-  {
-    title: "CellMap",
-    summary: "Spatial transcriptomics analysis platform",
-    role: "Sole Developer",
-    tags: ["AI", "Biotech", "Full-Stack"],
-    problem:
-      "No accessible tool existed for interactive spatial transcriptomics data exploration at single-cell resolution.",
-    roleDetail:
-      "Built end-to-end from data ingestion to interactive visualization. Designed the WebGL rendering pipeline for million-cell datasets.",
-    techStack: ["Next.js", "Python", "WebGL", "PostgreSQL", "Vercel"],
-    architecture:
-      "Server-side data processing in Python with pre-computed tile pyramids. WebGL frontend for GPU-accelerated rendering of spatial cell data.",
-    impact:
-      "Used in a published Nature Methods paper. Open-sourced with 500+ GitHub stars and active community contributions.",
-    keyLessons:
-      "WebGL is essential for rendering millions of data points interactively. Pre-computing spatial indices makes a huge difference in UX.",
-    futureImprovements:
-      "Add 3D tissue visualization. Integrate with cloud-based analysis pipelines for on-the-fly computation.",
-  },
-  {
-    title: "AgentForge",
-    summary: "Framework for composable AI agent workflows",
-    role: "Creator & Maintainer",
-    tags: ["AI", "SDK", "Open Source"],
-    problem:
-      "Building multi-step AI agent workflows required too much boilerplate and lacked composability.",
-    roleDetail:
-      "Designed the core API, plugin system, and documentation. Built the execution runtime with retry logic and observability hooks.",
-    techStack: ["TypeScript", "LangChain", "Redis", "Node.js", "Vercel AI SDK"],
-    architecture:
-      "DAG-based workflow engine with plugin middleware. Redis for state persistence and distributed locks. Streaming support via the Vercel AI SDK.",
-    impact:
-      "1,200+ npm weekly downloads. Featured in AI engineering newsletters and adopted by 3 startups.",
-    keyLessons:
-      "Developer experience is the most important feature of an SDK. Good defaults and escape hatches matter more than feature count.",
-    futureImprovements:
-      "Add visual workflow builder UI. Support for long-running agents with checkpoint-based resumption.",
-  },
-  {
-    title: "LabOS",
-    summary: "Operating system for wet-lab experiment tracking",
-    role: "Co-founder & Tech Lead",
-    tags: ["Full-Stack", "Biotech", "SaaS"],
-    problem:
-      "Wet labs relied on paper notebooks and spreadsheets, leading to data loss and irreproducible experiments.",
-    roleDetail:
-      "Built MVP from scratch, led beta testing with 3 labs. Designed the data model, auth system, and real-time collaboration features.",
-    techStack: ["React", "Supabase", "Tailwind", "Stripe", "Vercel"],
-    architecture:
-      "Supabase backend with Row Level Security for multi-tenant isolation. Real-time subscriptions for live collaboration. Stripe integration for usage-based billing.",
-    impact:
-      "Onboarded 5 labs during beta. Secured $50K in pre-seed funding. 95% user retention during pilot.",
-    keyLessons:
-      "Scientists need tools that feel familiar (spreadsheet-like) but work better under the hood. User research before building saved months.",
-    futureImprovements:
-      "Add AI-powered protocol suggestions. Build integrations with common lab instruments for automated data capture.",
-  },
 ];
 
 function ProjectCard({
