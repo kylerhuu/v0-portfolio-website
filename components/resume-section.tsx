@@ -56,7 +56,7 @@ export function ResumeSection() {
               }}
               asChild
             >
-              <a href="#" download>
+              <a href="/Resume.pdf" download>
                 <Download className="h-4 w-4" />
                 Download
               </a>
@@ -64,14 +64,11 @@ export function ResumeSection() {
           </div>
 
           <div className="flex flex-col items-center justify-center py-24 px-6">
-            <FileText className="h-16 w-16 mb-4" style={{ color: "var(--scroll-muted-fg)", opacity: 0.3 }} />
-            <p
-              className="text-sm text-center max-w-xs"
-              style={{ color: "var(--scroll-muted-fg)" }}
-            >
-              Upload your resume PDF to display it here. The embedded viewer
-              will render inline.
-            </p>
+            <iframe
+              src="/Resume.pdf"
+              className="w-full h-[600px] rounded-lg"
+              style={{ border: "1px solid var(--scroll-border)" }}
+            />
           </div>
         </div>
       </div>
