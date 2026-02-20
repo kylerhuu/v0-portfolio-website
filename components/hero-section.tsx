@@ -53,9 +53,9 @@ export function HeroSection() {
             size="lg"
             className="bg-[hsl(15,80%,50%)] text-[hsl(0,0%,100%)] hover:bg-[hsl(15,80%,42%)] hover:shadow-[0_0_28px_rgba(200,90,40,0.35)] rounded-full px-8 transition-all duration-300"
           >
-            <a href="#projects">
+            <a href="#experiences">
               <ArrowDown className="h-4 w-4" />
-              View Projects
+              View Experiences
             </a>
           </Button>
           <Button
