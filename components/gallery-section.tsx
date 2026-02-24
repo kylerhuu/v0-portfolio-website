@@ -6,23 +6,58 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 const GALLERY_ITEMS = [
   {
     title: "Science Olympiad",
-    cover: "/images/science-olympiad-cover.jpg",
-    description: "My journey with Science Olympiad competitions.",
+    cover: "/gallery/scioly/trophiesme.jpg",
+    description: "The bread",
     subgallery: [
       {
-        src: "/images/scio-1.jpg",
-        alt: "Team practicing",
-        description: "Practicing circuits for the competition.",
+        src: "/gallery/scioly/20240129_154657.jpg",
+        alt: "First Medal",
+        description: "Aggies 2024 Disease Detectives 2nd place!! First medal of Scioly career.",
       },
       {
-        src: "/images/scio-2.jpg",
-        alt: "Award ceremony",
-        description: "Winning our first medal!",
+        src: "/gallery/scioly/20240203_173059.jpg",
+        alt: "BARSO statue",
+        description: "ft. goat prez and disease partner",
       },
       {
-        src: "/images/scio-3.jpg",
-        alt: "Event setup",
-        description: "Preparing materials for the next challenge.",
+        src: "/gallery/scioly/20240203_193510.jpg",
+        alt: "BARSO medal",
+        description: "Chemistry medal!!!",
+      },
+      {
+        src: "/gallery/scioly/20250125_194141.jpg",
+        alt: "2nd place Team Trophy",
+        description: "BARSO - overall 2nd team placement, low team average proved that consistency > staggering success",
+      },
+      {
+        src: "/gallery/scioly/ANH_8038.JPG",
+        alt: "Award Ceremony",
+        description: "there was a lot of people...",
+      },
+      {
+        src: "/gallery/scioly/IMG_0809.jpg",
+        alt: "CSUEB team photo -> 2nd year in scioly",
+        description: "what a large family am i right?",
+      },
+      {
+        src: "/gallery/scioly/DSCN0208.JPG",
+        alt: "Senior picnic",
+        description: "last team event :( sending off the oldies",
+      },
+      {
+        src: "/gallery/scioly/IMG_0817.jpg",
+        alt: "Team Photo",
+        description: "im on the left side 2nd row, i was so happy!",
+      },
+      {
+        src: "/gallery/scioly/IMG_1883.jpg",
+        alt: "Senior ball team photo",
+        description: "weird seeing a bunch of nerds dress formal",
+      },
+      {
+        src: "/gallery/scioly/Sciolympics_516_group_photo.png",
+        alt: "Drone Photo",
+        description: "made it just in time for this photo!",
       },
     ],
     span: "row-span-2",
