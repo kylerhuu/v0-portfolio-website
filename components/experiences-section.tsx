@@ -8,9 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogClose,
 } from "@/components/ui/dialog";
-import { X } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 interface Experience {
@@ -51,7 +49,7 @@ const Experiences: Experience[] = [
     media: [
       "/demos/thinkneuro-research-poster.png",
       "/demos/1-neurotechnology.mp4",
-      "/demos/neurotech-abstract.png",
+      "/demos/neurotech-abstract.png"
     ],
     preview: "/demos/thinkneuro-research-poster.png",
   },
@@ -94,7 +92,10 @@ const Experiences: Experience[] = [
       "Growth is about testing fast and learning faster. Clear messaging beats complex strategy.",
     futureImprovements:
       "Automate outreach tracking and build more structured experiments around user acquisition channels.",
-    media: ["/demos/vie-logo.jpg", "/demos/vie-chicken-demo.mp4"],
+    media: [
+      "/demos/vie-logo.jpg",
+      "/demos/vie-chicken-demo.mp4"
+    ],
     preview: "/demos/vie-logo.jpg",
   },
 ];
@@ -113,47 +114,44 @@ function ExperienceCard({
   return (
     <button
       onClick={onClick}
-      className={`group w-full text-left rounded-xl p-4 md:p-6 shadow-md hover:shadow-lg transition-all duration-500 ease-out hover:-translate-y-1 ${
+      className={`group w-full text-left p-6 rounded-lg border transition-all duration-500 ease-out hover:shadow-lg hover:-translate-y-1 ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
       }`}
       style={{
         transitionDelay: isVisible ? `${index * 80}ms` : "0ms",
-        backgroundColor: "rgba(255,255,255,0.05)",
-        border: "1px solid rgba(255,255,255,0.1)",
+        backgroundColor: "var(--scroll-card-bg)",
+        borderColor: "var(--scroll-border)",
       }}
     >
       {experience.preview && (
         <div
           className="mb-3 w-full rounded-lg overflow-hidden relative"
-          style={{
-            paddingTop: "56.25%",
-            background:
-              "linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 100%)",
-          }}
+          style={{ paddingTop: "56.25%" }}
         >
           {experience.preview.endsWith(".png") || experience.preview.endsWith(".jpg") ? (
             <img
               src={experience.preview}
               alt={`${experience.title}-preview`}
-              className="absolute top-0 left-0 w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105"
+              className="absolute top-0 left-0 w-full h-full object-cover"
             />
-          ) : experience.preview.endsWith(".mp4") ? (
+          ) : (
             <video
               src={experience.preview}
               muted
               autoPlay
               loop
-              className="absolute top-0 left-0 w-full h-full object-cover rounded-lg"
+              className="absolute top-0 left-0 w-full h-full object-cover"
             />
-          ) : null}
+          )}
         </div>
       )}
-
-      <h3 className="text-lg font-semibold text-white group-hover:text-[hsl(15,80%,55%)] transition-colors mb-1">
+      <h3 className="text-lg font-semibold mb-1" style={{ color: "var(--scroll-fg)" }}>
         {experience.title}
       </h3>
-      <p className="text-sm text-gray-300 mb-1">{experience.summary}</p>
-      <p className="text-xs text-[hsl(15,80%,55%)]/80 font-medium mb-2">{experience.role}</p>
+      <p className="text-sm mb-2 leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
+        {experience.summary}
+      </p>
+      <p className="text-xs font-medium mb-4 text-[hsl(15,80%,55%)]">{experience.role}</p>
       <div className="flex flex-wrap gap-2">
         {experience.tags.map((tag) => (
           <Badge
@@ -161,9 +159,9 @@ function ExperienceCard({
             variant="secondary"
             className="text-xs"
             style={{
-              backgroundColor: "rgba(255,255,255,0.05)",
-              color: "#ddd",
-              border: "1px solid rgba(255,255,255,0.1)",
+              backgroundColor: "var(--scroll-card-bg)",
+              color: "var(--scroll-muted-fg)",
+              border: "1px solid var(--scroll-border)",
             }}
           >
             {tag}
@@ -192,7 +190,7 @@ export function ExperiencesSection() {
           <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-4">
             Experiences
           </h2>
-          <p className="text-2xl md:text-3xl font-medium mb-12 text-white">
+          <p className="text-2xl md:text-3xl font-medium mb-12 text-pretty" style={{ color: "var(--scroll-fg)" }}>
             Selected work across AI, infrastructure, and biotech.
           </p>
         </div>
@@ -210,20 +208,16 @@ export function ExperiencesSection() {
         </div>
       </div>
 
-      {/* Main Experience Dialog */}
+      {/* Main Dialog */}
       <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
-        <DialogContent className="max-w-3xl w-full max-h-[90vh] overflow-y-auto bg-black/70 backdrop-blur-md border border-white/20 text-white rounded-xl relative animate-fadeIn">
-          <DialogClose className="absolute top-4 right-4">
-            <X className="w-6 h-6 text-white hover:text-[hsl(15,80%,55%)] transition-colors" />
-          </DialogClose>
-
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-card border-border text-foreground">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold">{selected?.title}</DialogTitle>
-            <DialogDescription className="text-gray-300">{selected?.summary}</DialogDescription>
+            <DialogTitle className="text-xl font-bold">{selected?.title}</DialogTitle>
+            <DialogDescription className="text-muted-foreground">{selected?.summary}</DialogDescription>
           </DialogHeader>
 
           {selected && (
-            <div className="flex flex-col gap-6 mt-4">
+            <div className="flex flex-col gap-6 mt-2">
               {[
                 { title: "Problem", key: "problem" },
                 { title: "My Role", key: "roleDetail" },
@@ -235,32 +229,29 @@ export function ExperiencesSection() {
               ].map((section) => {
                 const value = selected[section.key as keyof Experience];
                 if (!value) return null;
-
                 return (
                   <div key={section.key}>
                     <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
                       {section.title}
                     </h4>
-                    <p className="text-sm text-gray-300 leading-relaxed">
+                    <p className="text-sm text-muted-foreground leading-relaxed">
                       {Array.isArray(value) ? (value as string[]).join(", ") : value}
                     </p>
                   </div>
                 );
               })}
 
-              {/* Horizontal media gallery */}
               {selected.media && selected.media.length > 0 && (
-                <div className="flex overflow-x-auto gap-4 mt-4 pb-2 scroll-smooth">
+                <div className="flex overflow-x-auto gap-4 mt-4 pb-2">
                   {selected.media.map((file, i) => {
-                    const commonClasses =
-                      "flex-0 rounded-lg border border-white/20 cursor-pointer transition-transform duration-300 hover:scale-105";
+                    const commonClasses = "flex-0 rounded-lg border border-border cursor-pointer";
                     if (file.endsWith(".png") || file.endsWith(".jpg")) {
                       return (
                         <img
                           key={i}
                           src={file}
                           alt={`${selected.title}-media-${i}`}
-                          className={`${commonClasses} w-72 h-44 object-cover`}
+                          className={`${commonClasses} w-64 h-36 object-contain`}
                           onClick={() => setPreviewMedia(file)}
                         />
                       );
@@ -270,7 +261,7 @@ export function ExperiencesSection() {
                           key={i}
                           src={file}
                           controls
-                          className={`${commonClasses} w-72 h-44 object-cover`}
+                          className={`${commonClasses} w-64 h-36 object-cover`}
                           onClick={() => setPreviewMedia(file)}
                         />
                       );
@@ -279,7 +270,7 @@ export function ExperiencesSection() {
                         <iframe
                           key={i}
                           src={file}
-                          className={`${commonClasses} w-72 h-80`}
+                          className={`${commonClasses} w-64 h-80`}
                           onClick={() => setPreviewMedia(file)}
                         />
                       );
@@ -293,9 +284,9 @@ export function ExperiencesSection() {
         </DialogContent>
       </Dialog>
 
-      {/* Media Preview Dialog */}
+      {/* Media Preview */}
       <Dialog open={!!previewMedia} onOpenChange={() => setPreviewMedia(null)}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-auto bg-black/70 backdrop-blur-md rounded-xl">
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-auto bg-card border-border">
           {previewMedia &&
             (previewMedia.endsWith(".png") || previewMedia.endsWith(".jpg") ? (
               <img src={previewMedia} alt="preview" className="w-full h-auto rounded-lg" />
