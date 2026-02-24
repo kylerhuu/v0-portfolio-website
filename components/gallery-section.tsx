@@ -5,12 +5,9 @@ import Image from "next/image"
 import { GALLERIES, type GalleryPhoto } from "@/components/gallery-data"
 
 export default function PortfolioGallery() {
-  // State for active gallery (null means no gallery selected)
   const [activeGalleryId, setActiveGalleryId] = useState<string | null>(null)
-  // State for selected photo (null initially)
   const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null)
 
-  // Get active gallery object
   const activeGallery = activeGalleryId
     ? GALLERIES.find(g => g.id === activeGalleryId) ?? null
     : null
@@ -25,11 +22,10 @@ export default function PortfolioGallery() {
               key={gallery.id}
               onClick={() => {
                 setActiveGalleryId(gallery.id)
-                setSelectedPhoto(null) // reset selected photo
+                setSelectedPhoto(null)
               }}
               className="relative h-40 rounded-md overflow-hidden border-2 border-transparent hover:border-blue-500 transition focus:outline-none"
             >
-              {/* Use first photo as thumbnail if exists */}
               {gallery.photos[0] && (
                 <Image
                   src={gallery.photos[0].src}
@@ -59,14 +55,12 @@ export default function PortfolioGallery() {
             ← Back to galleries
           </button>
 
-          {/* Gallery title */}
           <h2 className="text-2xl font-bold text-center">{activeGallery.title}</h2>
 
-          {/* Main gallery content */}
           <div className="flex flex-col md:flex-row gap-6">
             {/* LEFT — thumbnails */}
             {activeGallery.photos.length > 0 && (
-              <div className="md:w-1/4 flex flex-col gap-2 overflow-y-auto max-h-[600px]">
+              <div className="md:w-1/4 flex flex-col gap-2 overflow-y-auto max-h-[700px]">
                 {activeGallery.photos.map((photo, index) => (
                   <button
                     key={index}
@@ -90,27 +84,31 @@ export default function PortfolioGallery() {
             <div className="md:w-3/4 flex flex-col">
               {activeGallery.photos.length > 0 && (
                 <>
-                  <div className="relative w-full h-[80%] rounded-md overflow-hidden">
+                  {/* Bigger main image — 95% height */}
+                  <div className="relative w-full h-[95%] rounded-md overflow-hidden">
                     <Image
                       src={(selectedPhoto ?? activeGallery.photos[0]).src}
                       alt={(selectedPhoto ?? activeGallery.photos[0]).title}
                       fill
                       className="object-cover"
                     />
-                  </div>
-                  <div className="mt-2 text-center md:text-left">
-                    <p className="text-sm text-muted-foreground">
-                      {(selectedPhoto ?? activeGallery.photos[0]).description}
-                    </p>
+                    {/* Dark caption overlay */}
+                    {(selectedPhoto ?? activeGallery.photos[0]).description && (
+                      <div className="absolute bottom-0 w-full bg-black/60 text-white text-sm p-2">
+                        {(selectedPhoto ?? activeGallery.photos[0]).description}
+                      </div>
+                    )}
                   </div>
                 </>
               )}
             </div>
           </div>
 
-          {/* Overall gallery blurb */}
+          {/* Overall gallery blurb — darker text */}
           {activeGallery.overview && (
-            <p className="text-sm text-center text-muted-foreground">{activeGallery.overview}</p>
+            <p className="text-sm text-center text-white bg-black/50 p-2 rounded-md">
+              {activeGallery.overview}
+            </p>
           )}
         </div>
       )}
