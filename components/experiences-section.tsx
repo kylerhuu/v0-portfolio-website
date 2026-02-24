@@ -124,15 +124,17 @@ function ExperienceCard({
         border: "1px solid var(--scroll-border)",
       }}
     >
-      {/* preview */}
+      {/* preview with 16:9 fade */}
       {experience.preview && (
-        <div className="mb-3 h-32 w-full overflow-hidden rounded-lg border border-border">
-          {experience.preview.endsWith(".png") ||
-          experience.preview.endsWith(".jpg") ? (
+        <div
+          className="mb-3 w-full rounded-lg border border-border overflow-hidden relative"
+          style={{ paddingTop: "56.25%", background: "linear-gradient(180deg, black 0%, transparent 100%)" }}
+        >
+          {experience.preview.endsWith(".png") || experience.preview.endsWith(".jpg") ? (
             <img
               src={experience.preview}
               alt={`${experience.title}-preview`}
-              className="w-full h-full object-cover"
+              className="absolute top-0 left-0 w-full h-full object-cover"
             />
           ) : experience.preview.endsWith(".mp4") ? (
             <video
@@ -140,7 +142,7 @@ function ExperienceCard({
               muted
               autoPlay
               loop
-              className="w-full h-full object-cover"
+              className="absolute top-0 left-0 w-full h-full object-cover"
             />
           ) : null}
         </div>
@@ -188,6 +190,7 @@ function ExperienceCard({
 
 export function ExperiencesSection() {
   const [selected, setSelected] = useState<Experience | null>(null);
+  const [previewMedia, setPreviewMedia] = useState<string | null>(null);
   const { ref: headingRef, isVisible: headingVisible } = useScrollReveal();
   const { ref: cardsRef, isVisible: cardsVisible } = useScrollReveal(0.05);
 
@@ -226,6 +229,7 @@ export function ExperiencesSection() {
         </div>
       </div>
 
+      {/* Main Experience Dialog */}
       <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
         <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-card border-border text-foreground">
           <DialogHeader>
@@ -239,90 +243,30 @@ export function ExperiencesSection() {
 
           {selected && (
             <div className="flex flex-col gap-6 mt-2">
-              <div>
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
-                  Problem
-                </h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {selected.problem}
-                </p>
-              </div>
-
-              <div>
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
-                  My Role
-                </h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {selected.roleDetail}
-                </p>
-              </div>
-
-              <div>
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
-                  Tech Stack
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {selected.techStack.map((tech) => (
-                    <Badge
-                      key={tech}
-                      variant="outline"
-                      className="text-xs text-foreground border-border"
-                    >
-                      {tech}
-                    </Badge>
-                  ))}
+              {/* Problem, Role, Tech Stack, Architecture, etc. */}
+              {["Problem", "My Role", "Tech Stack", "Architecture", "Impact", "Key Lessons", "Future Improvements"].map((section) => (
+                <div key={section}>
+                  <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">{section}</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {selected[section.replace(/ /g, "").charAt(0).toLowerCase() + section.replace(/ /g, "").slice(1) as keyof Experience] as string}
+                  </p>
                 </div>
-              </div>
+              ))}
 
-              <div>
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
-                  Architecture
-                </h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {selected.architecture}
-                </p>
-              </div>
-
-              <div>
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
-                  Impact
-                </h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {selected.impact}
-                </p>
-              </div>
-
-              <div>
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
-                  Key Lessons
-                </h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {selected.keyLessons}
-                </p>
-              </div>
-
-              <div>
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
-                  Future Improvements
-                </h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {selected.futureImprovements}
-                </p>
-              </div>
-
-              {/* scrollable media gallery */}
+              {/* Scrollable horizontal gallery */}
               {selected.media && selected.media.length > 0 && (
                 <div className="flex overflow-x-auto gap-4 mt-4 pb-2">
                   {selected.media.map((file, i) => {
                     const commonClasses =
-                      "flex-0 rounded-lg border border-border object-cover"; // shared styling
+                      "flex-0 rounded-lg border border-border cursor-pointer";
                     if (file.endsWith(".png") || file.endsWith(".jpg")) {
                       return (
                         <img
                           key={i}
                           src={file}
                           alt={`${selected.title}-media-${i}`}
-                          className={`${commonClasses} w-64 h-40`}
+                          className={`${commonClasses} w-64 h-36 object-contain`}
+                          onClick={() => setPreviewMedia(file)}
                         />
                       );
                     } else if (file.endsWith(".mp4")) {
@@ -331,7 +275,8 @@ export function ExperiencesSection() {
                           key={i}
                           src={file}
                           controls
-                          className={`${commonClasses} w-64 h-40`}
+                          className={`${commonClasses} w-64 h-36 object-cover`}
+                          onClick={() => setPreviewMedia(file)}
                         />
                       );
                     } else if (file.endsWith(".pdf")) {
@@ -340,6 +285,7 @@ export function ExperiencesSection() {
                           key={i}
                           src={file}
                           className={`${commonClasses} w-64 h-80`}
+                          onClick={() => setPreviewMedia(file)}
                         />
                       );
                     }
@@ -349,6 +295,32 @@ export function ExperiencesSection() {
               )}
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Media Preview Dialog */}
+      <Dialog open={!!previewMedia} onOpenChange={() => setPreviewMedia(null)}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-auto bg-card border-border">
+          {previewMedia &&
+            (previewMedia.endsWith(".png") || previewMedia.endsWith(".jpg") ? (
+              <img
+                src={previewMedia}
+                alt="preview"
+                className="w-full h-auto rounded-lg"
+              />
+            ) : previewMedia.endsWith(".mp4") ? (
+              <video
+                src={previewMedia}
+                controls
+                autoPlay
+                className="w-full h-auto rounded-lg"
+              />
+            ) : previewMedia.endsWith(".pdf") ? (
+              <iframe
+                src={previewMedia}
+                className="w-full h-[80vh] rounded-lg"
+              />
+            ) : null)}
         </DialogContent>
       </Dialog>
     </section>
