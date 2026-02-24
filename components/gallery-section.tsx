@@ -1,16 +1,27 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { GALLERIES, type GalleryPhoto } from "@/components/gallery-data"
+import clsx from "clsx"
 
 export default function PortfolioGallery() {
   const [activeGalleryId, setActiveGalleryId] = useState<string | null>(null)
   const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null)
+  const [fadeIn, setFadeIn] = useState(false)
 
   const activeGallery = activeGalleryId
-    ? GALLERIES.find(g => g.id === activeGalleryId) ?? null
+    ? GALLERIES.find((g) => g.id === activeGalleryId) ?? null
     : null
+
+  // Trigger fade-in animation when gallery opens
+  useEffect(() => {
+    if (activeGallery) {
+      setFadeIn(false)
+      const timeout = setTimeout(() => setFadeIn(true), 50) // small delay for smooth fade
+      return () => clearTimeout(timeout)
+    }
+  }, [activeGallery])
 
   return (
     <section id="gallery" className="w-full max-w-6xl mx-auto px-4 py-16 flex flex-col gap-12">
@@ -54,7 +65,12 @@ export default function PortfolioGallery() {
 
       {/* Step 2 — Expanded Gallery */}
       {activeGallery && (
-        <div className="flex flex-col gap-8">
+        <div
+          className={clsx(
+            "flex flex-col gap-8 transition-opacity duration-700",
+            fadeIn ? "opacity-100" : "opacity-0"
+          )}
+        >
           {/* Back Button */}
           <button
             onClick={() => setActiveGalleryId(null)}
@@ -68,18 +84,24 @@ export default function PortfolioGallery() {
 
           {/* Main Gallery Content */}
           <div className="flex flex-col md:flex-row gap-6">
-            {/* Left — Thumbnails */}
+            {/* Left — Horizontal scrollable thumbnails */}
             {activeGallery.photos.length > 0 && (
-              <div className="md:w-1/4 flex flex-col gap-2 overflow-y-auto max-h-[700px]">
+              <div className="md:w-1/4 flex gap-2 overflow-x-auto overflow-y-hidden md:flex-col md:overflow-y-auto md:max-h-[700px] md:gap-2">
                 {activeGallery.photos.map((photo, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedPhoto(photo)}
-                    className={`relative w-full h-24 rounded-md overflow-hidden focus:outline-none border-2 transition ${
+                    className={clsx(
+                      "relative w-40 h-24 md:w-full md:h-24 rounded-md overflow-hidden focus:outline-none border-2 transition transform hover:scale-105",
                       selectedPhoto === photo ? "border-blue-500" : "border-transparent"
-                    } hover:scale-105 transform`}
+                    )}
                   >
-                    <Image src={photo.src} alt={photo.title} fill className="object-cover" />
+                    <Image
+                      src={photo.src}
+                      alt={photo.title}
+                      fill
+                      className="object-cover"
+                    />
                     <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition flex items-center justify-center">
                       <span className="text-white text-xs font-medium text-center px-2">
                         {photo.title}
@@ -93,12 +115,12 @@ export default function PortfolioGallery() {
             {/* Right — Main Image + Caption */}
             {activeGallery.photos.length > 0 && (
               <div className="md:w-3/4 flex flex-col">
-                <div className="relative w-full h-[95%] rounded-md overflow-hidden">
+                <div className="relative w-full h-[70vh] md:h-[95%] rounded-md overflow-hidden">
                   <Image
                     src={(selectedPhoto ?? activeGallery.photos[0]).src}
                     alt={(selectedPhoto ?? activeGallery.photos[0]).title}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-500 hover:scale-105"
                   />
                   {/* Caption */}
                   {(selectedPhoto ?? activeGallery.photos[0]).description && (
