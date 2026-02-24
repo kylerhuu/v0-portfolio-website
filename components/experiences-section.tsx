@@ -47,7 +47,11 @@ const Experiences: Experience[] = [
       "Practiced real-world applications of R programming in a research-heavy team-coordinated effort, Clear communication is just as important as technical skill in research environments.",
     futureImprovements:
       "Standardize research workflows and documentation to reduce onboarding friction for new team members.",
-    media: ["/demos/thinkneuro-research-poster.pdf"],
+    media: [
+      "/demos/thinkneuro-research-poster.png",
+      "/demos/1-neurotechnology.mp4",
+      "/demos/neurotech-abstract.png"
+    ],
     preview: "/demos/thinkneuro-research-poster.png",
   },
   {
