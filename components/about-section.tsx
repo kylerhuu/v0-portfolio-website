@@ -46,9 +46,10 @@ export function AboutSection() {
             className="text-2xl md:text-3xl font-medium leading-relaxed text-pretty max-w-2xl"
             style={{ color: "var(--scroll-fg)" }}
           >
-            I build systems at the intersection of biology, AI, product management, and software
-            engineering. My work focuses on creating tools that are robust,
-            scalable, and genuinely useful.
+            Hi, I'm Kyler. I build systems at the intersection of biology, AI, product management, 
+            and software engineering. My work focuses on creating tools that are robust,
+            scalable, and genuinely useful. Currently focused on developing a highly technical
+            background while learning real-world applications in business, growth, and tech.
           </p>
         </div>
 
