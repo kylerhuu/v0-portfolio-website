@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { GALLERIES, GalleryPhoto } from "./gallery-data"
+import { GALLERIES, type GalleryPhoto } from "@/components/gallery-data"
 
 export default function GallerySection() {
   // for now, just showing Science Olympiad
