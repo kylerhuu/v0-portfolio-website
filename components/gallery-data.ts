@@ -71,76 +71,76 @@ export const GALLERIES: Gallery[] = [
         ]
   },
 
-  {
-    id: "nightowl",
-    title: "Late Nights/Early Mornings",
-    overview:
-      "overview",
-    photos: [
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-    ]
-  },
-  {
-    id: "travel",
-    title: "Exploration",
-    overview:
-      "overview",
-    photos: [
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-    ]
-  },
-  {
-    id: "food",
-    title: "Food as Comfort",
-    overview:
-      "overview",
-    photos: [
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-    ]
-  },
-  {
-    id: "hobbies",
-    title: "Hobbies",
-    overview:
-      "",
-    photos: [
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-        {src: "",title: "", description: ""},
-    ]
-  }
+//   {
+//     id: "nightowl",
+//     title: "Late Nights/Early Mornings",
+//     overview:
+//       "overview",
+//     photos: [
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//     ]
+//   },
+//   {
+//     id: "travel",
+//     title: "Exploration",
+//     overview:
+//       "overview",
+//     photos: [
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//     ]
+//   },
+//   {
+//     id: "food",
+//     title: "Food as Comfort",
+//     overview:
+//       "overview",
+//     photos: [
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//     ]
+//   },
+//   {
+//     id: "hobbies",
+//     title: "Hobbies",
+//     overview:
+//       "",
+//     photos: [
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//         {src: "",title: "", description: ""},
+//     ]
+//   }
 ];
