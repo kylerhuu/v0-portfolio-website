@@ -310,17 +310,19 @@ export function ExperiencesSection() {
                 </p>
               </div>
 
-              {/* media gallery */}
+              {/* scrollable media gallery */}
               {selected.media && selected.media.length > 0 && (
-                <div className="flex flex-col gap-4 mt-4">
+                <div className="flex overflow-x-auto gap-4 mt-4 pb-2">
                   {selected.media.map((file, i) => {
+                    const commonClasses =
+                      "flex-0 rounded-lg border border-border object-cover"; // shared styling
                     if (file.endsWith(".png") || file.endsWith(".jpg")) {
                       return (
                         <img
                           key={i}
                           src={file}
                           alt={`${selected.title}-media-${i}`}
-                          className="w-full rounded-lg border border-border"
+                          className={`${commonClasses} w-64 h-40`}
                         />
                       );
                     } else if (file.endsWith(".mp4")) {
@@ -329,7 +331,7 @@ export function ExperiencesSection() {
                           key={i}
                           src={file}
                           controls
-                          className="w-full rounded-lg border border-border"
+                          className={`${commonClasses} w-64 h-40`}
                         />
                       );
                     } else if (file.endsWith(".pdf")) {
@@ -337,7 +339,7 @@ export function ExperiencesSection() {
                         <iframe
                           key={i}
                           src={file}
-                          className="w-full h-96 rounded-lg border border-border"
+                          className={`${commonClasses} w-64 h-80`}
                         />
                       );
                     }
