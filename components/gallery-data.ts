@@ -9,7 +9,6 @@ export type GalleryPhoto = {
 export type Gallery = {
   id: string;
   title: string;
-  cover: string;
   overview: string;
   photos: GalleryPhoto[];
 };
@@ -18,7 +17,6 @@ export const GALLERIES: Gallery[] = [
   {
     id: "scioly",
     title: "Science Olympiad",
-    cover: "/gallery/scioly/trophiesme.jpg",
     overview:
       "Science Olympiad taught me consistency under pressure. It wasn’t about one insane performance, but showing up every time.",
     photos: [
@@ -38,7 +36,6 @@ export const GALLERIES: Gallery[] = [
   {
     id: "hackathons",
     title: "Hackathons",
-    cover: "/images/hackathon-cover.jpg",
     overview:
       "Hackathons were controlled chaos — building fast, breaking things, learning faster.",
 
