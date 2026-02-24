@@ -93,8 +93,11 @@ const Experiences: Experience[] = [
       "Growth is about testing fast and learning faster. Clear messaging beats complex strategy.",
     futureImprovements:
       "Automate outreach tracking and build more structured experiments around user acquisition channels.",
-    media: ["/demos/vie-logo.png"],
-    preview:"/demos/vie-logo.png",
+    media: [
+      "/demos/vie-logo.jpg",
+      "/demos/vie-chicken-demo.mp4"
+    ],
+    preview:"/demos/vie-logo.jpg",
   },
 ];
 
