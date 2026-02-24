@@ -14,79 +14,80 @@ export default function PortfolioGallery() {
     ? GALLERIES.find((g) => g.id === activeGalleryId) ?? null
     : null
 
-  // Trigger fade-in animation when gallery opens
+  // Fade-in for expanded gallery
   useEffect(() => {
     if (activeGallery) {
       setFadeIn(false)
-      const timeout = setTimeout(() => setFadeIn(true), 50) // small delay for smooth fade
+      const timeout = setTimeout(() => setFadeIn(true), 50)
       return () => clearTimeout(timeout)
     }
   }, [activeGallery])
 
   return (
     <section id="gallery" className="w-full max-w-6xl mx-auto px-4 py-16 flex flex-col gap-12">
-      {/* Gallery Header */}
-      {!activeGallery && (
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold">My Portfolio Galleries</h2>
-          <p className="text-gray-500 mt-2">Click a gallery to explore the photos and experiences</p>
-        </div>
-      )}
+      {/* Header */}
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold">My Portfolio Galleries</h2>
+        <p className="text-gray-500 mt-2">
+          Click a gallery to explore the photos and experiences
+        </p>
+      </div>
 
-      {/* Step 1 — Gallery Overview Grid */}
-      {!activeGallery && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {GALLERIES.map((gallery) => (
-            <button
-              key={gallery.id}
-              onClick={() => {
-                setActiveGalleryId(gallery.id)
-                setSelectedPhoto(null)
-              }}
-              className="relative h-48 rounded-lg overflow-hidden border-2 border-transparent hover:border-blue-500 focus:outline-none shadow-md transition-transform transform hover:scale-105"
-            >
-              {gallery.photos[0] && (
-                <Image
-                  src={gallery.photos[0].src}
-                  alt={gallery.title}
-                  fill
-                  className="object-cover"
-                />
-              )}
-              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                <span className="text-white text-lg font-semibold text-center px-2">
-                  {gallery.title}
-                </span>
-              </div>
-            </button>
-          ))}
-        </div>
-      )}
+      {/* Gallery Overview Grid (always visible) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {GALLERIES.map((gallery) => (
+          <button
+            key={gallery.id}
+            onClick={() => {
+              setActiveGalleryId(gallery.id)
+              setSelectedPhoto(null)
+            }}
+            className={clsx(
+              "relative h-48 rounded-lg overflow-hidden border-2 border-transparent focus:outline-none shadow-md transition-transform transform hover:scale-105",
+              activeGalleryId === gallery.id ? "border-blue-500" : "border-transparent"
+            )}
+          >
+            {gallery.photos[0] && (
+              <Image
+                src={gallery.photos[0].src}
+                alt={gallery.title}
+                fill
+                className="object-cover"
+              />
+            )}
+            <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+              <span className="text-white text-lg font-semibold text-center px-2">
+                {gallery.title}
+              </span>
+            </div>
+          </button>
+        ))}
+      </div>
 
-      {/* Step 2 — Expanded Gallery */}
+      {/* Expanded Gallery Card */}
       {activeGallery && (
         <div
           className={clsx(
-            "flex flex-col gap-8 transition-opacity duration-700",
+            "relative bg-white dark:bg-gray-900 rounded-xl shadow-2xl p-6 flex flex-col gap-6 transition-opacity duration-700",
             fadeIn ? "opacity-100" : "opacity-0"
           )}
         >
-          {/* Back Button */}
+          {/* Close / X button */}
           <button
             onClick={() => setActiveGalleryId(null)}
-            className="text-blue-500 underline text-sm self-start"
+            className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 dark:hover:text-white text-xl font-bold"
           >
-            ← Back to galleries
+            ×
           </button>
 
           {/* Gallery Title */}
-          <h2 className="text-3xl font-bold text-center">{activeGallery.title}</h2>
+          <h2 className="text-2xl font-bold text-center">{activeGallery.title}</h2>
 
-          {/* Main Gallery Content */}
+          {/* Main Content */}
           <div className="flex flex-col md:flex-row gap-6">
-            {/* Left — Horizontal scrollable thumbnails */}
+            {/* Thumbnails */}
             {activeGallery.photos.length > 0 && (
-              <div className="md:w-1/4 flex gap-2 overflow-x-auto overflow-y-hidden md:flex-col md:overflow-y-auto md:max-h-[700px] md:gap-2">
+              <div className="md:w-1/4 flex gap-2 overflow-x-auto overflow-y-hidden md:flex-col md:overflow-y-auto md:max-h-[700px]">
                 {activeGallery.photos.map((photo, index) => (
                   <button
                     key={index}
@@ -112,7 +113,7 @@ export default function PortfolioGallery() {
               </div>
             )}
 
-            {/* Right — Main Image + Caption */}
+            {/* Main Image */}
             {activeGallery.photos.length > 0 && (
               <div className="md:w-3/4 flex flex-col">
                 <div className="relative w-full h-[70vh] md:h-[95%] rounded-md overflow-hidden">
@@ -124,7 +125,7 @@ export default function PortfolioGallery() {
                   />
                   {/* Caption */}
                   {(selectedPhoto ?? activeGallery.photos[0]).description && (
-                    <div className="absolute bottom-0 w-full bg-black/60 text-white text-sm p-3">
+                    <div className="absolute bottom-0 w-full bg-black/60 text-white text-sm p-3 rounded-b-md">
                       {(selectedPhoto ?? activeGallery.photos[0]).description}
                     </div>
                   )}
@@ -133,9 +134,9 @@ export default function PortfolioGallery() {
             )}
           </div>
 
-          {/* Overall Gallery Blurb */}
+          {/* Overall Blurb */}
           {activeGallery.overview && (
-            <p className="text-sm text-center text-white bg-black/50 p-3 rounded-md shadow-md">
+            <p className="text-sm text-center text-white bg-black/50 p-3 rounded-md shadow-md mt-4">
               {activeGallery.overview}
             </p>
           )}
