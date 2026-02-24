@@ -8,8 +8,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
+  DialogClose,
 } from "@/components/ui/dialog";
-import { ExternalLink } from "lucide-react";
+import { X } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 interface Experience {
@@ -50,7 +51,7 @@ const Experiences: Experience[] = [
     media: [
       "/demos/thinkneuro-research-poster.png",
       "/demos/1-neurotechnology.mp4",
-      "/demos/neurotech-abstract.png"
+      "/demos/neurotech-abstract.png",
     ],
     preview: "/demos/thinkneuro-research-poster.png",
   },
@@ -93,11 +94,8 @@ const Experiences: Experience[] = [
       "Growth is about testing fast and learning faster. Clear messaging beats complex strategy.",
     futureImprovements:
       "Automate outreach tracking and build more structured experiments around user acquisition channels.",
-    media: [
-      "/demos/vie-logo.jpg",
-      "/demos/vie-chicken-demo.mp4"
-    ],
-    preview:"/demos/vie-logo.jpg",
+    media: ["/demos/vie-logo.jpg", "/demos/vie-chicken-demo.mp4"],
+    preview: "/demos/vie-logo.jpg",
   },
 ];
 
@@ -115,26 +113,29 @@ function ExperienceCard({
   return (
     <button
       onClick={onClick}
-      className={`group w-full text-left p-6 rounded-lg hover:border-[hsl(15,80%,55%)]/40 hover:shadow-[0_8px_32px_rgba(215,120,60,0.1)] transition-all duration-500 ease-out hover:-translate-y-1 ${
+      className={`group w-full text-left rounded-xl p-4 md:p-6 shadow-md hover:shadow-lg transition-all duration-500 ease-out hover:-translate-y-1 ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
       }`}
       style={{
         transitionDelay: isVisible ? `${index * 80}ms` : "0ms",
-        backgroundColor: "var(--scroll-card-bg)",
-        border: "1px solid var(--scroll-border)",
+        backgroundColor: "rgba(255,255,255,0.05)",
+        border: "1px solid rgba(255,255,255,0.1)",
       }}
     >
-      {/* preview with 16:9 fade */}
       {experience.preview && (
         <div
-          className="mb-3 w-full rounded-lg border border-border overflow-hidden relative"
-          style={{ paddingTop: "56.25%", background: "linear-gradient(180deg, black 0%, transparent 100%)" }}
+          className="mb-3 w-full rounded-lg overflow-hidden relative"
+          style={{
+            paddingTop: "56.25%",
+            background:
+              "linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 100%)",
+          }}
         >
           {experience.preview.endsWith(".png") || experience.preview.endsWith(".jpg") ? (
             <img
               src={experience.preview}
               alt={`${experience.title}-preview`}
-              className="absolute top-0 left-0 w-full h-full object-cover"
+              className="absolute top-0 left-0 w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105"
             />
           ) : experience.preview.endsWith(".mp4") ? (
             <video
@@ -142,32 +143,17 @@ function ExperienceCard({
               muted
               autoPlay
               loop
-              className="absolute top-0 left-0 w-full h-full object-cover"
+              className="absolute top-0 left-0 w-full h-full object-cover rounded-lg"
             />
           ) : null}
         </div>
       )}
-      <div className="flex items-start justify-between mb-1">
-        <h3
-          className="text-lg font-semibold group-hover:text-[hsl(15,80%,55%)] transition-colors duration-300"
-          style={{ color: "var(--scroll-fg)" }}
-        >
-          {experience.title}
-        </h3>
-        <ExternalLink
-          className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          style={{ color: "var(--scroll-muted-fg)" }}
-        />
-      </div>
-      <p
-        className="text-sm mb-2 leading-relaxed"
-        style={{ color: "var(--scroll-muted-fg)" }}
-      >
-        {experience.summary}
-      </p>
-      <p className="text-xs text-[hsl(15,80%,55%)]/80 font-medium mb-4">
-        {experience.role}
-      </p>
+
+      <h3 className="text-lg font-semibold text-white group-hover:text-[hsl(15,80%,55%)] transition-colors mb-1">
+        {experience.title}
+      </h3>
+      <p className="text-sm text-gray-300 mb-1">{experience.summary}</p>
+      <p className="text-xs text-[hsl(15,80%,55%)]/80 font-medium mb-2">{experience.role}</p>
       <div className="flex flex-wrap gap-2">
         {experience.tags.map((tag) => (
           <Badge
@@ -175,9 +161,9 @@ function ExperienceCard({
             variant="secondary"
             className="text-xs"
             style={{
-              backgroundColor: "var(--scroll-card-bg)",
-              color: "var(--scroll-muted-fg)",
-              border: "1px solid var(--scroll-border)",
+              backgroundColor: "rgba(255,255,255,0.05)",
+              color: "#ddd",
+              border: "1px solid rgba(255,255,255,0.1)",
             }}
           >
             {tag}
@@ -200,18 +186,13 @@ export function ExperiencesSection() {
         <div
           ref={headingRef}
           className={`transition-all duration-700 ease-out ${
-            headingVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-6"
+            headingVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
           <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-4">
             Experiences
           </h2>
-          <p
-            className="text-2xl md:text-3xl font-medium mb-12 text-pretty"
-            style={{ color: "var(--scroll-fg)" }}
-          >
+          <p className="text-2xl md:text-3xl font-medium mb-12 text-white">
             Selected work across AI, infrastructure, and biotech.
           </p>
         </div>
@@ -231,41 +212,55 @@ export function ExperiencesSection() {
 
       {/* Main Experience Dialog */}
       <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
-        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-card border-border text-foreground">
+        <DialogContent className="max-w-3xl w-full max-h-[90vh] overflow-y-auto bg-black/70 backdrop-blur-md border border-white/20 text-white rounded-xl relative animate-fadeIn">
+          <DialogClose className="absolute top-4 right-4">
+            <X className="w-6 h-6 text-white hover:text-[hsl(15,80%,55%)] transition-colors" />
+          </DialogClose>
+
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold text-foreground">
-              {selected?.title}
-            </DialogTitle>
-            <DialogDescription className="text-muted-foreground">
-              {selected?.summary}
-            </DialogDescription>
+            <DialogTitle className="text-2xl font-bold">{selected?.title}</DialogTitle>
+            <DialogDescription className="text-gray-300">{selected?.summary}</DialogDescription>
           </DialogHeader>
 
           {selected && (
-            <div className="flex flex-col gap-6 mt-2">
-              {/* Problem, Role, Tech Stack, Architecture, etc. */}
-              {["Problem", "My Role", "Tech Stack", "Architecture", "Impact", "Key Lessons", "Future Improvements"].map((section) => (
-                <div key={section}>
-                  <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">{section}</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {selected[section.replace(/ /g, "").charAt(0).toLowerCase() + section.replace(/ /g, "").slice(1) as keyof Experience] as string}
-                  </p>
-                </div>
-              ))}
+            <div className="flex flex-col gap-6 mt-4">
+              {[
+                { title: "Problem", key: "problem" },
+                { title: "My Role", key: "roleDetail" },
+                { title: "Tech Stack", key: "techStack" },
+                { title: "Architecture", key: "architecture" },
+                { title: "Impact", key: "impact" },
+                { title: "Key Lessons", key: "keyLessons" },
+                { title: "Future Improvements", key: "futureImprovements" },
+              ].map((section) => {
+                const value = selected[section.key as keyof Experience];
+                if (!value) return null;
 
-              {/* Scrollable horizontal gallery */}
+                return (
+                  <div key={section.key}>
+                    <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
+                      {section.title}
+                    </h4>
+                    <p className="text-sm text-gray-300 leading-relaxed">
+                      {Array.isArray(value) ? (value as string[]).join(", ") : value}
+                    </p>
+                  </div>
+                );
+              })}
+
+              {/* Horizontal media gallery */}
               {selected.media && selected.media.length > 0 && (
-                <div className="flex overflow-x-auto gap-4 mt-4 pb-2">
+                <div className="flex overflow-x-auto gap-4 mt-4 pb-2 scroll-smooth">
                   {selected.media.map((file, i) => {
                     const commonClasses =
-                      "flex-0 rounded-lg border border-border cursor-pointer";
+                      "flex-0 rounded-lg border border-white/20 cursor-pointer transition-transform duration-300 hover:scale-105";
                     if (file.endsWith(".png") || file.endsWith(".jpg")) {
                       return (
                         <img
                           key={i}
                           src={file}
                           alt={`${selected.title}-media-${i}`}
-                          className={`${commonClasses} w-64 h-36 object-contain`}
+                          className={`${commonClasses} w-72 h-44 object-cover`}
                           onClick={() => setPreviewMedia(file)}
                         />
                       );
@@ -275,7 +270,7 @@ export function ExperiencesSection() {
                           key={i}
                           src={file}
                           controls
-                          className={`${commonClasses} w-64 h-36 object-cover`}
+                          className={`${commonClasses} w-72 h-44 object-cover`}
                           onClick={() => setPreviewMedia(file)}
                         />
                       );
@@ -284,7 +279,7 @@ export function ExperiencesSection() {
                         <iframe
                           key={i}
                           src={file}
-                          className={`${commonClasses} w-64 h-80`}
+                          className={`${commonClasses} w-72 h-80`}
                           onClick={() => setPreviewMedia(file)}
                         />
                       );
@@ -300,26 +295,14 @@ export function ExperiencesSection() {
 
       {/* Media Preview Dialog */}
       <Dialog open={!!previewMedia} onOpenChange={() => setPreviewMedia(null)}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-auto bg-card border-border">
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-auto bg-black/70 backdrop-blur-md rounded-xl">
           {previewMedia &&
             (previewMedia.endsWith(".png") || previewMedia.endsWith(".jpg") ? (
-              <img
-                src={previewMedia}
-                alt="preview"
-                className="w-full h-auto rounded-lg"
-              />
+              <img src={previewMedia} alt="preview" className="w-full h-auto rounded-lg" />
             ) : previewMedia.endsWith(".mp4") ? (
-              <video
-                src={previewMedia}
-                controls
-                autoPlay
-                className="w-full h-auto rounded-lg"
-              />
+              <video src={previewMedia} controls autoPlay className="w-full h-auto rounded-lg" />
             ) : previewMedia.endsWith(".pdf") ? (
-              <iframe
-                src={previewMedia}
-                className="w-full h-[80vh] rounded-lg"
-              />
+              <iframe src={previewMedia} className="w-full h-[80vh] rounded-lg" />
             ) : null)}
         </DialogContent>
       </Dialog>
