@@ -92,7 +92,7 @@ function ExperienceCard({
   index,
   isVisible,
 }: {
-  experience: Experiences;
+  experience: Experience;
   onClick: () => void;
   index: number;
   isVisible: boolean;
@@ -151,7 +151,7 @@ function ExperienceCard({
 }
 
 export function ExperiencesSection() {
-  const [selected, setSelected] = useState<Project | null>(null);
+  const [selected, setSelected] = useState<Experience | null>(null);
   const { ref: headingRef, isVisible: headingVisible } = useScrollReveal();
   const { ref: cardsRef, isVisible: cardsVisible } = useScrollReveal(0.05);
 
