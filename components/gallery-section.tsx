@@ -9,39 +9,52 @@ export default function PortfolioGallery() {
   const [activeGalleryId, setActiveGalleryId] = useState<string | null>(null)
   const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null)
   const [fadeIn, setFadeIn] = useState(false)
+  const [fadeOut, setFadeOut] = useState(false)
 
   const activeGallery = activeGalleryId
     ? GALLERIES.find((g) => g.id === activeGalleryId) ?? null
     : null
 
-  // Fade-in for expanded gallery
+  // Fade-in when opening gallery
   useEffect(() => {
     if (activeGallery) {
+      setFadeOut(false)
       setFadeIn(false)
       const timeout = setTimeout(() => setFadeIn(true), 50)
       return () => clearTimeout(timeout)
     }
   }, [activeGallery])
 
+  // Switch gallery smoothly without X
+  const switchGallery = (id: string) => {
+    setFadeOut(true)
+    setTimeout(() => {
+      setActiveGalleryId(id)
+      setSelectedPhoto(null)
+      setFadeOut(false)
+      setFadeIn(true)
+    }, 200)
+  }
+
   return (
-    <section id="gallery" className="w-full max-w-6xl mx-auto px-4 py-16 flex flex-col gap-12">
+    <section
+      id="gallery"
+      className="w-full max-w-6xl mx-auto px-4 py-16 flex flex-col gap-12 relative"
+    >
       {/* Header */}
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold">My Portfolio Galleries</h2>
-        <p className="text-gray-500 mt-2">
+        <h2 className="text-3xl font-bold text-white">My Portfolio Galleries</h2>
+        <p className="text-white mt-2">
           Click a gallery to explore the photos and experiences
         </p>
       </div>
 
-      {/* Gallery Overview Grid (always visible) */}
+      {/* Gallery Overview Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {GALLERIES.map((gallery) => (
           <button
             key={gallery.id}
-            onClick={() => {
-              setActiveGalleryId(gallery.id)
-              setSelectedPhoto(null)
-            }}
+            onClick={() => (activeGalleryId === gallery.id ? null : switchGallery(gallery.id))}
             className={clsx(
               "relative h-48 rounded-lg overflow-hidden border-2 border-transparent focus:outline-none shadow-md transition-transform transform hover:scale-105",
               activeGalleryId === gallery.id ? "border-blue-500" : "border-transparent"
@@ -68,20 +81,22 @@ export default function PortfolioGallery() {
       {activeGallery && (
         <div
           className={clsx(
-            "relative bg-white dark:bg-gray-900 rounded-xl shadow-2xl p-6 flex flex-col gap-6 transition-opacity duration-700",
-            fadeIn ? "opacity-100" : "opacity-0"
+            "relative rounded-xl p-6 flex flex-col gap-6 transition-opacity duration-500 backdrop-blur-sm bg-black/50",
+            fadeIn && !fadeOut ? "opacity-100" : "opacity-0"
           )}
         >
-          {/* Close / X button */}
+          {/* X Close button */}
           <button
             onClick={() => setActiveGalleryId(null)}
-            className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 dark:hover:text-white text-xl font-bold"
+            className="absolute top-4 right-4 text-white text-2xl font-bold hover:text-gray-300"
           >
             ×
           </button>
 
           {/* Gallery Title */}
-          <h2 className="text-2xl font-bold text-center">{activeGallery.title}</h2>
+          <h2 className="text-2xl font-bold text-white text-center">
+            {activeGallery.title}
+          </h2>
 
           {/* Main Content */}
           <div className="flex flex-col md:flex-row gap-6">
@@ -94,7 +109,9 @@ export default function PortfolioGallery() {
                     onClick={() => setSelectedPhoto(photo)}
                     className={clsx(
                       "relative w-40 h-24 md:w-full md:h-24 rounded-md overflow-hidden focus:outline-none border-2 transition transform hover:scale-105",
-                      selectedPhoto === photo ? "border-blue-500" : "border-transparent"
+                      selectedPhoto === photo
+                        ? "border-blue-400 shadow-lg"
+                        : "border-transparent"
                     )}
                   >
                     <Image
