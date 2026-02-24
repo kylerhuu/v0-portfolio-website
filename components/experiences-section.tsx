@@ -24,6 +24,8 @@ interface Experience {
   impact: string;
   keyLessons: string;
   futureImprovements: string;
+  media?: string[];
+  preview?: string;
 }
 
 const Experiences: Experience[] = [
@@ -45,6 +47,8 @@ const Experiences: Experience[] = [
       "Practiced real-world applications of R programming in a research-heavy team-coordinated effort, Clear communication is just as important as technical skill in research environments.",
     futureImprovements:
       "Standardize research workflows and documentation to reduce onboarding friction for new team members.",
+    media: ["/demos/thinkneuro-research-poster.pdf"],
+    preview: "/demos/thinkneuro-research-poster.png",
   },
   {
     title: "NightBite",
@@ -64,6 +68,8 @@ const Experiences: Experience[] = [
       "Product decisions matter as much as code. Small UX issues can completely break adoption if not addressed early.",
     futureImprovements:
       "Improve login reliability, optimize ordering speed, and expand vendor tools for analytics and menu management.",
+    media: ["/demos/nightbite-icon.png"],
+    preview: "/demos/nightbite-icon.png",
   },
   {
     title: "Vie.game Growth Strategy",
@@ -83,6 +89,8 @@ const Experiences: Experience[] = [
       "Growth is about testing fast and learning faster. Clear messaging beats complex strategy.",
     futureImprovements:
       "Automate outreach tracking and build more structured experiments around user acquisition channels.",
+    media: ["/demos/vie-logo.png"],
+    preview:"/demos/vie-logo.png",
   },
 ];
 
@@ -109,6 +117,27 @@ function ExperienceCard({
         border: "1px solid var(--scroll-border)",
       }}
     >
+      {/* preview */}
+      {experience.preview && (
+        <div className="mb-3 h-32 w-full overflow-hidden rounded-lg border border-border">
+          {experience.preview.endsWith(".png") ||
+          experience.preview.endsWith(".jpg") ? (
+            <img
+              src={experience.preview}
+              alt={`${experience.title}-preview`}
+              className="w-full h-full object-cover"
+            />
+          ) : experience.preview.endsWith(".mp4") ? (
+            <video
+              src={experience.preview}
+              muted
+              autoPlay
+              loop
+              className="w-full h-full object-cover"
+            />
+          ) : null}
+        </div>
+      )}
       <div className="flex items-start justify-between mb-1">
         <h3
           className="text-lg font-semibold group-hover:text-[hsl(15,80%,55%)] transition-colors duration-300"
@@ -274,12 +303,41 @@ export function ExperiencesSection() {
                 </p>
               </div>
 
-              {/* Demo video placeholder */}
-              <div className="rounded-lg bg-secondary border border-border flex items-center justify-center h-48">
-                <p className="text-sm text-muted-foreground">
-                  Demo video coming soon
-                </p>
-              </div>
+              {/* media gallery */}
+              {selected.media && selected.media.length > 0 && (
+                <div className="flex flex-col gap-4 mt-4">
+                  {selected.media.map((file, i) => {
+                    if (file.endsWith(".png") || file.endsWith(".jpg")) {
+                      return (
+                        <img
+                          key={i}
+                          src={file}
+                          alt={`${selected.title}-media-${i}`}
+                          className="w-full rounded-lg border border-border"
+                        />
+                      );
+                    } else if (file.endsWith(".mp4")) {
+                      return (
+                        <video
+                          key={i}
+                          src={file}
+                          controls
+                          className="w-full rounded-lg border border-border"
+                        />
+                      );
+                    } else if (file.endsWith(".pdf")) {
+                      return (
+                        <iframe
+                          key={i}
+                          src={file}
+                          className="w-full h-96 rounded-lg border border-border"
+                        />
+                      );
+                    }
+                    return null;
+                  })}
+                </div>
+              )}
             </div>
           )}
         </DialogContent>
