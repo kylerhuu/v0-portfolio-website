@@ -50,5 +50,96 @@ export const GALLERIES: Gallery[] = [
         {src: "/gallery/ART/ Kyler Hu - SIP 13.png", title: "Cultural Pressure", description: "wanted to depict \"asian parent\" stereotypes in a public way. feels like everyone is against you and your strength is a vaguely luminating bubble within your surroundings."},
         {src: "/gallery/ART/ Kyler Hu - SIP 15.png", title: "Closing Legacy", description: "in the last hour and moments of your life, do you wanna be thinking about all the things you could've done. hot take: we need to be a lil more selfish and focus on doing what's best for us rather than prioritizing others over yourself."},
     ]
+  },
+
+  {
+    id: "nightowl",
+    title: "Late Nights/Early Mornings",
+    overview:
+      "overview",
+    photos: [
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+    ]
+  },
+  {
+    id: "travel",
+    title: "Exploration",
+    overview:
+      "overview",
+    photos: [
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+    ]
+  },
+  {
+    id: "transformation",
+    title: "Then & Now",
+    overview:
+      "overview",
+    photos: [
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+    ]
+  },
+  {
+    id: "food",
+    title: "Food as Comfort",
+    overview:
+      "overview",
+    photos: [
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+    ]
+  },
+  {
+    id: "hobbies",
+    title: "Hobbies",
+    overview:
+      "overview",
+    photos: [
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+        {src: "",title: "", description: ""},
+    ]
   }
 ];
