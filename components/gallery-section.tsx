@@ -133,13 +133,17 @@ export default function PortfolioGallery() {
             {/* Main Image */}
             {activeGallery.photos.length > 0 && (
               <div className="md:w-3/4 flex flex-col">
-                <div className="relative w-full h-[70vh] md:h-[95%] rounded-md overflow-hidden">
+                <div className="relative w-full h-[70vh] md:h-[95%] rounded-md overflow-hidden bg-black/40">
+                  {/* Image */}
                   <Image
                     src={(selectedPhoto ?? activeGallery.photos[0]).src}
                     alt={(selectedPhoto ?? activeGallery.photos[0]).title}
                     fill
-                    className="object-cover transition-transform duration-500 hover:scale-105"
+                    className="object-contain"
                   />
+
+                  {/* Soft edge fade */}
+                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_55%,rgba(0,0,0,0.6)_100%)]" />
                   {/* Caption */}
                   {(selectedPhoto ?? activeGallery.photos[0]).description && (
                     <div className="absolute bottom-0 w-full bg-black/60 text-white text-sm p-3 rounded-b-md">
