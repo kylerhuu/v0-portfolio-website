@@ -5,73 +5,54 @@ import Image from "next/image"
 import { GALLERIES, type GalleryPhoto } from "@/components/gallery-data"
 
 export default function GallerySection() {
-  // for now, just showing Science Olympiad
   const gallery = GALLERIES.find(g => g.id === "scioly")!
-  const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null)
+  const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(gallery.photos[0])
 
   return (
-    <section className="w-full flex gap-6 h-[520px]">
-      {/* LEFT — narrow photo panels */}
-      <div className="w-1/2 flex gap-2 overflow-hidden">
-        {gallery.photos.map((photo, index) => (
-          <button
-            key={index}
-            onClick={() => setSelectedPhoto(photo)}
-            className="relative flex-1 group focus:outline-none"
-          >
+    <section id="gallery" className="w-full max-w-6xl mx-auto px-4 py-12 flex flex-col gap-8">
+      {/* Section Header */}
+      <h2 className="text-2xl font-bold text-center">{gallery.title}</h2>
+
+      {/* Main gallery container */}
+      <div className="flex flex-col md:flex-row gap-6">
+        {/* LEFT — thumbnails */}
+        <div className="md:w-1/4 flex flex-col gap-2 overflow-y-auto max-h-[600px]">
+          {gallery.photos.map((photo, index) => (
+            <button
+              key={index}
+              onClick={() => setSelectedPhoto(photo)}
+              className={`relative w-full h-24 rounded-md overflow-hidden focus:outline-none border-2 transition ${
+                selectedPhoto === photo ? "border-blue-500" : "border-transparent"
+              }`}
+            >
+              <Image src={photo.src} alt={photo.title} fill className="object-cover" />
+              <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition flex items-center justify-center">
+                <span className="text-white text-xs font-medium text-center px-2">
+                  {photo.title}
+                </span>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {/* RIGHT — main image + short description */}
+        <div className="md:w-3/4 flex flex-col">
+          <div className="relative w-full h-[80%] rounded-md overflow-hidden">
             <Image
-              src={photo.src}
-              alt={photo.title}
+              src={selectedPhoto!.src}
+              alt={selectedPhoto!.title}
               fill
               className="object-cover"
             />
-
-            {/* Hover overlay */}
-            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-              <span className="text-white text-xs font-medium text-center px-2">
-                {photo.title}
-              </span>
-            </div>
-          </button>
-        ))}
+          </div>
+          <div className="mt-2 text-center md:text-left">
+            <p className="text-sm text-muted-foreground">{selectedPhoto!.description}</p>
+          </div>
+        </div>
       </div>
 
-      {/* RIGHT — detail view */}
-      <div className="w-1/2 flex flex-col">
-        {selectedPhoto ? (
-          <>
-            {/* Selected image */}
-            <div className="relative w-full h-1/2 rounded-md overflow-hidden">
-              <Image
-                src={selectedPhoto.src}
-                alt={selectedPhoto.title}
-                fill
-                className="object-cover"
-              />
-            </div>
-
-            {/* Title + description */}
-            <div className="mt-4">
-              <div className="text-sm font-semibold mb-1">
-                {selectedPhoto.title}
-              </div>
-              <p className="text-sm text-muted-foreground">
-                {selectedPhoto.description}
-              </p>
-            </div>
-          </>
-        ) : (
-          <>
-            {/* Default overview */}
-            <div className="text-lg font-semibold mb-2">
-              {gallery.title}
-            </div>
-            <p className="text-sm text-muted-foreground">
-              {gallery.overview}
-            </p>
-          </>
-        )}
-      </div>
+      {/* Overall blurb */}
+      <p className="text-sm text-center text-muted-foreground">{gallery.overview}</p>
     </section>
   )
 }
