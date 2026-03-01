@@ -66,6 +66,8 @@ export function ResumeSection() {
           <div className="flex flex-col items-center justify-center py-24 px-6">
             <iframe
               src="/Resume.pdf"
+              title="Resume PDF"
+              loading="lazy"
               className="w-full h-[600px] rounded-lg"
               style={{ border: "1px solid var(--scroll-border)" }}
             />

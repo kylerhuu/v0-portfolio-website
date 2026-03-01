@@ -39,12 +39,14 @@ export default function PortfolioGallery() {
   return (
     <section
       id="gallery"
-      className="w-full max-w-6xl mx-auto px-4 py-16 flex flex-col gap-12 relative"
+      className="w-full max-w-6xl mx-auto px-4 py-16 flex flex-col gap-12 relative z-10"
     >
       {/* Header */}
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-white">My Portfolio Galleries</h2>
-        <p className="text-white mt-2">
+        <h2 className="text-3xl font-bold" style={{ color: "var(--scroll-fg)" }}>
+          My Portfolio Galleries
+        </h2>
+        <p className="mt-2" style={{ color: "var(--scroll-muted-fg)" }}>
           Click a gallery to explore the photos and experiences
         </p>
       </div>
@@ -56,20 +58,26 @@ export default function PortfolioGallery() {
             key={gallery.id}
             onClick={() => (activeGalleryId === gallery.id ? null : switchGallery(gallery.id))}
             className={clsx(
-              "relative h-48 rounded-lg overflow-hidden border-2 border-transparent focus:outline-none shadow-md transition-transform transform hover:scale-105",
-              activeGalleryId === gallery.id ? "border-blue-500" : "border-transparent"
+              "relative h-48 rounded-lg overflow-hidden border-2 focus:outline-none shadow-md transition-transform transform hover:scale-[1.02] focus-visible:ring-2 focus-visible:ring-[hsl(15,80%,55%)] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
+              activeGalleryId === gallery.id
+                ? "border-[hsl(20,82%,56%)]"
+                : "border-transparent"
             )}
+            aria-pressed={activeGalleryId === gallery.id}
+            aria-label={`Open ${gallery.title} gallery`}
           >
             {gallery.photos[0] && (
               <Image
                 src={gallery.photos[0].src}
                 alt={gallery.title}
                 fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                quality={75}
                 className="object-cover"
               />
             )}
-            <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-              <span className="text-white text-lg font-semibold text-center px-2">
+            <div className="absolute inset-0 flex items-center justify-center bg-[linear-gradient(180deg,rgba(30,8,10,0.18),rgba(30,8,10,0.45))]">
+              <span className="text-lg font-semibold text-center px-2 text-[rgba(245,241,235,0.96)]">
                 {gallery.title}
               </span>
             </div>
@@ -81,20 +89,26 @@ export default function PortfolioGallery() {
       {activeGallery && (
         <div
           className={clsx(
-            "relative rounded-xl p-6 flex flex-col gap-6 transition-opacity duration-500 backdrop-blur-sm bg-black/50",
+            "relative rounded-xl p-6 flex flex-col gap-6 transition-opacity duration-500 backdrop-blur-sm",
             fadeIn && !fadeOut ? "opacity-100" : "opacity-0"
           )}
+          style={{
+            backgroundColor: "var(--scroll-card-bg)",
+            border: "1px solid var(--scroll-border)",
+          }}
         >
           {/* X Close button */}
           <button
             onClick={() => setActiveGalleryId(null)}
-            className="absolute top-4 right-4 text-white text-2xl font-bold hover:text-gray-300"
+            className="absolute top-4 right-4 text-2xl font-bold transition-colors duration-200 hover:text-[hsl(30,85%,55%)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(15,80%,55%)] rounded-sm"
+            style={{ color: "var(--scroll-fg)" }}
+            aria-label="Close gallery"
           >
             ×
           </button>
 
           {/* Gallery Title */}
-          <h2 className="text-2xl font-bold text-white text-center">
+          <h2 className="text-2xl font-bold text-center" style={{ color: "var(--scroll-fg)" }}>
             {activeGallery.title}
           </h2>
 
@@ -108,20 +122,23 @@ export default function PortfolioGallery() {
                     key={index}
                     onClick={() => setSelectedPhoto(photo)}
                     className={clsx(
-                      "relative w-40 h-24 md:w-full md:h-24 rounded-md overflow-hidden focus:outline-none border-2 transition transform hover:scale-105",
+                      "relative w-40 h-24 md:w-full md:h-24 rounded-md overflow-hidden focus:outline-none border-2 transition transform hover:scale-[1.03] focus-visible:ring-2 focus-visible:ring-[hsl(15,80%,55%)]",
                       selectedPhoto === photo
-                        ? "border-blue-400 shadow-lg"
+                        ? "border-[hsl(20,82%,56%)] shadow-lg"
                         : "border-transparent"
                     )}
+                    aria-label={`Select photo ${photo.title}`}
                   >
                     <Image
                       src={photo.src}
                       alt={photo.title}
                       fill
+                      sizes="(min-width: 768px) 22vw, 160px"
+                      quality={70}
                       className="object-cover"
                     />
-                    <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition flex items-center justify-center">
-                      <span className="text-white text-xs font-medium text-center px-2">
+                    <div className="absolute inset-0 bg-[rgba(30,8,10,0.28)] opacity-0 hover:opacity-100 transition flex items-center justify-center">
+                      <span className="text-[rgba(245,241,235,0.95)] text-xs font-medium text-center px-2">
                         {photo.title}
                       </span>
                     </div>
@@ -133,20 +150,22 @@ export default function PortfolioGallery() {
             {/* Main Image */}
             {activeGallery.photos.length > 0 && (
               <div className="md:w-3/4 flex flex-col">
-                <div className="relative w-full h-[70vh] md:h-[95%] rounded-md overflow-hidden bg-black/40">
+                <div className="relative w-full h-[70vh] md:h-[95%] rounded-md overflow-hidden bg-[rgba(30,8,10,0.35)]">
                   {/* Image */}
                   <Image
                     src={(selectedPhoto ?? activeGallery.photos[0]).src}
                     alt={(selectedPhoto ?? activeGallery.photos[0]).title}
                     fill
+                    sizes="(min-width: 768px) 68vw, 100vw"
+                    quality={85}
                     className="object-contain"
                   />
 
                   {/* Soft edge fade */}
-                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_55%,rgba(0,0,0,0.6)_100%)]" />
+                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_55%,rgba(30,8,10,0.55)_100%)]" />
                   {/* Caption */}
                   {(selectedPhoto ?? activeGallery.photos[0]).description && (
-                    <div className="absolute bottom-0 w-full bg-black/60 text-white text-sm p-3 rounded-b-md">
+                    <div className="absolute bottom-0 w-full text-[rgba(245,241,235,0.95)] text-sm p-3 rounded-b-md bg-[rgba(30,8,10,0.66)]">
                       {(selectedPhoto ?? activeGallery.photos[0]).description}
                     </div>
                   )}
@@ -157,7 +176,14 @@ export default function PortfolioGallery() {
 
           {/* Overall Blurb */}
           {activeGallery.overview && (
-            <p className="text-sm text-center text-white bg-black/50 p-3 rounded-md shadow-md mt-4">
+            <p
+              className="text-sm text-center p-3 rounded-md shadow-md mt-4"
+              style={{
+                color: "var(--scroll-muted-fg)",
+                backgroundColor: "rgba(30, 8, 10, 0.4)",
+                border: "1px solid var(--scroll-border)",
+              }}
+            >
               {activeGallery.overview}
             </p>
           )}

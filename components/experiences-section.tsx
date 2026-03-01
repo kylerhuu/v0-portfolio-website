@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
@@ -129,17 +130,20 @@ function ExperienceCard({
           style={{ paddingTop: "56.25%" }}
         >
           {experience.preview.endsWith(".png") || experience.preview.endsWith(".jpg") ? (
-            <img
+            <Image
               src={experience.preview}
               alt={`${experience.title}-preview`}
-              className="absolute top-0 left-0 w-full h-full object-cover"
+              fill
+              sizes="(min-width: 768px) 32rem, 100vw"
+              className="absolute top-0 left-0 object-cover"
             />
           ) : (
             <video
               src={experience.preview}
               muted
-              autoPlay
+              playsInline
               loop
+              preload="metadata"
               className="absolute top-0 left-0 w-full h-full object-cover"
             />
           )}
@@ -248,6 +252,8 @@ export function ExperiencesSection() {
                     if (file.endsWith(".png") || file.endsWith(".jpg")) {
                       return (
                         <img
+                          loading="lazy"
+                          decoding="async"
                           key={i}
                           src={file}
                           alt={`${selected.title}-media-${i}`}
@@ -261,6 +267,7 @@ export function ExperiencesSection() {
                           key={i}
                           src={file}
                           controls
+                          preload="metadata"
                           className={`${commonClasses} w-64 h-36 object-cover`}
                           onClick={() => setPreviewMedia(file)}
                         />
@@ -270,6 +277,8 @@ export function ExperiencesSection() {
                         <iframe
                           key={i}
                           src={file}
+                          title={`${selected.title}-document-${i}`}
+                          loading="lazy"
                           className={`${commonClasses} w-64 h-80`}
                           onClick={() => setPreviewMedia(file)}
                         />
@@ -291,9 +300,19 @@ export function ExperiencesSection() {
             (previewMedia.endsWith(".png") || previewMedia.endsWith(".jpg") ? (
               <img src={previewMedia} alt="preview" className="w-full h-auto rounded-lg" />
             ) : previewMedia.endsWith(".mp4") ? (
-              <video src={previewMedia} controls autoPlay className="w-full h-auto rounded-lg" />
+              <video
+                src={previewMedia}
+                controls
+                preload="metadata"
+                className="w-full h-auto rounded-lg"
+              />
             ) : previewMedia.endsWith(".pdf") ? (
-              <iframe src={previewMedia} className="w-full h-[80vh] rounded-lg" />
+              <iframe
+                src={previewMedia}
+                title="media-preview-pdf"
+                loading="lazy"
+                className="w-full h-[80vh] rounded-lg"
+              />
             ) : null)}
         </DialogContent>
       </Dialog>

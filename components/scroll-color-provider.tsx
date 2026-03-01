@@ -7,16 +7,15 @@ import {
   useState,
   useCallback,
   useRef,
+  useMemo,
   type ReactNode,
 } from "react";
 
 interface ScrollColorContextValue {
-  progress: number;
   isDark: boolean;
 }
 
 const ScrollColorContext = createContext<ScrollColorContextValue>({
-  progress: 0,
   isDark: true,
 });
 
@@ -112,27 +111,46 @@ function getTextColors(lum: number) {
 }
 
 export function ScrollColorProvider({ children }: { children: ReactNode }) {
-  const [progress, setProgress] = useState(0);
   const [isDark, setIsDark] = useState(true);
   const rafRef = useRef<number>(0);
   const targetProgressRef = useRef(0);
   const currentProgressRef = useRef(0);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const isDarkRef = useRef(true);
 
-  // Smooth interpolation for scroll progress (lerp each frame)
+  const applyTheme = useCallback((progress: number) => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const [r, g, b] = lerpColor(COLOR_STOPS, progress);
+    const lum = luminance(r, g, b);
+    const colors = getTextColors(lum);
+    const nextIsDark = lum < 0.45;
+
+    el.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    el.style.setProperty("--scroll-fg", colors.foreground);
+    el.style.setProperty("--scroll-muted-fg", colors.mutedForeground);
+    el.style.setProperty("--scroll-border", colors.borderColor);
+    el.style.setProperty("--scroll-card-bg", colors.cardBg);
+    el.style.setProperty("--scroll-bg-r", String(r));
+    el.style.setProperty("--scroll-bg-g", String(g));
+    el.style.setProperty("--scroll-bg-b", String(b));
+
+    if (nextIsDark !== isDarkRef.current) {
+      isDarkRef.current = nextIsDark;
+      setIsDark(nextIsDark);
+    }
+  }, []);
+
+  // Smooth interpolation for scroll progress without re-rendering the app each frame
   const tick = useCallback(() => {
     const current = currentProgressRef.current;
     const target = targetProgressRef.current;
     const next = current + (target - current) * 0.12; // smooth easing factor
     currentProgressRef.current = next;
-
-    const [r, g, b] = lerpColor(COLOR_STOPS, next);
-    const lum = luminance(r, g, b);
-
-    setProgress(next);
-    setIsDark(lum < 0.45);
+    applyTheme(next);
 
     rafRef.current = requestAnimationFrame(tick);
-  }, []);
+  }, [applyTheme]);
 
   const handleScroll = useCallback(() => {
     const scrollHeight =
@@ -144,33 +162,32 @@ export function ScrollColorProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     handleScroll();
     currentProgressRef.current = targetProgressRef.current;
+    applyTheme(currentProgressRef.current);
     rafRef.current = requestAnimationFrame(tick);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [handleScroll, tick]);
+  }, [applyTheme, handleScroll, tick]);
 
-  const [r, g, b] = lerpColor(COLOR_STOPS, progress);
-  const bgColor = `rgb(${r}, ${g}, ${b})`;
-  const lum = luminance(r, g, b);
-  const colors = getTextColors(lum);
+  const contextValue = useMemo(() => ({ isDark }), [isDark]);
 
   return (
-    <ScrollColorContext.Provider value={{ progress, isDark }}>
+    <ScrollColorContext.Provider value={contextValue}>
       <div
+        ref={wrapperRef}
         className="min-h-screen"
         style={
           {
-            backgroundColor: bgColor,
-            "--scroll-fg": colors.foreground,
-            "--scroll-muted-fg": colors.mutedForeground,
-            "--scroll-border": colors.borderColor,
-            "--scroll-card-bg": colors.cardBg,
-            "--scroll-bg-r": r,
-            "--scroll-bg-g": g,
-            "--scroll-bg-b": b,
+            backgroundColor: "rgb(30, 8, 10)",
+            "--scroll-fg": "rgba(245,241,235,0.95)",
+            "--scroll-muted-fg": "rgba(215,200,185,0.6)",
+            "--scroll-border": "rgba(255,255,255,0.08)",
+            "--scroll-card-bg": "rgba(255,255,255,0.04)",
+            "--scroll-bg-r": 30,
+            "--scroll-bg-g": 8,
+            "--scroll-bg-b": 10,
           } as React.CSSProperties
         }
       >
