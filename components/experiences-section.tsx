@@ -48,11 +48,11 @@ const Experiences: Experience[] = [
     futureImprovements:
       "Standardize research workflows and documentation to reduce onboarding friction for new team members.",
     media: [
-      "/demos/thinkneuro-research-poster.png",
+      "/demos/thinkneuro-research-poster.jpg",
       "/demos/1-neurotechnology.mp4",
       "/demos/neurotech-abstract.png"
     ],
-    preview: "/demos/thinkneuro-research-poster.png",
+    preview: "/demos/thinkneuro-research-poster.jpg",
   },
   {
     title: "NightBite",
