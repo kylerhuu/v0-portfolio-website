@@ -30,6 +30,30 @@ interface Experience {
 
 const Experiences: Experience[] = [
   {
+    title: "SyncPrep",
+    summary: "SyncPrep is an AI-powered meeting scheduling and preparation tool designed to simplify coordinating meetings across time zones while helping users prepare more effectively. It identifies optimal meeting times based on availability and generates preparation insights by analyzing a user’s resume alongside a job description or meeting context.",
+    role: "Full-Stack Developer",
+    tags: ["AI", "Next.js", "Scheduling", "Productivity Tools", "OpenAI", "Google Calendar Integration"],
+    problem:
+      "Students and early-career applicants often struggle to schedule meetings across different time zones while also preparing for interviews or professional conversations. Existing scheduling tools only solve the time coordination problem, while AI tools help with preparation but are disconnected from the scheduling workflow. This forces users to switch between multiple platforms, creating unnecessary friction during already stressful situations like interviews or networking meetings.",
+    roleDetail: 
+      "I designed and built the full-stack web application, including the scheduling logic, AI-powered preparation features, and Google Calendar event generation. I developed both the frontend interface and backend API routes, implemented time zone overlap calculations, and engineered prompts for AI-based resume and job description analysis.",
+    techStack: ["Next.js", "React", "TypeScript", "Node.js", "OpenAI API", "Google Calendar API", "TailwindCSS", "Cursor.ai"],
+    architecture:
+      "The application uses a Next.js frontend to handle user inputs such as time zones, availability windows, resumes, and job descriptions. Backend API routes process scheduling logic by calculating overlapping availability across time zones and ranking the best meeting times. The system then generates Google Calendar event links for easy scheduling. AI processing analyzes the resume and job description to generate preparation insights, including skill matches and suggested preparation topics.",
+    impact:
+      "SyncPrep combines two common tasks, scheduling and meeting preparation, into a single workflow. This reduces the time and friction involved in coordinating meetings and preparing for them, helping users move from scheduling to preparation more quickly and efficiently.",
+    keyLessons:
+      "Building SyncPrep strengthened my experience working with external APIs, particularly integrating OpenAI for AI-driven insights and Google Calendar for scheduling workflows. I also learned the importance of designing clear user flows and structuring backend API routes to handle asynchronous processing and external data sources.",
+    futureImprovements:
+      "Future versions could automatically sync with a user’s calendar to detect availability without manual input, add recruiter-oriented meeting briefs, integrate LinkedIn profile parsing, and expand AI-generated preparation suggestions to include structured interview question practice and meeting summaries.",
+    media: [
+      "/demos/platform-overview.png",
+      "/demos/app-snapshot.png"
+    ],
+    preview: "/demos/platform-overview.png",
+  },
+  {
     title: "ThinkNeuro Research Internship",
     summary: "Research-focused programming and team leadership experience",
     role: "Associate Researcher",
