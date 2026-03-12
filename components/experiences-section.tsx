@@ -55,22 +55,22 @@ const Experiences: Experience[] = [
   },
   {
     title: "ThinkNeuro Research Internship",
-    summary: "Research-focused programming and team leadership experience",
-    role: "Associate Researcher",
-    tags: ["Research", "Leadership", "Programming"],
+    summary: "Led neuroscience research on non-invasive neurostimulation techniques used in neurorehabilitation, with a focus on how transcranial direct current stimulation (tDCS) and transcranial magnetic stimulation (TMS) influence neuroplasticity and motor recovery after neurological injury. The project combined mechanistic neuroscience analysis with a bibliometric study of the research landscape and was presented at the program’s final research symposium.",
+    role: "Research Associate",
+    tags: ["Research", "Data Analysis", "Python", "Neuroscience", "Scientific Computation"],
     problem:
-      "Existing neural research on TMS and tDCS was overly generalized and redacted other contributing factors to neural disabilities. Additionally within the internship, research terms lacked uniformity, structure, and technical support.",
+      "Stroke and focal brain injuries frequently cause long-term motor deficits due to damage to the motor cortex or descending motor pathways. Recovery depends on neuroplasticity, but natural plasticity after injury is often slow and incomplete. Non-invasive neurostimulation techniques such as tDCS and TMS aim to enhance the brain’s ability to reorganize neural circuits, improving the effectiveness of rehabilitation therapy.",
     roleDetail:
-      "Led a meta-analysis of current research surrounding our research question, supported programming applications, collaborated with interns, and cultivated innovation within our group to bring unique perspective on prior research.",
-    techStack: ["Python", "R", "Excel", "Google Sheets"],
+      "I led research examining both the physiological mechanisms and the research landscape surrounding neurostimulation technologies. My work involved analyzing how stimulation techniques influence neural activity at cellular, molecular, and network levels, as well as performing a bibliometric analysis of the most influential research papers in the field. The project culminated in a formal presentation at the program’s final symposium.",
+    techStack: ["Python", "Numpy & Pandas","R (Biblioshiny)", "Excel", "Google Sheets"],
     architecture:
-      "Research workflows emphasizing clarity, reproducibility, and collaboration rather than production-scale systems.",
+      "The research was structured around two complementary components. First, a mechanistic analysis examined how non-invasive neurostimulation techniques influence neuroplasticity at multiple biological levels. This included investigating how anodal and cathodal tDCS alter neuronal membrane potentials, modulate ion channel activity, influence NMDA receptor signaling, and activate intracellular pathways such as CaMKII and CREB that regulate plasticity-related gene expression. The analysis also considered emerging roles of glial cells in neurostimulation effects. Second, a bibliometric analysis was conducted to understand the broader research landscape of neurostimulation in neurorehabilitation. Using the Web of Science database, approximately one hundred highly cited papers were curated and analyzed for authorship patterns, institutional affiliations, stimulation protocols, and reported clinical outcomes. The dataset was processed using spreadsheet tools and RStudio Biblioshiny to identify patterns in research influence, geographic distribution, and methodological trends within the field.",
     impact:
-      "Improved team coordination and contributed to smoother experience execution, Placed Top3 out of 100+ groups within the same cohort, brought unique and in-depth findings that addressed gaps within neurorehabilitation research.",
+      "This research highlighted both the scientific promise and current limitations of non-invasive neurostimulation in neurorehabilitation. Across the literature, tDCS and TMS consistently improved cortical excitability, functional connectivity, and motor outcomes when combined with rehabilitation training. However, the bibliometric analysis revealed that the field is highly concentrated among a small group of institutions and researchers, and that many studies suffer from small sample sizes and inconsistent stimulation protocols. These findings emphasize the need for greater standardization and broader participation in research to improve reproducibility and accelerate the translation of neurostimulation technologies into reliable clinical treatments for patients recovering from neurological injury.",
     keyLessons:
-      "Practiced real-world applications of R programming in a research-heavy team-coordinated effort, Clear communication is just as important as technical skill in research environments.",
+      "This experience strengthened my ability to connect computational tools with scientific research. I gained experience analyzing complex neuroscience literature, structuring research questions, and presenting technical findings to an academic audience. The project also deepened my understanding of how neuroplasticity can be influenced by external stimulation technologies.",
     futureImprovements:
-      "Standardize research workflows and documentation to reduce onboarding friction for new team members.",
+      "Future work in this field will likely focus on personalized neuromodulation strategies, particularly using high-definition tDCS (HD-tDCS) for more targeted stimulation. Standardizing stimulation protocols and conducting larger clinical trials will also be critical for translating these techniques into consistent clinical practice.",
     media: [
       "/demos/thinkneuro-research-poster.jpg",
       "/demos/1-neurotechnology.mp4",
