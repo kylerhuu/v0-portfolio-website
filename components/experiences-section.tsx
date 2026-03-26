@@ -30,6 +30,32 @@ interface Experience {
 
 const Experiences: Experience[] = [
   {
+    title: "OutTheGC",
+    summary: "OutTheGC is a link-based group trip planning platform designed to simplify coordinating trips by collecting availability, preferences, and ideas in one shared interface. Built as an iteration from SyncPrep, it focuses on reducing friction and enabling fast, intuitive group decision-making without requiring accounts or onboarding.",
+    role: "Full-Stack Developer",
+    tags: ["Next.js", "Full-Stack", "Product Design", "Collaboration", "System Design", "UX Optimization"],
+    problem: 
+      "Group trip planning is typically fragmented across group chats, spreadsheets, and multiple apps, making it difficult to align on dates, budgets, and preferences. While building SyncPrep, I realized that over-engineered scheduling systems create unnecessary friction for users who primarily need a fast and simple way to coordinate with others.",
+    roleDetail: 
+      "I designed and built the full-stack web application, including the link-based event system, availability aggregation logic, and collaborative planning interface. I developed the frontend experience and structured backend logic for handling trip creation, participant inputs, and shared state across users.",
+    techStack: ["Next.js", "React", "TypeScript", "Node.js", "TailwindCSS", "Cursor.ai"],
+    architecture:
+      "The application uses a Next.js frontend to allow users to instantly create a trip and generate a unique shareable link. Each trip acts as an event-based data container where participants submit availability, budget, destinations, and preferences. The system aggregates responses and visualizes group overlap to highlight optimal travel windows, while also organizing inputs into a shared planning interface.",
+    impact:
+      "OutTheGC reduces coordination friction by replacing scattered group chat decision-making with a centralized, data-driven planning workflow. Compared to SyncPrep, the product improves usability by eliminating unnecessary steps and prioritizing speed, simplicity, and real-world user behavior.",
+    keyLessons:
+      "Through building SyncPrep, I identified the risks of over-engineering and learned to prioritize user flow simplicity over technical complexity. OutTheGC reflects a shift toward faster, more intuitive product design, emphasizing minimal friction, clear interactions, and scalable collaboration patterns.",
+    futureImprovements:
+      "Future versions could include persistent data storage, edit permissions for participants, real-time updates, integrated itinerary planning tools, and enhanced visualization of group availability and trade-offs when not all users can align perfectly.",
+    media: [
+      "/demos/OutTheGC_demo.mov",
+      "/demos/OTGC1.png",
+      "/demos/OutTheGC_hero.png",
+      "/demos/OTGC2.png"
+    ],
+    preview: "/demos/OutTheGC-logo.png",
+  },
+  {
     title: "SyncPrep",
     summary: "SyncPrep is an AI-powered meeting scheduling and preparation tool designed to simplify coordinating meetings across time zones while helping users prepare more effectively. It identifies optimal meeting times based on availability and generates preparation insights by analyzing a user’s resume alongside a job description or meeting context.",
     role: "Full-Stack Developer",
