@@ -63,14 +63,80 @@ export function ResumeSection() {
             </Button>
           </div>
 
-          <div className="flex flex-col items-center justify-center py-24 px-6">
-            <iframe
-              src="/Kyler Hu Resume website copy.pdf"
-              title="Resume PDF"
-              loading="lazy"
-              className="w-full h-[600px] rounded-lg"
-              style={{ border: "1px solid var(--scroll-border)" }}
-            />
+          <div className="px-6 py-12 md:px-10 md:py-16">
+            <div
+              className="rounded-2xl p-8 md:p-10"
+              style={{
+                border: "1px solid var(--scroll-border)",
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))",
+              }}
+            >
+              <div className="max-w-2xl">
+                <p
+                  className="text-sm font-semibold uppercase tracking-[0.18em] mb-3 text-[hsl(15,80%,55%)]"
+                >
+                  Resume
+                </p>
+                <h3
+                  className="text-2xl md:text-3xl font-semibold mb-4"
+                  style={{ color: "var(--scroll-fg)" }}
+                >
+                  Open the full PDF in a clean tab.
+                </h3>
+                <p
+                  className="text-sm md:text-base leading-relaxed mb-6"
+                  style={{ color: "var(--scroll-muted-fg)" }}
+                >
+                  I removed the embedded browser PDF viewer so the section stays
+                  clean. You can open the resume directly or download a copy.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <Button
+                    size="sm"
+                    className="rounded-full transition-all duration-300"
+                    asChild
+                  >
+                    <a
+                      href="/Kyler Hu Resume website copy.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <FileText className="h-4 w-4" />
+                      Open Resume
+                    </a>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-full transition-all duration-300"
+                    style={{
+                      borderColor: "var(--scroll-border)",
+                      color: "var(--scroll-fg)",
+                    }}
+                    asChild
+                  >
+                    <a href="/Kyler Hu Resume website copy.pdf" download>
+                      <Download className="h-4 w-4" />
+                      Download PDF
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <iframe
+                src="/Kyler Hu Resume website copy.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH"
+                title="Resume PDF"
+                loading="lazy"
+                className="w-full h-[720px] rounded-2xl"
+                style={{
+                  border: "1px solid var(--scroll-border)",
+                  backgroundColor: "white",
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>
