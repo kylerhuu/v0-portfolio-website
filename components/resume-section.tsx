@@ -56,7 +56,7 @@ export function ResumeSection() {
               }}
               asChild
             >
-              <a href="/Resume.pdf" download>
+              <a href="/Kyler Hu Resume website copy.pdf" download>
                 <Download className="h-4 w-4" />
                 Download
               </a>
@@ -65,7 +65,7 @@ export function ResumeSection() {
 
           <div className="flex flex-col items-center justify-center py-24 px-6">
             <iframe
-              src="/Resume.pdf"
+              src="/Kyler Hu Resume website copy.pdf"
               title="Resume PDF"
               loading="lazy"
               className="w-full h-[600px] rounded-lg"
