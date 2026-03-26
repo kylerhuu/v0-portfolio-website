@@ -70,7 +70,7 @@ const Experiences: Experience[] = [
       "/demos/OutTheGC_hero.png",
       "/demos/OTGC2.png"
     ],
-    demo: "/demos/OutTheGC_demo.mp4",
+    demo: "/demos/OutTheGC_demo.mov",
     preview: "/demos/OutTheGC-logo.png",
     videoPoster: "/demos/OTGC1.png",
   },
@@ -287,24 +287,23 @@ export function ExperiencesSection() {
       <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
         <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-card border-border text-foreground">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold">{selected?.title}</DialogTitle>
+            <div className="flex items-start justify-between gap-4">
+              <DialogTitle className="text-xl font-bold">{selected?.title}</DialogTitle>
+              {selected?.demo && (
+                <button
+                  type="button"
+                  onClick={() => setPreviewMedia(selected.demo!)}
+                  className="shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
+                >
+                  Play Demo
+                </button>
+              )}
+            </div>
             <DialogDescription className="text-muted-foreground">{selected?.summary}</DialogDescription>
           </DialogHeader>
 
           {selected && (
             <div className="flex flex-col gap-6 mt-2">
-              {selected.demo && (
-                <div className="flex justify-end">
-                  <button
-                    type="button"
-                    onClick={() => setPreviewMedia(selected.demo!)}
-                    className="rounded-full border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
-                  >
-                    Play Demo
-                  </button>
-                </div>
-              )}
-
               {[
                 { title: "Problem", key: "problem" },
                 { title: "My Role", key: "roleDetail" },
