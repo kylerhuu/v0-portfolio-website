@@ -25,6 +25,7 @@ interface Experience {
   keyLessons: string;
   futureImprovements: string;
   media?: string[];
+  demo?: string;
   preview?: string;
   videoPoster?: string;
 }
@@ -39,6 +40,10 @@ function isVideoFile(file: string) {
     file.endsWith(".mov") ||
     file.endsWith(".m4v")
   );
+}
+
+function isDocumentFile(file: string) {
+  return file.endsWith(".pdf");
 }
 
 const Experiences: Experience[] = [
@@ -61,11 +66,11 @@ const Experiences: Experience[] = [
     futureImprovements:
       "Future versions could include persistent data storage, edit permissions for participants, real-time updates, deeper AI-assisted planning such as itinerary generation, and enhanced visualization of group availability and trade-offs when not all users can align perfectly.",
     media: [
-      "/demos/OutTheGC_demo.mp4",
       "/demos/OTGC1.png",
       "/demos/OutTheGC_hero.png",
       "/demos/OTGC2.png"
     ],
+    demo: "/demos/OutTheGC_demo.mp4",
     preview: "/demos/OutTheGC-logo.png",
     videoPoster: "/demos/OTGC1.png",
   },
@@ -113,10 +118,11 @@ const Experiences: Experience[] = [
       "Future work in this field will likely focus on personalized neuromodulation strategies, particularly using high-definition tDCS (HD-tDCS) for more targeted stimulation. Standardizing stimulation protocols and conducting larger clinical trials will also be critical for translating these techniques into consistent clinical practice.",
     media: [
       "/demos/thinkneuro-research-poster.jpg",
-      "/demos/1-neurotechnology.mp4",
       "/demos/neurotech-abstract.png"
     ],
+    demo: "/demos/1-neurotechnology.mp4",
     preview: "/demos/thinkneuro-research-poster.jpg",
+    videoPoster: "/demos/thinkneuro-research-poster.jpg",
   },
   {
     title: "NightBite",
@@ -158,10 +164,11 @@ const Experiences: Experience[] = [
     futureImprovements:
       "Automate outreach tracking and build more structured experiments around user acquisition channels.",
     media: [
-      "/demos/vie-logo.jpg",
-      "/demos/vie-chicken-demo.mp4"
+      "/demos/vie-logo.jpg"
     ],
+    demo: "/demos/vie-chicken-demo.mp4",
     preview: "/demos/vie-logo.jpg",
+    videoPoster: "/demos/vie-logo.jpg",
   },
 ];
 
@@ -286,6 +293,18 @@ export function ExperiencesSection() {
 
           {selected && (
             <div className="flex flex-col gap-6 mt-2">
+              {selected.demo && (
+                <div className="flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => setPreviewMedia(selected.demo!)}
+                    className="rounded-full border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
+                  >
+                    Play Demo
+                  </button>
+                </div>
+              )}
+
               {[
                 { title: "Problem", key: "problem" },
                 { title: "My Role", key: "roleDetail" },
@@ -325,30 +344,7 @@ export function ExperiencesSection() {
                           onClick={() => setPreviewMedia(file)}
                         />
                       );
-                    } else if (isVideoFile(file)) {
-                      return (
-                        <button
-                          key={i}
-                          type="button"
-                          className={`${commonClasses} relative w-64 h-36 overflow-hidden`}
-                          onClick={() => setPreviewMedia(file)}
-                        >
-                          <video
-                            src={file}
-                            muted
-                            playsInline
-                            poster={selected.videoPoster}
-                            preload="metadata"
-                            className="w-full h-full object-cover"
-                          />
-                          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/20">
-                            <div className="rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white">
-                              Play video
-                            </div>
-                          </div>
-                        </button>
-                      );
-                    } else if (file.endsWith(".pdf")) {
+                    } else if (isDocumentFile(file)) {
                       return (
                         <iframe
                           key={i}
