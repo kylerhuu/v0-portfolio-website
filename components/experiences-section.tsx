@@ -26,6 +26,7 @@ interface Experience {
   futureImprovements: string;
   media?: string[];
   preview?: string;
+  videoPoster?: string;
 }
 
 function isImageFile(file: string) {
@@ -66,6 +67,7 @@ const Experiences: Experience[] = [
       "/demos/OTGC2.png"
     ],
     preview: "/demos/OutTheGC-logo.png",
+    videoPoster: "/demos/OTGC1.png",
   },
   {
     title: "SyncPrep",
@@ -329,6 +331,9 @@ export function ExperiencesSection() {
                           key={i}
                           src={file}
                           controls
+                          muted
+                          playsInline
+                          poster={selected.videoPoster}
                           preload="metadata"
                           className={`${commonClasses} w-64 h-36 object-cover`}
                           onClick={() => setPreviewMedia(file)}
@@ -365,7 +370,11 @@ export function ExperiencesSection() {
               <video
                 src={previewMedia}
                 controls
-                preload="metadata"
+                autoPlay
+                muted
+                playsInline
+                poster={selected?.videoPoster}
+                preload="auto"
                 className="w-full h-auto rounded-lg"
               />
             ) : previewMedia.endsWith(".pdf") ? (
