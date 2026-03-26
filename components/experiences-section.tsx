@@ -28,6 +28,18 @@ interface Experience {
   preview?: string;
 }
 
+function isImageFile(file: string) {
+  return file.endsWith(".png") || file.endsWith(".jpg");
+}
+
+function isVideoFile(file: string) {
+  return (
+    file.endsWith(".mp4") ||
+    file.endsWith(".mov") ||
+    file.endsWith(".m4v")
+  );
+}
+
 const Experiences: Experience[] = [
   {
     title: "OutTheGC",
@@ -48,7 +60,7 @@ const Experiences: Experience[] = [
     futureImprovements:
       "Future versions could include persistent data storage, edit permissions for participants, real-time updates, deeper AI-assisted planning such as itinerary generation, and enhanced visualization of group availability and trade-offs when not all users can align perfectly.",
     media: [
-      "/demos/OutTheGC_demo.mov",
+      "/demos/OutTheGC_demo.mp4",
       "/demos/OTGC1.png",
       "/demos/OutTheGC_hero.png",
       "/demos/OTGC2.png"
@@ -179,7 +191,7 @@ function ExperienceCard({
           className="mb-3 w-full rounded-lg overflow-hidden relative"
           style={{ paddingTop: "56.25%" }}
         >
-          {experience.preview.endsWith(".png") || experience.preview.endsWith(".jpg") ? (
+          {isImageFile(experience.preview) ? (
             <Image
               src={experience.preview}
               alt={`${experience.title}-preview`}
@@ -299,7 +311,7 @@ export function ExperiencesSection() {
                 <div className="flex overflow-x-auto gap-4 mt-4 pb-2">
                   {selected.media.map((file, i) => {
                     const commonClasses = "flex-0 rounded-lg border border-border cursor-pointer";
-                    if (file.endsWith(".png") || file.endsWith(".jpg")) {
+                    if (isImageFile(file)) {
                       return (
                         <img
                           loading="lazy"
@@ -311,7 +323,7 @@ export function ExperiencesSection() {
                           onClick={() => setPreviewMedia(file)}
                         />
                       );
-                    } else if (file.endsWith(".mp4")) {
+                    } else if (isVideoFile(file)) {
                       return (
                         <video
                           key={i}
@@ -347,9 +359,9 @@ export function ExperiencesSection() {
       <Dialog open={!!previewMedia} onOpenChange={() => setPreviewMedia(null)}>
         <DialogContent className="max-w-3xl max-h-[90vh] overflow-auto bg-card border-border">
           {previewMedia &&
-            (previewMedia.endsWith(".png") || previewMedia.endsWith(".jpg") ? (
+            (isImageFile(previewMedia) ? (
               <img src={previewMedia} alt="preview" className="w-full h-auto rounded-lg" />
-            ) : previewMedia.endsWith(".mp4") ? (
+            ) : isVideoFile(previewMedia) ? (
               <video
                 src={previewMedia}
                 controls
