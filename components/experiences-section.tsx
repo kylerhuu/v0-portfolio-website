@@ -327,17 +327,26 @@ export function ExperiencesSection() {
                       );
                     } else if (isVideoFile(file)) {
                       return (
-                        <video
+                        <button
                           key={i}
-                          src={file}
-                          controls
-                          muted
-                          playsInline
-                          poster={selected.videoPoster}
-                          preload="metadata"
-                          className={`${commonClasses} w-64 h-36 object-cover`}
+                          type="button"
+                          className={`${commonClasses} relative w-64 h-36 overflow-hidden`}
                           onClick={() => setPreviewMedia(file)}
-                        />
+                        >
+                          <video
+                            src={file}
+                            muted
+                            playsInline
+                            poster={selected.videoPoster}
+                            preload="metadata"
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/20">
+                            <div className="rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white">
+                              Play video
+                            </div>
+                          </div>
+                        </button>
                       );
                     } else if (file.endsWith(".pdf")) {
                       return (
@@ -368,6 +377,7 @@ export function ExperiencesSection() {
               <img src={previewMedia} alt="preview" className="w-full h-auto rounded-lg" />
             ) : isVideoFile(previewMedia) ? (
               <video
+                key={previewMedia}
                 src={previewMedia}
                 controls
                 autoPlay
@@ -376,6 +386,8 @@ export function ExperiencesSection() {
                 poster={selected?.videoPoster}
                 preload="auto"
                 className="w-full h-auto rounded-lg"
+                onClick={(event) => event.stopPropagation()}
+                onPointerDown={(event) => event.stopPropagation()}
               />
             ) : previewMedia.endsWith(".pdf") ? (
               <iframe
