@@ -50,10 +50,11 @@ export function ResumeSection() {
               <Button
                 variant="outline"
                 size="sm"
-                className="rounded-full transition-all duration-300"
+                className="rounded-full transition-all duration-300 hover:opacity-90"
                 style={{
-                  borderColor: "var(--scroll-border)",
-                  color: "var(--scroll-fg)",
+                  borderColor: "hsl(15,80%,55%)",
+                  backgroundColor: "transparent",
+                  color: "hsl(15,80%,55%)",
                 }}
                 asChild
               >
@@ -69,9 +70,10 @@ export function ResumeSection() {
               <Button
                 variant="outline"
                 size="sm"
-                className="rounded-full transition-all duration-300"
+                className="rounded-full transition-all duration-300 hover:opacity-90"
                 style={{
                   borderColor: "var(--scroll-border)",
+                  backgroundColor: "var(--scroll-card-bg)",
                   color: "var(--scroll-fg)",
                 }}
                 asChild
