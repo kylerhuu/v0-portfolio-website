@@ -59,7 +59,7 @@ export function ResumeSection() {
                 asChild
               >
                 <a
-                  href="/Kyler Hu Resume website copy.pdf"
+                  href="/Kyler Hu Resume copy.pdf"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -78,7 +78,7 @@ export function ResumeSection() {
                 }}
                 asChild
               >
-                <a href="/Kyler Hu Resume website copy.pdf" download>
+                <a href="/Kyler Hu Resume copy.pdf" download>
                   <Download className="h-4 w-4" />
                   Download
                 </a>
@@ -88,7 +88,7 @@ export function ResumeSection() {
 
           <div className="p-6 md:p-8">
             <iframe
-              src="/Kyler Hu Resume website copy.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH"
+              src="/Kyler Hu Resume copy.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH"
               title="Resume PDF"
               loading="lazy"
               className="w-full h-[720px] rounded-2xl"
