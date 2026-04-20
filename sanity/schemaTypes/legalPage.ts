@@ -40,15 +40,19 @@ export const legalPageType = defineType({
       title: "Project legal path",
       description:
         "URL segment used for project legal routes: /projects/[slug]/legal/[projectLegalPath] (e.g. terms-of-service, privacy, cookies).",
-      type: "slug",
-      options: { source: "title", maxLength: 96 },
+      type: "string",
       validation: (rule) =>
-        rule.custom((value, context) => {
+        rule.custom((rawValue, context) => {
+          const value = typeof rawValue === "string" ? rawValue.trim() : "";
           const hasProject = Boolean(
             (context.document as { relatedProject?: { _ref?: string } } | undefined)?.relatedProject?._ref,
           );
-          if (!hasProject) return true;
-          return value?.current ? true : "Project-linked legal pages require a project legal path.";
+          if (!hasProject && !value) return true;
+          if (!value) return "Project-linked legal pages require a project legal path.";
+          if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value)) {
+            return "Use lowercase kebab-case, e.g. terms-of-service or privacy-policy.";
+          }
+          return true;
         }),
     }),
   ],

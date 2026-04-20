@@ -216,7 +216,7 @@ export const legalPageBySlugQuery = groq`
   *[_type == "legalPage" && slug.current == $slug][0]{
     title,
     "slug": slug.current,
-    "projectLegalPath": projectLegalPath.current,
+    "projectLegalPath": coalesce(projectLegalPath.current, projectLegalPath),
     body
   }
 `;
@@ -225,7 +225,7 @@ export const legalPageByProjectSlugQuery = groq`
   *[_type == "legalPage" && relatedProject->slug.current == $slug] | order(_updatedAt desc)[0]{
     title,
     "slug": slug.current,
-    "projectLegalPath": projectLegalPath.current,
+    "projectLegalPath": coalesce(projectLegalPath.current, projectLegalPath),
     body
   }
 `;
@@ -234,16 +234,20 @@ export const legalPagesByProjectSlugQuery = groq`
   *[_type == "legalPage" && relatedProject->slug.current == $slug] | order(_updatedAt desc){
     title,
     "slug": slug.current,
-    "projectLegalPath": projectLegalPath.current,
+    "projectLegalPath": coalesce(projectLegalPath.current, projectLegalPath),
     body
   }
 `;
 
 export const legalPageByProjectSlugAndPathQuery = groq`
-  *[_type == "legalPage" && relatedProject->slug.current == $slug && projectLegalPath.current == $path][0]{
+  *[
+    _type == "legalPage" &&
+    relatedProject->slug.current == $slug &&
+    (projectLegalPath.current == $path || projectLegalPath == $path)
+  ][0]{
     title,
     "slug": slug.current,
-    "projectLegalPath": projectLegalPath.current,
+    "projectLegalPath": coalesce(projectLegalPath.current, projectLegalPath),
     body
   }
 `;
