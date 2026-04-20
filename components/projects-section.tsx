@@ -318,7 +318,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
               <button
                 type="button"
                 onClick={() => go(-1)}
-                className="pointer-events-auto absolute left-0 top-1/2 -translate-x-[55%] -translate-y-1/2 rounded-full p-3.5 shadow-lg backdrop-blur-md transition-all hover:scale-[1.04] hover:-translate-x-[57%]"
+                className="pointer-events-auto absolute left-0 top-1/2 -translate-x-full -translate-y-1/2 rounded-full p-3.5 shadow-lg backdrop-blur-md transition-all hover:scale-[1.04]"
                 style={{
                   color: "var(--scroll-fg)",
                   backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 68%, transparent)",
@@ -332,7 +332,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
               <button
                 type="button"
                 onClick={() => go(1)}
-                className="pointer-events-auto absolute right-0 top-1/2 translate-x-[55%] -translate-y-1/2 rounded-full p-3.5 shadow-lg backdrop-blur-md transition-all hover:scale-[1.04] hover:translate-x-[57%]"
+                className="pointer-events-auto absolute right-0 top-1/2 translate-x-full -translate-y-1/2 rounded-full p-3.5 shadow-lg backdrop-blur-md transition-all hover:scale-[1.04]"
                 style={{
                   color: "var(--scroll-fg)",
                   backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 68%, transparent)",
