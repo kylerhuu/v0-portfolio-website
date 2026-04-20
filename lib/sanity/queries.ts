@@ -210,6 +210,14 @@ export const legalPageBySlugQuery = groq`
   }
 `;
 
+export const legalPageByProjectSlugQuery = groq`
+  *[_type == "legalPage" && relatedProject->slug.current == $slug] | order(_updatedAt desc)[0]{
+    title,
+    "slug": slug.current,
+    body
+  }
+`;
+
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0]{
     siteTitle,

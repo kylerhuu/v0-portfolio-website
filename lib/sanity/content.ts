@@ -6,6 +6,7 @@ import {
   caseStudyBySlugQuery,
   experienceBySlugQuery,
   experiencesQuery,
+  legalPageByProjectSlugQuery,
   legalPageBySlugQuery,
   projectBySlugQuery,
   projectsQuery,
@@ -291,6 +292,20 @@ export async function getLegalPageBySlug(slug: string): Promise<CmsLegalPage | n
     return data ?? fallback;
   } catch {
     return fallback;
+  }
+}
+
+export async function getLegalPageByProjectSlug(projectSlug: string): Promise<CmsLegalPage | null> {
+  if (!hasSanityEnv) return null;
+  try {
+    const data = await sanityClient.fetch<CmsLegalPage | null>(
+      legalPageByProjectSlugQuery,
+      { slug: projectSlug },
+      sanityFetchNext,
+    );
+    return data ?? null;
+  } catch {
+    return null;
   }
 }
 

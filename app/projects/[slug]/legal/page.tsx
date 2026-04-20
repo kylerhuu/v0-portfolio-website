@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { Navbar } from "@/components/navbar";
 import { NeuralBackground } from "@/components/neural-background";
 import { ScrollColorProvider } from "@/components/scroll-color-provider";
-import { getLegalPageBySlug, getProjectBySlug } from "@/lib/sanity/content";
+import { getLegalPageByProjectSlug, getLegalPageBySlug, getProjectBySlug } from "@/lib/sanity/content";
 
 type Params = {
   slug: string;
@@ -36,7 +36,9 @@ export default async function ProjectLegalPage({ params }: { params: Promise<Par
     notFound();
   }
 
-  const projectSpecificLegal = await getLegalPageBySlug(`${slug}-legal`);
+  // Prefer explicit Sanity project linkage; keep slug pattern fallback for older docs.
+  const linkedProjectLegal = await getLegalPageByProjectSlug(slug);
+  const projectSpecificLegal = linkedProjectLegal || (await getLegalPageBySlug(`${slug}-legal`));
   const fallbackLegal = await getLegalPageBySlug("terms-of-service");
   const legal = projectSpecificLegal || fallbackLegal;
 
