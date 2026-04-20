@@ -4,13 +4,13 @@ import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { getMediaUrl, isDisplayableImageUrl } from "@/lib/sanity/media";
 import type { CmsProject } from "@/lib/sanity/types";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { cn } from "@/lib/utils";
 
-const GAP_PX = 40;
+const GAP_PX = 48;
 
 function projectLogoUrl(project: CmsProject): string | null {
   return getMediaUrl(project.logo) ?? getMediaUrl(project.media?.[0]);
@@ -58,8 +58,8 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
     count > 0 && viewportWidth > 0 ? viewportWidth / 2 - slideWidth / 2 - activeIndex * stride : 0;
 
   const trackTransition = reduceMotion
-    ? { duration: 0.22, ease: "easeOut" as const }
-    : { type: "spring" as const, stiffness: 280, damping: 36, mass: 0.78 };
+    ? { duration: 0.24, ease: "easeOut" as const }
+    : { type: "spring" as const, stiffness: 250, damping: 34, mass: 0.82 };
 
   return (
     <section id="projects" className="relative z-10 overflow-hidden py-24 md:py-32">
@@ -72,7 +72,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
         >
           <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-4">Projects</h2>
           <p className="text-2xl md:text-3xl font-medium text-pretty" style={{ color: "var(--scroll-fg)" }}>
-            Selected builds—centered, cinematic, and written up as full case studies.
+            Featured builds with depth, motion, and full case study breakdowns.
           </p>
         </div>
       </div>
@@ -99,16 +99,31 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
           }
         }}
       >
+        <div className="pointer-events-none absolute inset-x-0 top-[46%] -translate-y-1/2">
+          <motion.div
+            className="mx-auto h-[320px] w-[min(88vw,840px)] rounded-full blur-3xl md:h-[420px]"
+            style={{
+              background:
+                "radial-gradient(circle, color-mix(in srgb, hsl(15,80%,52%) 26%, transparent) 0%, transparent 72%)",
+            }}
+            animate={{
+              opacity: reduceMotion ? 0.3 : [0.26, 0.34, 0.26],
+              scale: reduceMotion ? 1 : [0.98, 1.03, 0.98],
+            }}
+            transition={{ duration: 6.4, ease: "easeInOut", repeat: Infinity }}
+          />
+        </div>
+
         {count > 1 ? (
           <>
             <button
               type="button"
               onClick={() => go(-1)}
-              className="absolute left-2 top-[42%] z-20 hidden -translate-y-1/2 rounded-full p-2.5 shadow-lg backdrop-blur-md transition hover:opacity-90 md:left-6 md:flex md:items-center md:justify-center"
+              className="absolute left-2 top-[46%] z-20 hidden -translate-y-1/2 rounded-full p-2.5 shadow-lg backdrop-blur-md transition hover:opacity-90 md:left-6 md:flex md:items-center md:justify-center"
               style={{
                 color: "var(--scroll-fg)",
-                backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 82%, transparent)",
-                border: "1px solid color-mix(in srgb, var(--scroll-border) 70%, transparent)",
+                backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 66%, transparent)",
+                border: "1px solid color-mix(in srgb, var(--scroll-border) 55%, transparent)",
               }}
               aria-label="Previous project"
             >
@@ -117,11 +132,11 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
             <button
               type="button"
               onClick={() => go(1)}
-              className="absolute right-2 top-[42%] z-20 hidden -translate-y-1/2 rounded-full p-2.5 shadow-lg backdrop-blur-md transition hover:opacity-90 md:right-6 md:flex md:items-center md:justify-center"
+              className="absolute right-2 top-[46%] z-20 hidden -translate-y-1/2 rounded-full p-2.5 shadow-lg backdrop-blur-md transition hover:opacity-90 md:right-6 md:flex md:items-center md:justify-center"
               style={{
                 color: "var(--scroll-fg)",
-                backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 82%, transparent)",
-                border: "1px solid color-mix(in srgb, var(--scroll-border) 70%, transparent)",
+                backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 66%, transparent)",
+                border: "1px solid color-mix(in srgb, var(--scroll-border) 55%, transparent)",
               }}
               aria-label="Next project"
             >
@@ -130,11 +145,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
           </>
         ) : null}
 
-        <div
-          ref={viewportRef}
-          className="relative overflow-visible px-4 pb-2 md:px-10"
-          style={{ perspective: "1400px" }}
-        >
+        <div ref={viewportRef} className="relative overflow-visible px-4 pb-2 md:px-10" style={{ perspective: "1400px" }}>
           <motion.div
             className="flex items-stretch"
             style={{ gap: GAP_PX, willChange: "transform" }}
@@ -148,99 +159,122 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
               const rawOffset = i - activeIndex;
               const isActive = i === activeIndex;
 
-              const scale = isActive ? 1 : lateral === 1 ? 0.9 : Math.max(0.78, 1 - lateral * 0.07);
-              const opacity = isActive ? 1 : lateral === 1 ? 0.5 : Math.max(0.15, 1 - lateral * 0.28);
-              const rotateY = Math.max(-4, Math.min(4, -rawOffset * 2.2));
+              const scale = isActive ? 1.02 : lateral === 1 ? 0.84 : Math.max(0.68, 1 - lateral * 0.1);
+              const opacity = isActive ? 1 : lateral === 1 ? 0.34 : Math.max(0.08, 1 - lateral * 0.34);
+              const rotateY = Math.max(-11, Math.min(11, -rawOffset * 5.5));
+              const x = reduceMotion ? 0 : rawOffset * 14;
+              const y = isActive ? 0 : lateral === 1 ? 18 : 26;
+              const blur = isActive ? "blur(0px)" : lateral === 1 ? "blur(1.2px)" : "blur(2px)";
               const zIndex = 30 - lateral;
 
               const slideSpring = reduceMotion
                 ? { duration: 0.2, ease: "easeOut" as const }
-                : { type: "spring" as const, stiffness: 320, damping: 38 };
+                : { type: "spring" as const, stiffness: 295, damping: 36, mass: 0.84 };
 
               return (
                 <motion.article
                   key={project.slug}
                   data-project-slide
-                  className="relative w-[min(88vw,420px)] shrink-0 cursor-default select-none"
+                  className="relative w-[min(90vw,560px)] shrink-0 select-none"
                   style={{ transformStyle: "preserve-3d", zIndex }}
+                  onClick={() => setActiveIndex(i)}
                   animate={{
                     scale,
                     opacity,
+                    x,
+                    y,
                     rotateY: reduceMotion ? 0 : rotateY,
+                    filter: blur,
                   }}
                   transition={slideSpring}
                 >
                   <div
-                    className="flex min-h-[320px] flex-col justify-between rounded-2xl px-7 py-8 md:min-h-[360px] md:px-9 md:py-10"
+                    className={cn(
+                      "flex min-h-[360px] flex-col justify-between rounded-[28px] px-7 py-8 md:min-h-[420px] md:px-10 md:py-10",
+                      isActive ? "cursor-default" : "cursor-pointer",
+                    )}
                     style={{
                       background:
-                        "linear-gradient(155deg, color-mix(in srgb, var(--scroll-card-bg) 92%, transparent), color-mix(in srgb, var(--scroll-card-bg) 55%, transparent))",
+                        "linear-gradient(152deg, color-mix(in srgb, var(--scroll-card-bg) 78%, transparent), color-mix(in srgb, var(--scroll-card-bg) 42%, transparent))",
+                      border: "1px solid color-mix(in srgb, var(--scroll-border) 34%, transparent)",
+                      backdropFilter: "blur(10px)",
                       boxShadow: isActive
-                        ? "0 24px 70px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.06)"
-                        : "0 12px 40px rgba(0,0,0,0.12)",
+                        ? "0 34px 90px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.14)"
+                        : "0 12px 36px rgba(0,0,0,0.18)",
                     }}
                   >
-                    <div>
-                      <div className="flex items-start gap-5">
-                        <div
-                          className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl"
-                          style={{
-                            background:
-                              "linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))",
-                          }}
-                        >
-                          {logoSrc && isDisplayableImageUrl(logoSrc) ? (
-                            <Image
-                              src={logoSrc}
-                              alt={project.logo?.alt || `${project.name} logo`}
-                              fill
-                              sizes="64px"
-                              className="object-contain p-2"
-                              draggable={false}
-                            />
-                          ) : (
-                            <div
-                              className="flex h-full w-full items-center justify-center text-xs font-semibold uppercase tracking-wide"
-                              style={{ color: "var(--scroll-muted-fg)" }}
-                            >
-                              {project.name.slice(0, 2)}
-                            </div>
-                          )}
-                        </div>
-                        <div className="min-w-0 pt-0.5">
-                          <h3
-                            className="text-xl font-semibold tracking-tight md:text-2xl"
-                            style={{ color: "var(--scroll-fg)" }}
+                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-[auto,1fr] sm:gap-7">
+                      <div
+                        className="relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl sm:h-24 sm:w-24"
+                        style={{
+                          background:
+                            "linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.02))",
+                          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.2)",
+                        }}
+                      >
+                        {logoSrc && isDisplayableImageUrl(logoSrc) ? (
+                          <Image
+                            src={logoSrc}
+                            alt={project.logo?.alt || `${project.name} logo`}
+                            fill
+                            sizes="96px"
+                            className="object-contain p-2.5"
+                            draggable={false}
+                          />
+                        ) : (
+                          <div
+                            className="flex h-full w-full items-center justify-center text-xs font-semibold uppercase tracking-wide"
+                            style={{ color: "var(--scroll-muted-fg)" }}
                           >
-                            {project.name}
-                          </h3>
-                        </div>
+                            {project.name.slice(0, 2)}
+                          </div>
+                        )}
                       </div>
+
+                      <div className="min-w-0">
+                        <p
+                          className="text-[10px] uppercase tracking-[0.24em] md:text-xs"
+                          style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 75%, transparent)" }}
+                        >
+                          Featured project
+                        </p>
+                        <h3
+                          className="mt-2 text-[1.9rem] font-semibold leading-[1.05] tracking-tight md:text-[2.45rem]"
+                          style={{ color: "var(--scroll-fg)" }}
+                        >
+                          {project.name}
+                        </h3>
+                      </div>
+                    </div>
+
+                    <div className="mt-8 max-w-[52ch]">
                       {summary ? (
                         <p
-                          className="mt-6 text-sm leading-relaxed text-pretty md:text-[15px]"
-                          style={{ color: "var(--scroll-muted-fg)" }}
+                          className="text-sm leading-relaxed text-pretty md:text-base"
+                          style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 88%, transparent)" }}
                         >
                           {summary}
                         </p>
                       ) : (
-                        <p className="mt-6 text-sm italic" style={{ color: "var(--scroll-muted-fg)" }}>
+                        <p className="text-sm italic" style={{ color: "var(--scroll-muted-fg)" }}>
                           Add a one-line descriptor in Sanity.
                         </p>
                       )}
                     </div>
 
-                    <div className="mt-8 flex flex-wrap items-center gap-3">
+                    <div className="mt-10 flex flex-wrap items-center gap-4">
                       <Link
                         href={`/projects/${project.slug}`}
-                        className="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-medium transition hover:brightness-110"
+                        className="group/cta inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-medium transition duration-300 hover:-translate-y-0.5"
                         style={{
-                          background: "linear-gradient(120deg, hsl(15,80%,52%), hsl(15,70%,42%))",
-                          color: "#0c0c0e",
+                          background: "linear-gradient(120deg, hsl(15,80%,55%), hsl(15,70%,44%))",
+                          color: "#111214",
+                          boxShadow: "0 10px 24px rgba(0,0,0,0.22)",
                         }}
                         onClick={(e) => e.stopPropagation()}
                       >
                         Read more
+                        <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
                       </Link>
                       {project.demo ? (
                         <a
@@ -263,24 +297,47 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
         </div>
 
         {count > 1 ? (
-          <div className="mt-10 flex justify-center gap-2 px-6">
-            {projects.map((p, i) => (
-              <button
-                key={p.slug}
-                type="button"
-                onClick={() => setActiveIndex(i)}
-                className={cn(
-                  "h-1.5 rounded-full transition-all duration-300",
-                  i === activeIndex ? "w-9 bg-[hsl(15,80%,52%)]" : "w-1.5 bg-white/20 hover:bg-white/35",
-                )}
-                aria-label={`Show project: ${p.name}`}
-                aria-pressed={i === activeIndex}
-              />
-            ))}
+          <div className="mt-12 px-6">
+            <div className="mx-auto flex w-full max-w-md items-center justify-between">
+              <span className="text-xs tabular-nums" style={{ color: "var(--scroll-muted-fg)" }}>
+                {String(activeIndex + 1).padStart(2, "0")}
+              </span>
+              <div
+                className="relative mx-4 h-1 flex-1 overflow-hidden rounded-full"
+                style={{ backgroundColor: "color-mix(in srgb, var(--scroll-border) 34%, transparent)" }}
+              >
+                <motion.div
+                  className="absolute left-0 top-0 h-full rounded-full"
+                  style={{
+                    width: `${100 / count}%`,
+                    background: "linear-gradient(90deg, hsl(15,80%,55%), hsl(15,70%,42%))",
+                  }}
+                  animate={{ x: `${activeIndex * 100}%` }}
+                  transition={trackTransition}
+                />
+              </div>
+              <span className="text-xs tabular-nums" style={{ color: "var(--scroll-muted-fg)" }}>
+                {String(count).padStart(2, "0")}
+              </span>
+            </div>
+            <div className="mt-4 flex justify-center gap-2">
+              {projects.map((p, i) => (
+                <button
+                  key={p.slug}
+                  type="button"
+                  onClick={() => setActiveIndex(i)}
+                  className={cn(
+                    "h-1.5 rounded-full transition-all duration-300",
+                    i === activeIndex ? "w-12 bg-[hsl(15,80%,55%)]" : "w-2.5 bg-white/20 hover:bg-white/35",
+                  )}
+                  aria-label={`Show project: ${p.name}`}
+                  aria-pressed={i === activeIndex}
+                />
+              ))}
+            </div>
           </div>
         ) : null}
 
-        {/* Mobile controls */}
         {count > 1 ? (
           <div className="mt-6 flex justify-center gap-4 md:hidden">
             <button
