@@ -31,6 +31,13 @@ export const projectType = defineType({
     defineField({ name: "lessons", title: "Lessons", type: "array", of: [{ type: "string" }] }),
     defineField({ name: "futureWork", title: "Future Work", type: "text", rows: 4 }),
     defineField({
+      name: "liveUrl",
+      title: "Live App URL",
+      description: "Optional public domain for deployed web apps (adds a button on the project detail page).",
+      type: "url",
+      validation: (rule) => rule.uri({ scheme: ["http", "https"] }),
+    }),
+    defineField({
       name: "demo",
       title: "Demo Video",
       description: "Upload a video file for the project demo.",

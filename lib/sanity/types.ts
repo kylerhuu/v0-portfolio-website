@@ -45,6 +45,7 @@ export type CmsProject = {
   impact: string[];
   lessons: string[];
   futureWork?: string;
+  liveUrl?: string;
   media?: SanityImageRef[];
   demo?: string;
   videoPoster?: string;

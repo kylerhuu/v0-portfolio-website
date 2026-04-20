@@ -52,6 +52,17 @@ export function ProjectDetailsPage({ project, caseStudy }: ProjectDetailsPagePro
               >
                 Legal
               </Link>
+              {project.liveUrl ? (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border px-4 py-1.5 text-sm font-medium transition-colors hover:bg-accent"
+                  style={{ borderColor: "var(--scroll-border)", color: "var(--scroll-fg)" }}
+                >
+                  Visit site
+                </a>
+              ) : null}
               {project.demo ? (
                 <a
                   href={project.demo}

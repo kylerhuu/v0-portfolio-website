@@ -96,6 +96,7 @@ export const projectsQuery = groq`
     impact,
     lessons,
     futureWork,
+    liveUrl,
     "demo": select(
       defined(demo.asset->url) => demo.asset->url,
       demo
@@ -141,6 +142,7 @@ export const projectBySlugQuery = groq`
     impact,
     lessons,
     futureWork,
+    liveUrl,
     "demo": select(
       defined(demo.asset->url) => demo.asset->url,
       demo
