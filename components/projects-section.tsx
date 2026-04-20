@@ -50,6 +50,10 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
     ? { duration: 0.18, ease: "easeOut" as const }
     : { type: "spring" as const, stiffness: 300, damping: 30, mass: 0.78 };
 
+  const haloTransition = reduceMotion
+    ? { duration: 0.35, ease: "easeOut" as const }
+    : { type: "spring" as const, stiffness: 170, damping: 34, mass: 0.95 };
+
   const active = projects[activeIndex];
   const featuredSet = new Set(featuredSlugs);
 
@@ -166,7 +170,7 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                 const rotateY = isCenter ? 0 : rel > 0 ? -12 : 12;
                 const rotateZ = isCenter ? 0 : rel > 0 ? -0.3 : 0.3;
                 const opacity = isCenter ? 1 : isNear ? 0.34 : 0;
-                const haloStrength = Math.min(1, opacity / (isNear ? 0.34 : 1));
+                const haloStrength = Math.min(1, opacity / 0.34);
 
                 return (
                   <motion.article
@@ -192,10 +196,10 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                           className="pointer-events-none absolute -inset-8 rounded-[42px]"
                           animate={{
                             opacity: 0.72 * haloStrength,
-                            scale: 1.02 + 0.03 * haloStrength,
+                            scale: 1.03,
                             filter: "blur(24px)",
                           }}
-                          transition={trackTransition}
+                          transition={haloTransition}
                           style={{
                             background:
                               "radial-gradient(circle at 50% 52%, rgba(255,221,138,0.34) 0%, rgba(244,186,74,0.2) 30%, rgba(238,173,54,0.12) 52%, transparent 76%)",
@@ -204,8 +208,8 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                         />
                         <motion.div
                           className="pointer-events-none absolute -inset-10 rounded-[46px]"
-                          animate={{ opacity: 0.24 * haloStrength, scale: 1.01 + 0.02 * haloStrength }}
-                          transition={trackTransition}
+                          animate={{ opacity: 0.24 * haloStrength, scale: 1.02 }}
+                          transition={haloTransition}
                           style={{
                             background:
                               "radial-gradient(circle at 50% 50%, rgba(255,228,160,0.24) 0%, rgba(246,189,84,0.12) 36%, transparent 76%)",
