@@ -28,6 +28,13 @@ type ProjectsSectionProps = {
   featuredSlugs?: string[];
 };
 
+const carouselNearCardShadow = "0 12px 36px rgba(0,0,0,0.22)";
+const carouselCenterCardShadow =
+  "0 34px 92px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.14)";
+/** Softer than default center so the featured gold read does not “clamp” when the slot becomes active. */
+const carouselCenterCardShadowFeatured =
+  "0 26px 70px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.14)";
+
 export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectionProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const reduceMotion = useReducedMotion();
@@ -169,9 +176,21 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                 const scale = isCenter ? 1 : 0.86;
                 const rotateY = isCenter ? 0 : rel > 0 ? -12 : 12;
                 const rotateZ = isCenter ? 0 : rel > 0 ? -0.3 : 0.3;
-                const cardOpacity = isCenter ? 1 : isNear ? 0.34 : 0;
-                const auraOpacity = isFeatured ? (isCenter ? 0.55 : 0.22) : 0;
-                const washOpacity = isFeatured ? (isCenter ? 0.52 : 0.34) : 0;
+                const slotOpacity = isCenter ? 1 : isNear ? 0.34 : 0;
+                /** Matches aura strength × slot dim so opacity can tween smoothly (no step when `isCenter` flips). */
+                const auraPaintOpacity = isFeatured
+                  ? isCenter
+                    ? 0.55
+                    : isNear
+                      ? 0.22 * 0.34
+                      : 0
+                  : 0;
+                const washPaintOpacity = isFeatured ? (isCenter ? 0.52 : isNear ? 0.34 : 0) : 0;
+                const cardBoxShadow = isCenter
+                  ? isFeatured
+                    ? carouselCenterCardShadowFeatured
+                    : carouselCenterCardShadow
+                  : carouselNearCardShadow;
 
                 return (
                   <motion.article
@@ -192,27 +211,30 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                     }}
                     aria-hidden={!isCenter}
                   >
+                    {isFeatured ? (
+                      <motion.div
+                        className="pointer-events-none absolute -inset-10 rounded-[36px]"
+                        animate={{ opacity: auraPaintOpacity }}
+                        transition={cardOpacityTransition}
+                        style={{
+                          transform: "scale(1.02)",
+                          filter: "blur(26px)",
+                          background:
+                            "radial-gradient(circle at 50% 48%, rgba(255,224,150,0.34) 0%, rgba(244,186,74,0.18) 34%, rgba(238,173,54,0.1) 56%, transparent 78%)",
+                          zIndex: -1,
+                        }}
+                      />
+                    ) : null}
+
                     <motion.div
                       className="relative h-full w-full"
-                      animate={{ opacity: cardOpacity }}
+                      animate={{ opacity: slotOpacity }}
                       transition={cardOpacityTransition}
                     >
-                      {isFeatured ? (
-                        <div
-                          className="pointer-events-none absolute -inset-10 rounded-[36px]"
-                          style={{
-                            opacity: auraOpacity,
-                            transform: "scale(1.02)",
-                            filter: "blur(26px)",
-                            background:
-                              "radial-gradient(circle at 50% 48%, rgba(255,224,150,0.34) 0%, rgba(244,186,74,0.18) 34%, rgba(238,173,54,0.1) 56%, transparent 78%)",
-                            zIndex: -1,
-                          }}
-                        />
-                      ) : null}
-
-                      <div
+                      <motion.div
                         className="relative rounded-[28px] px-5 py-6 md:px-7 md:py-7"
+                        animate={{ boxShadow: cardBoxShadow }}
+                        transition={trackTransition}
                         style={{
                           background:
                             "linear-gradient(152deg, color-mix(in srgb, var(--scroll-card-bg) 84%, transparent), color-mix(in srgb, var(--scroll-card-bg) 48%, transparent))",
@@ -220,16 +242,14 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                             ? "1px solid color-mix(in srgb, hsl(43,88%,70%) 24%, var(--scroll-border))"
                             : "1px solid color-mix(in srgb, var(--scroll-border) 28%, transparent)",
                           backdropFilter: "blur(10px)",
-                          boxShadow: isCenter
-                            ? "0 34px 92px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.14)"
-                            : "0 12px 36px rgba(0,0,0,0.22)",
                         }}
                       >
                         {isFeatured ? (
-                          <div
+                          <motion.div
                             className="pointer-events-none absolute inset-0 rounded-[28px]"
+                            animate={{ opacity: washPaintOpacity }}
+                            transition={cardOpacityTransition}
                             style={{
-                              opacity: washOpacity,
                               background:
                                 "radial-gradient(circle at 12% -8%, rgba(255,228,160,0.14), rgba(255,228,160,0.03) 40%, transparent 72%)",
                               filter: "blur(0.4px)",
@@ -386,7 +406,7 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                           </div>
                         </div>
                       </div>
-                      </div>
+                    </motion.div>
                     </motion.div>
                   </motion.article>
                 );
