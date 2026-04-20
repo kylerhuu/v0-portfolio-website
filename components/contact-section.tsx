@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Mail, Linkedin, Phone } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
@@ -65,12 +66,19 @@ export function ContactSection() {
           className="mt-24 pt-8"
           style={{ borderTop: "1px solid var(--scroll-border)" }}
         >
-          <p
-            className="text-xs"
-            style={{ color: "var(--scroll-muted-fg)" }}
-          >
-            {"Built with intention. \u00A9 2026"}
-          </p>
+          <div className="flex flex-col items-center gap-3">
+            <p className="text-xs" style={{ color: "var(--scroll-muted-fg)" }}>
+              {"Built with intention. \u00A9 2026"}
+            </p>
+            <div className="flex items-center gap-4 text-xs" style={{ color: "var(--scroll-muted-fg)" }}>
+              <Link href="/privacy-policy" className="hover:text-[hsl(15,80%,55%)] transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/terms-of-service" className="hover:text-[hsl(15,80%,55%)] transition-colors">
+                Terms of Service
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </section>

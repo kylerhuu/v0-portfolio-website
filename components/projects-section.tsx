@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { EXPERIENCES, type Experience } from "@/data/experiences";
+import { PROJECTS, type Project } from "@/data/projects";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 function isImageFile(file: string) {
@@ -26,21 +26,22 @@ function isDocumentFile(file: string) {
   return file.endsWith(".pdf");
 }
 
-function ExperienceCard({
-  experience,
+function ProjectCard({
+  project,
   onClick,
   index,
   isVisible,
 }: {
-  experience: Experience;
+  project: Project;
   onClick: () => void;
   index: number;
   isVisible: boolean;
 }) {
-  const preview = experience.media?.[0];
+  const preview = project.media?.[0];
 
   return (
     <button
+      id={`project-${project.slug}`}
       type="button"
       onClick={onClick}
       className={`group w-full text-left p-6 rounded-lg border transition-all duration-500 ease-out hover:shadow-lg hover:-translate-y-1 ${
@@ -56,7 +57,7 @@ function ExperienceCard({
         <div className="mb-3 w-full rounded-lg overflow-hidden relative" style={{ paddingTop: "56.25%" }}>
           <Image
             src={preview}
-            alt={`${experience.company}-preview`}
+            alt={`${project.name}-preview`}
             fill
             sizes="(min-width: 768px) 32rem, 100vw"
             className="absolute top-0 left-0 object-cover"
@@ -64,20 +65,15 @@ function ExperienceCard({
         </div>
       )}
       <h3 className="text-lg font-semibold mb-1" style={{ color: "var(--scroll-fg)" }}>
-        {experience.company}
+        {project.name}
       </h3>
-      <p className="text-xs font-medium mb-1 text-[hsl(15,80%,55%)]">{experience.title}</p>
-      <p className="text-xs mb-3" style={{ color: "var(--scroll-muted-fg)" }}>
-        {experience.duration}
-        {experience.location ? ` • ${experience.location}` : ""}
-      </p>
       <p className="text-sm mb-4 leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
-        {experience.summary}
+        {project.oneLiner}
       </p>
       <div className="flex flex-wrap gap-2">
-        {experience.skills.map((skill) => (
+        {project.stack.slice(0, 4).map((tech) => (
           <Badge
-            key={skill}
+            key={tech}
             variant="secondary"
             className="text-xs"
             style={{
@@ -86,7 +82,7 @@ function ExperienceCard({
               border: "1px solid var(--scroll-border)",
             }}
           >
-            {skill}
+            {tech}
           </Badge>
         ))}
       </div>
@@ -104,18 +100,14 @@ function BulletList({ items }: { items: string[] }) {
   );
 }
 
-export function ExperiencesSection() {
-  const [selected, setSelected] = useState<Experience | null>(null);
+export function ProjectsSection() {
+  const [selected, setSelected] = useState<Project | null>(null);
   const [previewMedia, setPreviewMedia] = useState<string | null>(null);
   const { ref: headingRef, isVisible: headingVisible } = useScrollReveal();
   const { ref: cardsRef, isVisible: cardsVisible } = useScrollReveal(0.05);
 
-  const resultItems =
-    selected && selected.outcomes.length > 1 ? selected.outcomes.slice(0, selected.outcomes.length - 1) : selected?.outcomes ?? [];
-  const learnedItem = selected?.outcomes[selected.outcomes.length - 1];
-
   return (
-    <section id="experiences" className="relative z-10 px-6 py-24 md:py-32">
+    <section id="projects" className="relative z-10 px-6 py-24 md:py-32">
       <div className="mx-auto max-w-4xl">
         <div
           ref={headingRef}
@@ -124,19 +116,19 @@ export function ExperiencesSection() {
           }`}
         >
           <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-4">
-            Experiences
+            Projects
           </h2>
           <p className="text-2xl md:text-3xl font-medium mb-12 text-pretty" style={{ color: "var(--scroll-fg)" }}>
-            Roles where I drove execution, strategy, and outcomes.
+            Products and technical builds with clear execution tradeoffs.
           </p>
         </div>
 
         <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {EXPERIENCES.map((experience, i) => (
-            <ExperienceCard
-              key={experience.id}
-              experience={experience}
-              onClick={() => setSelected(experience)}
+          {PROJECTS.map((project, i) => (
+            <ProjectCard
+              key={project.slug}
+              project={project}
+              onClick={() => setSelected(project)}
               index={i}
               isVisible={cardsVisible}
             />
@@ -148,67 +140,82 @@ export function ExperiencesSection() {
         <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-card border-border text-foreground">
           <DialogHeader>
             <div className="flex items-start justify-between gap-4">
-              <div>
-                <DialogTitle className="text-xl font-bold">{selected?.company}</DialogTitle>
-                <p className="text-sm text-muted-foreground mt-1">
-                  {selected?.title} • {selected?.duration}
-                </p>
+              <DialogTitle className="text-xl font-bold">{selected?.name}</DialogTitle>
+              <div className="flex items-center gap-2">
+                {selected?.hasCaseStudy && (
+                  <Link
+                    href={`/projects/${selected.slug}`}
+                    className="shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
+                  >
+                    Project Details
+                  </Link>
+                )}
+                {selected?.demo && (
+                  <button
+                    type="button"
+                    onClick={() => setPreviewMedia(selected.demo ?? null)}
+                    className="shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
+                  >
+                    Play Demo
+                  </button>
+                )}
               </div>
-              {selected?.hasCaseStudy && selected.caseStudySlug && (
-                <Link
-                  href={`/projects/${selected.caseStudySlug}`}
-                  className="shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
-                >
-                  View Details
-                </Link>
-              )}
             </div>
-            <DialogDescription className="text-muted-foreground">{selected?.summary}</DialogDescription>
+            <DialogDescription className="text-muted-foreground">{selected?.oneLiner}</DialogDescription>
           </DialogHeader>
 
           {selected && (
             <div className="flex flex-col gap-6 mt-2">
               <div>
                 <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
-                  Context
+                  Problem
                 </h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">{selected.summary}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{selected.problem}</p>
               </div>
 
               <div>
                 <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
-                  Responsibilities
+                  My Role
                 </h4>
-                <BulletList items={selected.responsibilities} />
+                <p className="text-sm text-muted-foreground leading-relaxed">{selected.myRole}</p>
               </div>
 
               <div>
                 <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
-                  Execution
+                  Tech Stack
                 </h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">{selected.tools.join(", ")}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{selected.stack.join(", ")}</p>
               </div>
 
-              <div>
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
-                  Results
-                </h4>
-                <BulletList items={resultItems} />
-              </div>
-
-              <div>
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
-                  Key Skills
-                </h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">{selected.skills.join(", ")}</p>
-              </div>
-
-              {learnedItem && (
+              {selected.architecture && (
                 <div>
                   <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
-                    What I Learned
+                    Architecture
                   </h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{learnedItem}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{selected.architecture}</p>
+                </div>
+              )}
+
+              <div>
+                <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
+                  Impact
+                </h4>
+                <BulletList items={selected.impact} />
+              </div>
+
+              <div>
+                <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
+                  Key Lessons
+                </h4>
+                <BulletList items={selected.lessons} />
+              </div>
+
+              {selected.futureWork && (
+                <div>
+                  <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
+                    Future Improvements
+                  </h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{selected.futureWork}</p>
                 </div>
               )}
 
@@ -226,7 +233,7 @@ export function ExperiencesSection() {
                         >
                           <Image
                             src={file}
-                            alt={`${selected.company}-media-${i}`}
+                            alt={`${selected.name}-media-${i}`}
                             fill
                             sizes="256px"
                             className="object-contain"
@@ -239,7 +246,7 @@ export function ExperiencesSection() {
                         <iframe
                           key={file}
                           src={file}
-                          title={`${selected.company}-document-${i}`}
+                          title={`${selected.name}-document-${i}`}
                           loading="lazy"
                           className={`${commonClasses} w-64 h-80`}
                           onClick={() => setPreviewMedia(file)}
@@ -288,6 +295,7 @@ export function ExperiencesSection() {
                 autoPlay
                 muted
                 playsInline
+                poster={selected?.videoPoster}
                 preload="auto"
                 className="w-full h-auto rounded-lg"
               />

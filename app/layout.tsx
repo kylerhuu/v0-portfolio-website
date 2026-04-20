@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-sans antialiased">{children}</body>
+      <body className={`${_geist.className} ${_geistMono.className} font-sans antialiased`}>{children}</body>
     </html>
   );
 }
