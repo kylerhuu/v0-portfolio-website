@@ -186,18 +186,45 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                     aria-hidden={!isCenter}
                   >
                     {isFeatured ? (
-                      <div
-                        className="pointer-events-none absolute -inset-5 rounded-[36px]"
-                        style={{
-                          background: isCenter
-                            ? "radial-gradient(circle at 50% 50%, rgba(255,219,135,0.3) 0%, rgba(245,182,66,0.2) 28%, rgba(236,170,50,0.1) 48%, transparent 72%)"
-                            : "radial-gradient(circle at 50% 50%, rgba(255,219,135,0.18) 0%, rgba(245,182,66,0.1) 35%, transparent 72%)",
-                          filter: isCenter ? "blur(22px)" : "blur(16px)",
-                          opacity: isCenter ? 0.92 : 0.58,
-                          transform: isCenter ? "scale(1.04)" : "scale(1.01)",
-                          zIndex: -1,
-                        }}
-                      />
+                      <>
+                        <motion.div
+                          className="pointer-events-none absolute -inset-8 rounded-[42px]"
+                          animate={{
+                            opacity: isCenter ? 0.86 : 0.48,
+                            scale: isCenter ? 1.06 : 1.01,
+                            filter: isCenter ? "blur(26px)" : "blur(18px)",
+                          }}
+                          transition={trackTransition}
+                          style={{
+                            background:
+                              "radial-gradient(circle at 50% 52%, rgba(255,221,138,0.34) 0%, rgba(244,186,74,0.2) 30%, rgba(238,173,54,0.12) 52%, transparent 76%)",
+                            zIndex: -1,
+                          }}
+                        />
+                        <motion.div
+                          className="pointer-events-none absolute -inset-10 rounded-[46px]"
+                          animate={
+                            reduceMotion
+                              ? { opacity: isCenter ? 0.36 : 0.14, scale: isCenter ? 1.03 : 1 }
+                              : isCenter
+                                ? { opacity: [0.22, 0.38, 0.22], scale: [1.01, 1.06, 1.01] }
+                                : { opacity: 0.12, scale: 1 }
+                          }
+                          transition={
+                            reduceMotion
+                              ? { duration: 0.2, ease: "easeOut" }
+                              : isCenter
+                                ? { duration: 2.6, ease: "easeInOut", repeat: Infinity }
+                                : { duration: 0.3, ease: "easeOut" }
+                          }
+                          style={{
+                            background:
+                              "radial-gradient(circle at 50% 50%, rgba(255,228,160,0.24) 0%, rgba(246,189,84,0.12) 36%, transparent 76%)",
+                            filter: "blur(30px)",
+                            zIndex: -2,
+                          }}
+                        />
+                      </>
                     ) : null}
 
                     <div
@@ -223,9 +250,9 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                           className="pointer-events-none absolute inset-0 rounded-[28px]"
                           style={{
                             background:
-                              "radial-gradient(circle at 12% -8%, rgba(255,228,160,0.2), rgba(255,228,160,0.03) 38%, transparent 72%)",
+                              "radial-gradient(circle at 12% -8%, rgba(255,228,160,0.14), rgba(255,228,160,0.03) 40%, transparent 72%)",
                             filter: "blur(0.4px)",
-                            opacity: isCenter ? 1 : 0.72,
+                            opacity: 0.62,
                           }}
                         />
                       ) : null}
