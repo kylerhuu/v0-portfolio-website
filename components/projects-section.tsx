@@ -186,23 +186,34 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                     aria-hidden={!isCenter}
                   >
                     <div
-                      className="rounded-[28px] px-5 py-6 md:px-7 md:py-7"
+                      className="relative rounded-[28px] px-5 py-6 md:px-7 md:py-7"
                       style={{
                         background:
                           "linear-gradient(152deg, color-mix(in srgb, var(--scroll-card-bg) 84%, transparent), color-mix(in srgb, var(--scroll-card-bg) 48%, transparent))",
                         border: isFeatured
-                          ? "1px solid color-mix(in srgb, hsl(43,92%,65%) 60%, var(--scroll-border))"
+                          ? "1px solid color-mix(in srgb, hsl(43,88%,70%) 24%, var(--scroll-border))"
                           : "1px solid color-mix(in srgb, var(--scroll-border) 28%, transparent)",
                         backdropFilter: "blur(10px)",
                         boxShadow: isCenter
                           ? isFeatured
-                            ? "0 0 0 1px rgba(255,212,107,0.32), 0 34px 92px rgba(0,0,0,0.38), 0 0 42px rgba(236,180,58,0.25), inset 0 1px 0 rgba(255,255,255,0.14)"
+                            ? "0 34px 92px rgba(0,0,0,0.38), 0 0 54px rgba(236,180,58,0.18), inset 0 1px 0 rgba(255,255,255,0.14)"
                             : "0 34px 92px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.14)"
                           : isFeatured
-                            ? "0 12px 36px rgba(0,0,0,0.22), 0 0 18px rgba(236,180,58,0.16)"
+                            ? "0 12px 36px rgba(0,0,0,0.22), 0 0 22px rgba(236,180,58,0.12)"
                             : "0 12px 36px rgba(0,0,0,0.22)",
                       }}
                     >
+                      {isFeatured ? (
+                        <div
+                          className="pointer-events-none absolute inset-0 rounded-[28px]"
+                          style={{
+                            background:
+                              "radial-gradient(circle at 12% -8%, rgba(255,228,160,0.2), rgba(255,228,160,0.03) 38%, transparent 72%)",
+                            filter: "blur(0.4px)",
+                            opacity: isCenter ? 1 : 0.72,
+                          }}
+                        />
+                      ) : null}
                       <div className="grid min-h-[340px] grid-cols-1 gap-6 md:min-h-[370px] md:grid-cols-[40%,1fr] md:gap-7">
                         <div
                           className="relative h-[220px] overflow-hidden rounded-[22px] md:h-[290px]"
