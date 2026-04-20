@@ -41,24 +41,33 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
   }, [activeIndex, count]);
 
   const trackTransition = reduceMotion
-    ? { duration: 0.24, ease: "easeOut" as const }
-    : { type: "spring" as const, stiffness: 280, damping: 34, mass: 0.85 };
+    ? { duration: 0.2, ease: "easeOut" as const }
+    : { type: "spring" as const, stiffness: 340, damping: 32, mass: 0.72 };
 
   const active = projects[activeIndex];
-  const prevIdx = (activeIndex - 1 + count) % count;
-  const nextIdx = (activeIndex + 1) % count;
-  const prev = projects[prevIdx];
-  const next = projects[nextIdx];
+  const activeVisual = projectVisualUrl(active);
 
   const slideMotion = useMemo(
     () => ({
       initial: reduceMotion
-        ? { opacity: 0, x: 0, scale: 1 }
-        : { opacity: 0, x: direction * 44, scale: 0.985, filter: "blur(2px)" },
-      animate: { opacity: 1, x: 0, scale: 1, filter: "blur(0px)" },
+        ? { opacity: 0.96, x: 0, scale: 1 }
+        : {
+            opacity: 0.86,
+            x: direction * 92,
+            rotateY: direction * -9,
+            scale: 0.97,
+            filter: "blur(1px)",
+          },
+      animate: { opacity: 1, x: 0, rotateY: 0, scale: 1, filter: "blur(0px)" },
       exit: reduceMotion
-        ? { opacity: 0, x: 0, scale: 1 }
-        : { opacity: 0, x: direction * -36, scale: 0.985, filter: "blur(2px)" },
+        ? { opacity: 0.96, x: 0, scale: 1 }
+        : {
+            opacity: 0.82,
+            x: direction * -96,
+            rotateY: direction * 9,
+            scale: 0.97,
+            filter: "blur(1px)",
+          },
     }),
     [direction, reduceMotion],
   );
@@ -125,7 +134,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                 <button
                   type="button"
                   onClick={() => go(-1)}
-                  className="absolute left-0 top-1/2 z-20 hidden -translate-x-full -translate-y-1/2 rounded-full p-3.5 shadow-lg backdrop-blur-md transition-all hover:scale-[1.04] md:flex md:items-center md:justify-center"
+                  className="absolute left-0 top-1/2 z-20 hidden -translate-x-[130%] -translate-y-1/2 rounded-full p-3.5 shadow-lg backdrop-blur-md transition-all hover:scale-[1.04] md:flex md:items-center md:justify-center"
                   style={{
                     color: "var(--scroll-fg)",
                     backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 68%, transparent)",
@@ -139,7 +148,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                 <button
                   type="button"
                   onClick={() => go(1)}
-                  className="absolute right-0 top-1/2 z-20 hidden translate-x-full -translate-y-1/2 rounded-full p-3.5 shadow-lg backdrop-blur-md transition-all hover:scale-[1.04] md:flex md:items-center md:justify-center"
+                  className="absolute right-0 top-1/2 z-20 hidden translate-x-[130%] -translate-y-1/2 rounded-full p-3.5 shadow-lg backdrop-blur-md transition-all hover:scale-[1.04] md:flex md:items-center md:justify-center"
                   style={{
                     color: "var(--scroll-fg)",
                     backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 68%, transparent)",
@@ -153,46 +162,6 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
               </>
             ) : null}
 
-            {/* Optional subdued side previews, hidden on narrower screens. */}
-            {count > 1 ? (
-              <>
-                <button
-                  type="button"
-                  onClick={() => goTo(prevIdx)}
-                  className="absolute left-0 top-1/2 z-10 hidden w-44 -translate-x-[74%] -translate-y-1/2 rounded-2xl p-4 text-left xl:block"
-                  style={{
-                    background:
-                      "linear-gradient(145deg, color-mix(in srgb, var(--scroll-card-bg) 70%, transparent), color-mix(in srgb, var(--scroll-card-bg) 30%, transparent))",
-                    border: "1px solid color-mix(in srgb, var(--scroll-border) 35%, transparent)",
-                    opacity: 0.26,
-                    filter: "blur(0.5px)",
-                  }}
-                  aria-label={`Show project: ${prev.name}`}
-                >
-                  <p className="truncate text-sm font-medium" style={{ color: "var(--scroll-fg)" }}>
-                    {prev.name}
-                  </p>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => goTo(nextIdx)}
-                  className="absolute right-0 top-1/2 z-10 hidden w-44 translate-x-[74%] -translate-y-1/2 rounded-2xl p-4 text-left xl:block"
-                  style={{
-                    background:
-                      "linear-gradient(145deg, color-mix(in srgb, var(--scroll-card-bg) 70%, transparent), color-mix(in srgb, var(--scroll-card-bg) 30%, transparent))",
-                    border: "1px solid color-mix(in srgb, var(--scroll-border) 35%, transparent)",
-                    opacity: 0.26,
-                    filter: "blur(0.5px)",
-                  }}
-                  aria-label={`Show project: ${next.name}`}
-                >
-                  <p className="truncate text-sm font-medium" style={{ color: "var(--scroll-fg)" }}>
-                    {next.name}
-                  </p>
-                </button>
-              </>
-            ) : null}
-
             <AnimatePresence mode="wait" custom={direction}>
               <motion.article
                 key={active.slug}
@@ -202,6 +171,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                 exit={slideMotion.exit}
                 transition={trackTransition}
                 className="relative w-full"
+                style={{ transformPerspective: 1600 }}
               >
                 <div
                   className="rounded-[28px] px-5 py-6 md:px-7 md:py-7"
@@ -246,9 +216,9 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                             "linear-gradient(to top, color-mix(in srgb, var(--scroll-card-bg) 40%, transparent), transparent)",
                         }}
                       />
-                      {projectVisualUrl(active) && isDisplayableImageUrl(projectVisualUrl(active)!) ? (
+                      {activeVisual && isDisplayableImageUrl(activeVisual) ? (
                         <Image
-                          src={projectVisualUrl(active)!}
+                          src={activeVisual}
                           alt={active.logo?.alt || `${active.name} visual`}
                           fill
                           sizes="(min-width: 768px) 320px, 82vw"
