@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Mail, Linkedin, Phone } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
-const LINKS = [
+const FALLBACK_LINKS = [
   {
     icon: Mail,
     label: "kylerhu1549@gmail.com",
@@ -22,8 +22,48 @@ const LINKS = [
   },
 ];
 
-export function ContactSection() {
+type ContactSectionProps = {
+  headline?: string;
+  footerText?: string;
+  contactEmail?: string;
+  socialLinks?: Array<{
+    label?: string;
+    url?: string;
+  }>;
+};
+
+function iconForUrl(url: string) {
+  const lowered = url.toLowerCase();
+  if (lowered.startsWith("mailto:")) return Mail;
+  if (lowered.startsWith("tel:")) return Phone;
+  if (lowered.includes("linkedin.com")) return Linkedin;
+  return Mail;
+}
+
+function normalizeContactLinks(
+  contactEmail?: string,
+  socialLinks?: Array<{ label?: string; url?: string }>,
+) {
+  const links: Array<{ icon: typeof Mail; label: string; href: string }> = [];
+  const email = contactEmail?.trim();
+  if (email) {
+    links.push({ icon: Mail, label: email, href: `mailto:${email}` });
+  }
+  (socialLinks || []).forEach((item) => {
+    const href = item.url?.trim();
+    if (!href) return;
+    const label = item.label?.trim() || href;
+    links.push({ icon: iconForUrl(href), label, href });
+  });
+  return links;
+}
+
+export function ContactSection({ headline, footerText, contactEmail, socialLinks }: ContactSectionProps) {
   const { ref, isVisible } = useScrollReveal();
+  const resolvedHeadline = headline?.trim() || "Let's build something together.";
+  const resolvedFooter = footerText?.trim() || "Built with intention. \u00A9 2026";
+  const links = normalizeContactLinks(contactEmail, socialLinks);
+  const displayLinks = links.length > 0 ? links : FALLBACK_LINKS;
 
   return (
     <section id="contact" className="relative z-10 px-6 py-24 md:py-32">
@@ -40,16 +80,18 @@ export function ContactSection() {
           className="text-2xl md:text-3xl font-medium mb-12 text-pretty"
           style={{ color: "var(--scroll-fg)" }}
         >
-          {"Let's build something together."}
+          {resolvedHeadline}
         </p>
 
         <div className="flex flex-col items-center gap-6">
-          {LINKS.map((link) => (
+          {displayLinks.map((link) => {
+            const opensNewTab = /^https?:\/\//i.test(link.href);
+            return (
             <a
               key={link.label}
               href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={opensNewTab ? "_blank" : undefined}
+              rel={opensNewTab ? "noopener noreferrer" : undefined}
               className="group relative flex items-center gap-3 transition-all duration-300 hover:opacity-100"
               style={{ color: "var(--scroll-muted-fg)" }}
             >
@@ -59,7 +101,7 @@ export function ContactSection() {
                 <span className="absolute left-0 -bottom-0.5 h-px w-0 bg-[hsl(15,80%,55%)] group-hover:w-full transition-all duration-400 ease-out" />
               </span>
             </a>
-          ))}
+          )})}
         </div>
 
         <div
@@ -68,7 +110,7 @@ export function ContactSection() {
         >
           <div className="flex flex-col items-center gap-3">
             <p className="text-xs" style={{ color: "var(--scroll-muted-fg)" }}>
-              {"Built with intention. \u00A9 2026"}
+              {resolvedFooter}
             </p>
             <div className="flex items-center gap-4 text-xs" style={{ color: "var(--scroll-muted-fg)" }}>
               <Link href="/privacy-policy" className="hover:text-[hsl(15,80%,55%)] transition-colors">

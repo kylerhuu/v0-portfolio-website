@@ -6,8 +6,13 @@ export const siteSettingsType = defineType({
   type: "document",
   fields: [
     defineField({ name: "siteTitle", title: "Site Title", type: "string" }),
+    defineField({ name: "heroHeadline", title: "Hero Headline", type: "string" }),
+    defineField({ name: "heroHighlight", title: "Hero Highlight Text", type: "string" }),
+    defineField({ name: "heroSubhead", title: "Hero Subhead", type: "text", rows: 3 }),
     defineField({ name: "aboutBlurb", title: "About Blurb", type: "text", rows: 4 }),
     defineField({ name: "resumeUrl", title: "Resume URL", type: "url" }),
+    defineField({ name: "contactHeadline", title: "Contact Headline", type: "string" }),
+    defineField({ name: "footerText", title: "Footer Text", type: "string" }),
     defineField({
       name: "socialLinks",
       title: "Social Links",

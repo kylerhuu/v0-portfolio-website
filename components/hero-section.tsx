@@ -5,9 +5,20 @@ import { ArrowDown, Mail } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { useScrollColor } from "@/components/scroll-color-provider";
 
-export function HeroSection() {
+type HeroSectionProps = {
+  headline?: string;
+  highlight?: string;
+  subhead?: string;
+};
+
+export function HeroSection({ headline, highlight, subhead }: HeroSectionProps) {
   const { ref, isVisible } = useScrollReveal(0.1);
   const { isDark } = useScrollColor();
+  const heroHeadline = headline?.trim() || "Building Systems";
+  const heroHighlight = highlight?.trim() || "That Scale.";
+  const heroSubhead =
+    subhead?.trim() ||
+    "Business Administration @ USC expanding into Computer Science. Focused on AI-driven products and scaling high-leverage tools.";
 
   return (
     <section
@@ -29,7 +40,7 @@ export function HeroSection() {
             textShadow: isDark ? "0 2px 30px rgba(30, 8, 10, 0.5)" : "none",
           }}
         >
-          Building Systems
+          {heroHeadline}
           <br />
           <span
             className="bg-clip-text text-transparent"
@@ -37,15 +48,14 @@ export function HeroSection() {
               backgroundImage: "linear-gradient(135deg, hsl(0, 65%, 48%), hsl(18, 80%, 52%), hsl(35, 85%, 55%), hsl(42, 80%, 60%))",
             }}
           >
-            That Scale.
+            {heroHighlight}
           </span>
         </h1>
         <p
           className="mt-8 text-lg md:text-xl max-w-xl mx-auto leading-relaxed text-pretty"
           style={{ color: "var(--scroll-muted-fg)" }}
         >
-          Business Administration @ USC expanding into Computer Science. Focused on
-          AI-driven products and scaling high-leverage tools.
+          {heroSubhead}
         </p>
         <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button

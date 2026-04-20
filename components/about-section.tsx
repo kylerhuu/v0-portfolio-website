@@ -24,9 +24,16 @@ const HIGHLIGHTS = [
   },
 ];
 
-export function AboutSection() {
+type AboutSectionProps = {
+  aboutBlurb?: string;
+};
+
+export function AboutSection({ aboutBlurb }: AboutSectionProps) {
   const { ref: headingRef, isVisible: headingVisible } = useScrollReveal();
   const { ref: cardsRef, isVisible: cardsVisible } = useScrollReveal(0.1);
+  const blurb =
+    aboutBlurb?.trim() ||
+    "Hi, I'm Kyler. I build systems at the intersection of biology, AI, product management, and software engineering. My work focuses on creating tools that are robust, scalable, and genuinely useful. Currently focused on developing a highly technical background while learning real-world applications in business, growth, and tech.";
 
   return (
     <section id="about" className="relative z-10 px-6 py-24 md:py-32">
@@ -46,10 +53,7 @@ export function AboutSection() {
             className="text-2xl md:text-3xl font-medium leading-relaxed text-pretty max-w-2xl"
             style={{ color: "var(--scroll-fg)" }}
           >
-            Hi, I'm Kyler. I build systems at the intersection of biology, AI, product management, 
-            and software engineering. My work focuses on creating tools that are robust,
-            scalable, and genuinely useful. Currently focused on developing a highly technical
-            background while learning real-world applications in business, growth, and tech.
+            {blurb}
           </p>
         </div>
 

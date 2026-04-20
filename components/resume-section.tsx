@@ -4,8 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Download, FileText } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
-export function ResumeSection() {
+type ResumeSectionProps = {
+  resumeUrl?: string;
+};
+
+function canEmbedResume(url: string): boolean {
+  if (!url) return false;
+  const lowered = url.toLowerCase();
+  return lowered.endsWith(".pdf") || lowered.includes(".pdf?");
+}
+
+export function ResumeSection({ resumeUrl }: ResumeSectionProps) {
   const { ref, isVisible } = useScrollReveal();
+  const resolvedResumeUrl = (resumeUrl || "").trim() || "/Kyler Hu Resume copy.pdf";
+  const showEmbed = canEmbedResume(resolvedResumeUrl);
 
   return (
     <section id="resume" className="relative z-10 px-6 py-24 md:py-32">
@@ -59,7 +71,7 @@ export function ResumeSection() {
                 asChild
               >
                 <a
-                  href="/Kyler Hu Resume copy.pdf"
+                  href={resolvedResumeUrl}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -78,7 +90,7 @@ export function ResumeSection() {
                 }}
                 asChild
               >
-                <a href="/Kyler Hu Resume copy.pdf" download>
+                <a href={resolvedResumeUrl} download>
                   <Download className="h-4 w-4" />
                   Download
                 </a>
@@ -87,16 +99,22 @@ export function ResumeSection() {
           </div>
 
           <div className="p-6 md:p-8">
-            <iframe
-              src="/Kyler Hu Resume copy.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH"
-              title="Resume PDF"
-              loading="lazy"
-              className="w-full h-[720px] rounded-2xl"
-              style={{
-                border: "1px solid var(--scroll-border)",
-                backgroundColor: "white",
-              }}
-            />
+            {showEmbed ? (
+              <iframe
+                src={`${resolvedResumeUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                title="Resume PDF"
+                loading="lazy"
+                className="w-full h-[720px] rounded-2xl"
+                style={{
+                  border: "1px solid var(--scroll-border)",
+                  backgroundColor: "white",
+                }}
+              />
+            ) : (
+              <p className="text-sm" style={{ color: "var(--scroll-muted-fg)" }}>
+                Resume preview is available for PDF links. Use &quot;Open in New Tab&quot; for this file.
+              </p>
+            )}
           </div>
         </div>
       </div>

@@ -12,7 +12,14 @@ import {
   projectsQuery,
   siteSettingsQuery,
 } from "@/lib/sanity/queries";
-import type { CmsCaseStudy, CmsExperience, CmsLegalPage, CmsProject, SanityImageRef } from "@/lib/sanity/types";
+import type {
+  CmsCaseStudy,
+  CmsExperience,
+  CmsLegalPage,
+  CmsProject,
+  CmsSiteSettings,
+  SanityImageRef,
+} from "@/lib/sanity/types";
 
 function sanityRevalidateSeconds(): number {
   const raw = process.env.SANITY_FETCH_REVALIDATE_SECONDS;
@@ -309,10 +316,10 @@ export async function getLegalPageByProjectSlug(projectSlug: string): Promise<Cm
   }
 }
 
-export async function getSiteSettings() {
+export async function getSiteSettings(): Promise<CmsSiteSettings | null> {
   if (!hasSanityEnv) return null;
   try {
-    return await sanityClient.fetch(siteSettingsQuery, {}, sanityFetchNext);
+    return await sanityClient.fetch<CmsSiteSettings | null>(siteSettingsQuery, {}, sanityFetchNext);
   } catch {
     return null;
   }

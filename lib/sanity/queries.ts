@@ -231,8 +231,13 @@ export const legalPageByProjectSlugQuery = groq`
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0]{
     siteTitle,
+    heroHeadline,
+    heroHighlight,
+    heroSubhead,
     aboutBlurb,
     resumeUrl,
+    contactHeadline,
+    footerText,
     socialLinks,
     contactEmail,
     featuredProjectSlugs

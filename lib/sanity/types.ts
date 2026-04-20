@@ -77,3 +77,20 @@ export type CmsLegalPage = {
     children?: Array<{ _key?: string; text?: string }>;
   }>;
 };
+
+export type CmsSiteSettings = {
+  siteTitle?: string;
+  heroHeadline?: string;
+  heroHighlight?: string;
+  heroSubhead?: string;
+  aboutBlurb?: string;
+  resumeUrl?: string;
+  contactHeadline?: string;
+  footerText?: string;
+  socialLinks?: Array<{
+    label?: string;
+    url?: string;
+  }>;
+  contactEmail?: string;
+  featuredProjectSlugs?: string[];
+};
