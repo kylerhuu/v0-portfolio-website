@@ -14,14 +14,21 @@ type ProjectDetailsPageProps = {
   caseStudy?: CmsCaseStudy | null;
 };
 
+function isImageFile(file: string) {
+  return file.endsWith(".png") || file.endsWith(".jpg") || file.endsWith(".jpeg") || file.endsWith(".webp");
+}
+
+function projectLogoUrl(project: CmsProject): string | null {
+  return getMediaUrl(project.logo) ?? getMediaUrl(project.media?.[0]);
+}
+
 export function ProjectDetailsPage({ project, caseStudy }: ProjectDetailsPageProps) {
   const { ref: heroRef, isVisible: heroVisible } = useScrollReveal(0.08);
   const { ref: bodyRef, isVisible: bodyVisible } = useScrollReveal(0.04);
   const mediaItems = caseStudy?.gallery?.length ? caseStudy.gallery : project.media;
   const lessons =
-    caseStudy?.lessons && caseStudy.lessons.length > 0
-      ? caseStudy.lessons
-      : project.lessons || [];
+    caseStudy?.lessons && caseStudy.lessons.length > 0 ? caseStudy.lessons : project.lessons || [];
+  const logoSrc = projectLogoUrl(project);
 
   return (
     <ScrollColorProvider>
@@ -35,100 +42,169 @@ export function ProjectDetailsPage({ project, caseStudy }: ProjectDetailsPagePro
               heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
-            <Link href="/" className="text-sm text-[hsl(15,80%,55%)] hover:underline">
-              ← Back to home
-            </Link>
-            <div className="mt-3">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+              <Link href="/#projects" className="text-[hsl(15,80%,55%)] hover:underline">
+                ← Back to projects
+              </Link>
+              <span className="hidden sm:inline" style={{ color: "var(--scroll-muted-fg)" }}>
+                ·
+              </span>
               <Link
                 href={`/projects/${project.slug}/legal`}
-                className="inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
+                className="rounded-full border px-4 py-1.5 text-sm font-medium transition-colors hover:bg-accent"
+                style={{ borderColor: "var(--scroll-border)", color: "var(--scroll-fg)" }}
               >
-                Project Legal
+                Legal
               </Link>
+              {project.demo ? (
+                <a
+                  href={project.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border px-4 py-1.5 text-sm font-medium transition-colors hover:bg-accent"
+                  style={{ borderColor: "var(--scroll-border)", color: "var(--scroll-muted-fg)" }}
+                >
+                  Watch demo
+                </a>
+              ) : null}
             </div>
-            <h1 className="text-3xl md:text-5xl font-bold mt-6 mb-4" style={{ color: "var(--scroll-fg)" }}>
-              {project.name}
-            </h1>
-            <p className="text-lg mb-6" style={{ color: "var(--scroll-muted-fg)" }}>
-              {caseStudy?.heroSummary || project.oneLiner}
-            </p>
 
-            {caseStudy && (
-              <>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {(caseStudy.tags || []).map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border px-3 py-1 text-xs"
-                      style={{ borderColor: "var(--scroll-border)", color: "var(--scroll-muted-fg)" }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <p className="text-sm" style={{ color: "var(--scroll-muted-fg)" }}>
-                  {caseStudy.role} • {caseStudy.timeline}
+            <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-start">
+              <div
+                className="relative mx-auto h-24 w-24 shrink-0 overflow-hidden rounded-2xl border sm:mx-0 sm:h-28 sm:w-28"
+                style={{ borderColor: "var(--scroll-border)", backgroundColor: "var(--scroll-card-bg)" }}
+              >
+                {logoSrc && isImageFile(logoSrc) ? (
+                  <Image
+                    src={logoSrc}
+                    alt={project.logo?.alt || `${project.name} logo`}
+                    fill
+                    sizes="112px"
+                    className="object-contain p-2"
+                    priority
+                  />
+                ) : (
+                  <div
+                    className="flex h-full w-full items-center justify-center text-lg font-bold uppercase tracking-wide"
+                    style={{ color: "var(--scroll-muted-fg)" }}
+                  >
+                    {project.name.slice(0, 2)}
+                  </div>
+                )}
+              </div>
+              <div className="min-w-0 flex-1 text-center sm:text-left">
+                <h1 className="text-3xl md:text-5xl font-bold mb-3" style={{ color: "var(--scroll-fg)" }}>
+                  {caseStudy?.title ?? project.name}
+                </h1>
+                <p className="text-lg leading-relaxed text-pretty" style={{ color: "var(--scroll-muted-fg)" }}>
+                  {caseStudy?.heroSummary || project.oneLiner}
                 </p>
-              </>
-            )}
+                {caseStudy ? (
+                  <>
+                    <div className="mt-4 flex flex-wrap justify-center gap-2 sm:justify-start">
+                      {(caseStudy.tags || []).map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full border px-3 py-1 text-xs"
+                          style={{ borderColor: "var(--scroll-border)", color: "var(--scroll-muted-fg)" }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    {(caseStudy.role || caseStudy.timeline) && (
+                      <p className="mt-3 text-sm" style={{ color: "var(--scroll-muted-fg)" }}>
+                        {[caseStudy.role, caseStudy.timeline].filter(Boolean).join(" · ")}
+                      </p>
+                    )}
+                  </>
+                ) : null}
+              </div>
+            </div>
           </div>
 
           <div
             ref={bodyRef}
-            className={`mt-12 space-y-10 transition-all duration-700 ease-out ${
+            className={`mt-14 space-y-10 transition-all duration-700 ease-out ${
               bodyVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
             {!caseStudy ? (
-              <section
-                className="rounded-lg border p-6"
-                style={{ backgroundColor: "var(--scroll-card-bg)", borderColor: "var(--scroll-border)" }}
-              >
-                <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-3">
-                  Project Details
-                </h2>
-                <p className="text-sm leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
-                  A full project details page is coming soon. For now, the complete breakdown is available from the Projects modal on
-                  the homepage.
-                </p>
-              </section>
-            ) : (
               <>
                 <section>
-                  <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-3">Problem</h2>
+                  <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-3">
+                    Problem
+                  </h2>
                   <p className="text-sm leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
-                    {caseStudy.problem || project.problem}
+                    {project.problem}
                   </p>
                 </section>
-
-                <section>
-                  <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-3">Build Journey</h2>
-                  <ul className="list-disc pl-5 space-y-2 text-sm leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
-                    {(caseStudy.buildJourney || []).map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </section>
-
                 <section>
                   <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-3">
-                    Architecture / Technical Design
+                    Solution
                   </h2>
-                  <ul className="list-disc pl-5 space-y-2 text-sm leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
-                    {(caseStudy.architecture || []).map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
+                  <p className="text-sm leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
+                    {project.solution}
+                  </p>
                 </section>
-
                 <section>
-                  <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-3">Results / Impact</h2>
-                  <ul className="list-disc pl-5 space-y-2 text-sm leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
-                    {(caseStudy.results || []).map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
+                  <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-3">
+                    My role
+                  </h2>
+                  <p className="text-sm leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
+                    {project.myRole}
+                  </p>
                 </section>
+                <section
+                  className="rounded-lg border p-6"
+                  style={{ backgroundColor: "var(--scroll-card-bg)", borderColor: "var(--scroll-border)" }}
+                >
+                  <p className="text-sm leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
+                    Link a Case Study document to this project in Sanity to unlock build journey, architecture, results, and
+                    gallery sections here.
+                  </p>
+                </section>
+              </>
+            ) : (
+              <>
+                {(caseStudy.buildJourney || []).length > 0 ? (
+                  <section>
+                    <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-3">
+                      Build journey
+                    </h2>
+                    <ul className="list-disc pl-5 space-y-2 text-sm leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
+                      {(caseStudy.buildJourney ?? []).map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </section>
+                ) : null}
+
+                {(caseStudy.architecture || []).length > 0 ? (
+                  <section>
+                    <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-3">
+                      Architecture / technical design
+                    </h2>
+                    <ul className="list-disc pl-5 space-y-2 text-sm leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
+                      {(caseStudy.architecture ?? []).map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </section>
+                ) : null}
+
+                {(caseStudy.results || []).length > 0 ? (
+                  <section>
+                    <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-3">
+                      Results / impact
+                    </h2>
+                    <ul className="list-disc pl-5 space-y-2 text-sm leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
+                      {(caseStudy.results ?? []).map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </section>
+                ) : null}
               </>
             )}
 
@@ -140,37 +216,39 @@ export function ProjectDetailsPage({ project, caseStudy }: ProjectDetailsPagePro
                     const src = getMediaUrl(mediaItem);
                     if (!src) return null;
                     return (
-                    <div
-                      key={src}
-                      className="relative h-56 rounded-lg border overflow-hidden"
-                      style={{ borderColor: "var(--scroll-border)", backgroundColor: "var(--scroll-card-bg)" }}
-                    >
-                      <Image
-                        src={src}
-                        alt={mediaItem.alt || `${project.name} media ${index + 1}`}
-                        fill
-                        sizes="(min-width: 768px) 50vw, 100vw"
-                        className="object-contain"
-                      />
-                    </div>
+                      <div
+                        key={src}
+                        className="relative h-56 rounded-lg border overflow-hidden"
+                        style={{ borderColor: "var(--scroll-border)", backgroundColor: "var(--scroll-card-bg)" }}
+                      >
+                        <Image
+                          src={src}
+                          alt={mediaItem.alt || `${project.name} media ${index + 1}`}
+                          fill
+                          sizes="(min-width: 768px) 50vw, 100vw"
+                          className="object-contain"
+                        />
+                      </div>
                     );
                   })}
                 </div>
               </section>
             )}
 
-            <section>
-              <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-3">Lessons</h2>
-              <ul className="list-disc pl-5 space-y-2 text-sm leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
-                {lessons.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </section>
+            {lessons.length > 0 ? (
+              <section>
+                <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-3">Lessons</h2>
+                <ul className="list-disc pl-5 space-y-2 text-sm leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
+                  {lessons.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
 
             {(caseStudy?.futureWork || project.futureWork) && (
               <section>
-                <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-3">Future Work</h2>
+                <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-3">Future work</h2>
                 <p className="text-sm leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
                   {caseStudy?.futureWork || project.futureWork}
                 </p>

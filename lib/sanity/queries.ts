@@ -18,15 +18,23 @@ export const experiencesQuery = groq`
   }
 `;
 
+/** Newest case study linked to this project (^ = parent project in list/detail projections). */
+const LINKED_CASE_STUDY =
+  "*[_type == \"caseStudy\" && relatedProject._ref == ^._id] | order(_updatedAt desc)[0]";
+
 export const projectsQuery = groq`
   *[_type == "project"] | order(orderRank asc, _createdAt desc) {
     "slug": slug.current,
     name,
-    oneLiner,
+    logo,
+    "oneLiner": coalesce(oneLiner, (${LINKED_CASE_STUDY}).heroSummary),
     problem,
     solution,
     myRole,
-    stack,
+    "stack": select(
+      count(stack) > 0 => stack,
+      (${LINKED_CASE_STUDY}).tags
+    ),
     architecture,
     impact,
     lessons,
@@ -34,7 +42,10 @@ export const projectsQuery = groq`
     demo,
     videoPoster,
     hasCaseStudy,
-    media
+    "media": select(
+      count(media) > 0 => media,
+      (${LINKED_CASE_STUDY}).gallery
+    )
   }
 `;
 
@@ -42,11 +53,15 @@ export const projectBySlugQuery = groq`
   *[_type == "project" && slug.current == $slug][0] {
     "slug": slug.current,
     name,
-    oneLiner,
+    logo,
+    "oneLiner": coalesce(oneLiner, (${LINKED_CASE_STUDY}).heroSummary),
     problem,
     solution,
     myRole,
-    stack,
+    "stack": select(
+      count(stack) > 0 => stack,
+      (${LINKED_CASE_STUDY}).tags
+    ),
     architecture,
     impact,
     lessons,
@@ -54,7 +69,10 @@ export const projectBySlugQuery = groq`
     demo,
     videoPoster,
     hasCaseStudy,
-    media
+    "media": select(
+      count(media) > 0 => media,
+      (${LINKED_CASE_STUDY}).gallery
+    )
   }
 `;
 

@@ -25,6 +25,7 @@ export type CmsExperience = {
 export type CmsProject = {
   slug: string;
   name: string;
+  logo?: SanityImageRef;
   oneLiner: string;
   problem: string;
   solution: string;

@@ -12,6 +12,19 @@ import {
 } from "@/lib/sanity/queries";
 import type { CmsCaseStudy, CmsExperience, CmsLegalPage, CmsProject, SanityImageRef } from "@/lib/sanity/types";
 
+function sanityRevalidateSeconds(): number {
+  const raw = process.env.SANITY_FETCH_REVALIDATE_SECONDS;
+  if (raw === undefined || raw === "") return 60;
+  const n = Number.parseInt(raw, 10);
+  if (Number.isNaN(n) || n < 0) return 60;
+  return n;
+}
+
+/** Next.js caches fetch by default; this revalidates Sanity-backed pages (0 = always refetch). */
+const sanityFetchNext = {
+  next: { revalidate: sanityRevalidateSeconds() },
+} as const;
+
 const FALLBACK_CASE_STUDIES: Record<string, CmsCaseStudy> = {
   outthegc: {
     title: "OutTheGC",
@@ -184,8 +197,15 @@ function fallbackProjects(): CmsProject[] {
 export async function getExperiences(): Promise<CmsExperience[]> {
   if (!hasSanityEnv) return fallbackExperiences();
   try {
-    const data = await sanityClient.fetch<CmsExperience[]>(experiencesQuery);
-    if (!data?.length) return fallbackExperiences();
+    const data = await sanityClient.fetch<CmsExperience[]>(experiencesQuery, {}, sanityFetchNext);
+    if (!data?.length) {
+      if (process.env.NODE_ENV === "development") {
+        console.warn(
+          "[sanity] No `experience` documents returned; showing repo fallback. Publish docs and confirm _type / dataset.",
+        );
+      }
+      return fallbackExperiences();
+    }
     return data;
   } catch {
     return fallbackExperiences();
@@ -195,8 +215,15 @@ export async function getExperiences(): Promise<CmsExperience[]> {
 export async function getProjects(): Promise<CmsProject[]> {
   if (!hasSanityEnv) return fallbackProjects();
   try {
-    const data = await sanityClient.fetch<CmsProject[]>(projectsQuery);
-    if (!data?.length) return fallbackProjects();
+    const data = await sanityClient.fetch<CmsProject[]>(projectsQuery, {}, sanityFetchNext);
+    if (!data?.length) {
+      if (process.env.NODE_ENV === "development") {
+        console.warn(
+          "[sanity] No `project` documents returned; showing repo fallback. Publish docs and confirm _type / dataset.",
+        );
+      }
+      return fallbackProjects();
+    }
     return data;
   } catch {
     return fallbackProjects();
@@ -207,7 +234,11 @@ export async function getProjectBySlug(slug: string): Promise<CmsProject | null>
   const fallback = fallbackProjects().find((item) => item.slug === slug) || null;
   if (!hasSanityEnv) return fallback;
   try {
-    const data = await sanityClient.fetch<CmsProject | null>(projectBySlugQuery, { slug });
+    const data = await sanityClient.fetch<CmsProject | null>(
+      projectBySlugQuery,
+      { slug },
+      sanityFetchNext,
+    );
     return data ?? fallback;
   } catch {
     return fallback;
@@ -219,8 +250,12 @@ export async function getCaseStudyBySlug(slug: string): Promise<CmsCaseStudy | n
   if (!hasSanityEnv) return fallback;
   try {
     const data =
-      (await sanityClient.fetch<CmsCaseStudy | null>(caseStudyBySlugQuery, { slug })) ||
-      (await sanityClient.fetch<CmsCaseStudy | null>(caseStudyByProjectSlugQuery, { slug }));
+      (await sanityClient.fetch<CmsCaseStudy | null>(caseStudyBySlugQuery, { slug }, sanityFetchNext)) ||
+      (await sanityClient.fetch<CmsCaseStudy | null>(
+        caseStudyByProjectSlugQuery,
+        { slug },
+        sanityFetchNext,
+      ));
     return data ?? fallback;
   } catch {
     return fallback;
@@ -231,7 +266,11 @@ export async function getLegalPageBySlug(slug: string): Promise<CmsLegalPage | n
   const fallback = FALLBACK_LEGAL[slug] ?? null;
   if (!hasSanityEnv) return fallback;
   try {
-    const data = await sanityClient.fetch<CmsLegalPage | null>(legalPageBySlugQuery, { slug });
+    const data = await sanityClient.fetch<CmsLegalPage | null>(
+      legalPageBySlugQuery,
+      { slug },
+      sanityFetchNext,
+    );
     return data ?? fallback;
   } catch {
     return fallback;
@@ -241,7 +280,7 @@ export async function getLegalPageBySlug(slug: string): Promise<CmsLegalPage | n
 export async function getSiteSettings() {
   if (!hasSanityEnv) return null;
   try {
-    return await sanityClient.fetch(siteSettingsQuery);
+    return await sanityClient.fetch(siteSettingsQuery, {}, sanityFetchNext);
   } catch {
     return null;
   }

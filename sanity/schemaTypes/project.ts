@@ -13,6 +13,14 @@ export const projectType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({ name: "name", title: "Name", type: "string", validation: (rule) => rule.required() }),
+    defineField({
+      name: "logo",
+      title: "Card logo",
+      description: "Square mark on the homepage card (e.g. product icon). Falls back to first gallery image if empty.",
+      type: "image",
+      options: { hotspot: true },
+      fields: [defineField({ name: "alt", title: "Alt Text", type: "string" })],
+    }),
     defineField({ name: "oneLiner", title: "One Liner", type: "text", rows: 3 }),
     defineField({ name: "problem", title: "Problem", type: "text", rows: 5 }),
     defineField({ name: "solution", title: "Solution", type: "text", rows: 5 }),
@@ -50,7 +58,11 @@ export const projectType = defineType({
     select: {
       title: "name",
       subtitle: "slug.current",
-      media: "media.0",
+      logo: "logo",
+      thumb: "media.0",
+    },
+    prepare({ title, subtitle, logo, thumb }) {
+      return { title, subtitle, media: logo ?? thumb };
     },
   },
 });
