@@ -50,6 +50,10 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
     ? { duration: 0.18, ease: "easeOut" as const }
     : { type: "spring" as const, stiffness: 300, damping: 30, mass: 0.78 };
 
+  const cardOpacityTransition = reduceMotion
+    ? { duration: 0.35, ease: "easeOut" as const }
+    : { duration: 0.55, ease: "easeInOut" as const };
+
   const active = projects[activeIndex];
   const featuredSet = new Set(featuredSlugs);
 
@@ -165,7 +169,9 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                 const scale = isCenter ? 1 : 0.86;
                 const rotateY = isCenter ? 0 : rel > 0 ? -12 : 12;
                 const rotateZ = isCenter ? 0 : rel > 0 ? -0.3 : 0.3;
-                const opacity = isCenter ? 1 : isNear ? 0.34 : 0;
+                const cardOpacity = isCenter ? 1 : isNear ? 0.34 : 0;
+                const auraOpacity = isFeatured ? (isCenter ? 0.55 : 0.22) : 0;
+                const washOpacity = isFeatured ? (isCenter ? 0.52 : 0.34) : 0;
 
                 return (
                   <motion.article
@@ -176,60 +182,60 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                       scale,
                       rotateY,
                       rotateZ,
-                      opacity,
                     }}
-                    transition={trackTransition}
+                    transition={{
+                      default: trackTransition,
+                    }}
                     style={{
                       zIndex: isCenter ? 30 : isNear ? 20 : 0,
                       pointerEvents: isCenter ? "auto" : "none",
                     }}
                     aria-hidden={!isCenter}
                   >
-                    {isFeatured ? (
-                      <motion.div
-                        className="pointer-events-none absolute -inset-10 rounded-[36px]"
-                        animate={{
-                          opacity: 0.55 * opacity,
-                          scale: 1.02,
-                          filter: "blur(26px)",
-                        }}
-                        transition={trackTransition}
-                        style={{
-                          background:
-                            "radial-gradient(circle at 50% 48%, rgba(255,224,150,0.34) 0%, rgba(244,186,74,0.18) 34%, rgba(238,173,54,0.1) 56%, transparent 78%)",
-                          zIndex: -1,
-                        }}
-                      />
-                    ) : null}
-
-                    <div
-                      className="relative rounded-[28px] px-5 py-6 md:px-7 md:py-7"
-                      style={{
-                        background:
-                          "linear-gradient(152deg, color-mix(in srgb, var(--scroll-card-bg) 84%, transparent), color-mix(in srgb, var(--scroll-card-bg) 48%, transparent))",
-                        border: isFeatured
-                          ? "1px solid color-mix(in srgb, hsl(43,88%,70%) 24%, var(--scroll-border))"
-                          : "1px solid color-mix(in srgb, var(--scroll-border) 28%, transparent)",
-                        backdropFilter: "blur(10px)",
-                        boxShadow: isCenter
-                          ? "0 34px 92px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.14)"
-                          : "0 12px 36px rgba(0,0,0,0.22)",
-                      }}
+                    <motion.div
+                      className="relative h-full w-full"
+                      animate={{ opacity: cardOpacity }}
+                      transition={cardOpacityTransition}
                     >
                       {isFeatured ? (
-                        <motion.div
-                          className="pointer-events-none absolute inset-0 rounded-[28px]"
-                          animate={{
-                            opacity: 0.52 * opacity,
-                          }}
-                          transition={trackTransition}
+                        <div
+                          className="pointer-events-none absolute -inset-10 rounded-[36px]"
                           style={{
+                            opacity: auraOpacity,
+                            transform: "scale(1.02)",
+                            filter: "blur(26px)",
                             background:
-                              "radial-gradient(circle at 12% -8%, rgba(255,228,160,0.14), rgba(255,228,160,0.03) 40%, transparent 72%)",
-                            filter: "blur(0.4px)",
+                              "radial-gradient(circle at 50% 48%, rgba(255,224,150,0.34) 0%, rgba(244,186,74,0.18) 34%, rgba(238,173,54,0.1) 56%, transparent 78%)",
+                            zIndex: -1,
                           }}
                         />
                       ) : null}
+
+                      <div
+                        className="relative rounded-[28px] px-5 py-6 md:px-7 md:py-7"
+                        style={{
+                          background:
+                            "linear-gradient(152deg, color-mix(in srgb, var(--scroll-card-bg) 84%, transparent), color-mix(in srgb, var(--scroll-card-bg) 48%, transparent))",
+                          border: isFeatured
+                            ? "1px solid color-mix(in srgb, hsl(43,88%,70%) 24%, var(--scroll-border))"
+                            : "1px solid color-mix(in srgb, var(--scroll-border) 28%, transparent)",
+                          backdropFilter: "blur(10px)",
+                          boxShadow: isCenter
+                            ? "0 34px 92px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.14)"
+                            : "0 12px 36px rgba(0,0,0,0.22)",
+                        }}
+                      >
+                        {isFeatured ? (
+                          <div
+                            className="pointer-events-none absolute inset-0 rounded-[28px]"
+                            style={{
+                              opacity: washOpacity,
+                              background:
+                                "radial-gradient(circle at 12% -8%, rgba(255,228,160,0.14), rgba(255,228,160,0.03) 40%, transparent 72%)",
+                              filter: "blur(0.4px)",
+                            }}
+                          />
+                        ) : null}
                       <div className="grid min-h-[340px] grid-cols-1 gap-6 md:min-h-[370px] md:grid-cols-[40%,1fr] md:gap-7">
                         <div
                           className="relative h-[220px] overflow-hidden rounded-[22px] md:h-[290px]"
@@ -380,7 +386,8 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                           </div>
                         </div>
                       </div>
-                    </div>
+                      </div>
+                    </motion.div>
                   </motion.article>
                 );
               })}
