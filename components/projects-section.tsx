@@ -41,8 +41,8 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
   }, [activeIndex, count]);
 
   const trackTransition = reduceMotion
-    ? { duration: 0.2, ease: "easeOut" as const }
-    : { type: "spring" as const, stiffness: 340, damping: 32, mass: 0.72 };
+    ? { duration: 0.18, ease: "easeOut" as const }
+    : { type: "spring" as const, stiffness: 300, damping: 30, mass: 0.78 };
 
   const active = projects[activeIndex];
   const activeVisual = projectVisualUrl(active);
@@ -52,21 +52,21 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
       initial: reduceMotion
         ? { opacity: 0.96, x: 0, scale: 1 }
         : {
-            opacity: 0.86,
-            x: direction * 92,
-            rotateY: direction * -9,
-            scale: 0.97,
-            filter: "blur(1px)",
+            opacity: 0.93,
+            x: direction * 84,
+            rotateY: direction * -8,
+            rotateZ: direction * -0.35,
+            scale: 0.985,
           },
-      animate: { opacity: 1, x: 0, rotateY: 0, scale: 1, filter: "blur(0px)" },
+      animate: { opacity: 1, x: 0, rotateY: 0, rotateZ: 0, scale: 1 },
       exit: reduceMotion
         ? { opacity: 0.96, x: 0, scale: 1 }
         : {
-            opacity: 0.82,
-            x: direction * -96,
-            rotateY: direction * 9,
-            scale: 0.97,
-            filter: "blur(1px)",
+            opacity: 0.91,
+            x: direction * -88,
+            rotateY: direction * 8,
+            rotateZ: direction * 0.35,
+            scale: 0.985,
           },
     }),
     [direction, reduceMotion],
@@ -162,7 +162,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
               </>
             ) : null}
 
-            <AnimatePresence mode="wait" custom={direction}>
+            <AnimatePresence mode="sync" custom={direction} initial={false}>
               <motion.article
                 key={active.slug}
                 custom={direction}
