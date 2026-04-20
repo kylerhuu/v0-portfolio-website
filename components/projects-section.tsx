@@ -19,6 +19,10 @@ function projectSummary(project: CmsProject): string {
   return project.oneLiner?.trim() || "";
 }
 
+function projectProblem(project: CmsProject): string {
+  return project.problem?.trim() || "";
+}
+
 export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const reduceMotion = useReducedMotion();
@@ -282,6 +286,16 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                                 Add a one-line descriptor in Sanity.
                               </p>
                             )}
+
+                            {projectProblem(project) ? (
+                              <p
+                                className="mt-3 max-w-[46ch] text-sm leading-relaxed text-pretty"
+                                style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 78%, transparent)" }}
+                              >
+                                <span style={{ color: "color-mix(in srgb, var(--scroll-fg) 76%, transparent)" }}>Problem:</span>{" "}
+                                {projectProblem(project)}
+                              </p>
+                            ) : null}
 
                             <div className="mt-5 flex flex-wrap items-center gap-3.5">
                               <Link
