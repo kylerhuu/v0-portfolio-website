@@ -2,15 +2,21 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import type { CmsExperience } from "@/lib/sanity/types";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { getMediaUrl, isDisplayableImageUrl } from "@/lib/sanity/media";
 
 function experienceHref(exp: CmsExperience): string | null {
   const s = exp.slug?.trim();
   if (s) return `/experiences/${s}`;
   return null;
+}
+
+function experienceLogoUrl(exp: CmsExperience): string | null {
+  return getMediaUrl(exp.logo) ?? getMediaUrl(exp.media?.[0]);
 }
 
 export function ExperiencesSection({ experiences }: { experiences: CmsExperience[] }) {
@@ -172,7 +178,7 @@ export function ExperiencesSection({ experiences }: { experiences: CmsExperience
                   animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
                   exit={{ opacity: 0, x: -18, filter: "blur(2px)" }}
                   transition={{ duration: 0.26, ease: "easeOut" }}
-                  className="max-w-3xl rounded-2xl px-5 py-5 md:px-7 md:py-7"
+                  className="relative max-w-3xl rounded-2xl px-5 py-5 md:px-7 md:py-7"
                   style={{
                     background:
                       "linear-gradient(145deg, color-mix(in srgb, var(--scroll-card-bg) 52%, transparent), color-mix(in srgb, var(--scroll-card-bg) 20%, transparent))",
@@ -180,10 +186,44 @@ export function ExperiencesSection({ experiences }: { experiences: CmsExperience
                     backdropFilter: "blur(6px)",
                   }}
                 >
+                  <div
+                    className="absolute right-5 top-5 h-14 w-14 overflow-hidden rounded-xl border md:right-7 md:top-7 md:h-16 md:w-16"
+                    style={{
+                      borderColor: "color-mix(in srgb, var(--scroll-border) 58%, transparent)",
+                      backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 82%, transparent)",
+                    }}
+                  >
+                    {(() => {
+                      const logoSrc = experienceLogoUrl(activeExperience);
+                      if (logoSrc && isDisplayableImageUrl(logoSrc)) {
+                        return (
+                          <Image
+                            src={logoSrc}
+                            alt={activeExperience.logo?.alt || `${activeExperience.company} logo`}
+                            fill
+                            sizes="64px"
+                            className="object-contain p-2"
+                          />
+                        );
+                      }
+                      return (
+                        <div
+                          className="flex h-full w-full items-center justify-center text-xs font-semibold uppercase tracking-wide"
+                          style={{ color: "var(--scroll-muted-fg)" }}
+                        >
+                          {activeExperience.company.slice(0, 2)}
+                        </div>
+                      );
+                    })()}
+                  </div>
+
                   <p className="text-[11px] uppercase tracking-[0.2em]" style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 84%, transparent)" }}>
                     Selected experience
                   </p>
-                  <h3 className="mt-2 text-3xl font-semibold tracking-tight md:text-4xl" style={{ color: "var(--scroll-fg)" }}>
+                  <h3
+                    className="mt-2 pr-20 text-3xl font-semibold tracking-tight md:pr-24 md:text-4xl"
+                    style={{ color: "var(--scroll-fg)" }}
+                  >
                     {activeExperience.company}
                   </h3>
                   <p className="mt-2 text-base md:text-lg" style={{ color: "color-mix(in srgb, var(--scroll-fg) 76%, transparent)" }}>
