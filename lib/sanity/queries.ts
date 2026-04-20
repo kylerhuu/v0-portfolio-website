@@ -259,7 +259,7 @@ export const siteSettingsQuery = groq`
     heroHighlight,
     heroSubhead,
     aboutBlurb,
-    resumeUrl,
+    "resumeUrl": coalesce(resumeFile.asset->url, resumeUrl),
     contactHeadline,
     footerText,
     socialLinks,

@@ -12,13 +12,14 @@ import type { CmsCaseStudy, CmsProject } from "@/lib/sanity/types";
 type ProjectDetailsPageProps = {
   project: CmsProject;
   caseStudy?: CmsCaseStudy | null;
+  siteTitle?: string;
 };
 
 function projectLogoUrl(project: CmsProject): string | null {
   return getMediaUrl(project.logo) ?? getMediaUrl(project.media?.[0]);
 }
 
-export function ProjectDetailsPage({ project, caseStudy }: ProjectDetailsPageProps) {
+export function ProjectDetailsPage({ project, caseStudy, siteTitle }: ProjectDetailsPageProps) {
   const { ref: heroRef, isVisible: heroVisible } = useScrollReveal(0.08);
   const { ref: bodyRef, isVisible: bodyVisible } = useScrollReveal(0.04);
   const mediaItems = caseStudy?.gallery?.length ? caseStudy.gallery : project.media;
@@ -29,7 +30,7 @@ export function ProjectDetailsPage({ project, caseStudy }: ProjectDetailsPagePro
   return (
     <ScrollColorProvider>
       <NeuralBackground />
-      <Navbar />
+      <Navbar siteTitle={siteTitle} />
       <main className="relative z-10 min-h-screen px-6 py-24 md:py-32">
         <div className="mx-auto max-w-4xl">
           <div

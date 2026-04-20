@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { Navbar } from "@/components/navbar";
 import { NeuralBackground } from "@/components/neural-background";
 import { ScrollColorProvider } from "@/components/scroll-color-provider";
-import { getLegalPageByProjectSlugAndPath, getProjectBySlug } from "@/lib/sanity/content";
+import { getLegalPageByProjectSlugAndPath, getProjectBySlug, getSiteSettings } from "@/lib/sanity/content";
 
 type Params = {
   slug: string;
@@ -34,9 +34,10 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 
 export default async function ProjectLegalSubpage({ params }: { params: Promise<Params> }) {
   const { slug, legalPath } = await params;
-  const [project, legal] = await Promise.all([
+  const [project, legal, siteSettings] = await Promise.all([
     getProjectBySlug(slug),
     getLegalPageByProjectSlugAndPath(slug, legalPath),
+    getSiteSettings(),
   ]);
 
   if (!project || !legal) {
@@ -46,7 +47,7 @@ export default async function ProjectLegalSubpage({ params }: { params: Promise<
   return (
     <ScrollColorProvider>
       <NeuralBackground />
-      <Navbar />
+      <Navbar siteTitle={siteSettings?.siteTitle} />
       <main className="relative z-10 min-h-screen px-6 py-24 md:py-32">
         <div className="mx-auto max-w-3xl">
           <Link href={`/projects/${slug}/legal`} className="text-sm text-[hsl(15,80%,55%)] hover:underline">

@@ -16,11 +16,18 @@ export default async function Home() {
     getProjects(),
     getSiteSettings(),
   ]);
+  const featuredSlugs = siteSettings?.featuredProjectSlugs?.filter(Boolean) ?? [];
+  const featuredSet = new Set(featuredSlugs);
+  const featuredProjects = featuredSlugs
+    .map((slug) => projects.find((project) => project.slug === slug))
+    .filter((project): project is (typeof projects)[number] => Boolean(project));
+  const remainingProjects = projects.filter((project) => !featuredSet.has(project.slug));
+  const orderedProjects = featuredProjects.length > 0 ? [...featuredProjects, ...remainingProjects] : projects;
 
   return (
     <ScrollColorProvider>
       <NeuralBackground />
-      <Navbar />
+      <Navbar siteTitle={siteSettings?.siteTitle} />
       <main>
         <HeroSection
           headline={siteSettings?.heroHeadline}
@@ -28,7 +35,7 @@ export default async function Home() {
           subhead={siteSettings?.heroSubhead}
         />
         <AboutSection aboutBlurb={siteSettings?.aboutBlurb} />
-        <ProjectsSection projects={projects} />
+        <ProjectsSection projects={orderedProjects} featuredSlugs={featuredSlugs} />
         <ExperiencesSection experiences={experiences} />
         <GallerySection />
         <ResumeSection resumeUrl={siteSettings?.resumeUrl} />

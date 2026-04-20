@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ExperienceDetailPage } from "@/components/experience-detail-page";
-import { getExperienceBySlug } from "@/lib/sanity/content";
+import { getExperienceBySlug, getSiteSettings } from "@/lib/sanity/content";
 
 type Params = {
   slug: string;
@@ -32,5 +32,6 @@ export default async function ExperienceDetailRoute({ params }: { params: Promis
     notFound();
   }
 
-  return <ExperienceDetailPage experience={experience} />;
+  const siteSettings = await getSiteSettings();
+  return <ExperienceDetailPage experience={experience} siteTitle={siteSettings?.siteTitle} />;
 }

@@ -15,7 +15,11 @@ const NAV_LINKS = [
   { label: "Contact", href: "/#contact" },
 ];
 
-export function Navbar() {
+type NavbarProps = {
+  siteTitle?: string;
+};
+
+export function Navbar({ siteTitle = "Portfolio" }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { isDark } = useScrollColor();
@@ -51,7 +55,7 @@ export function Navbar() {
           className="text-lg font-bold tracking-tight transition-colors duration-300"
           style={{ color: "var(--scroll-fg)" }}
         >
-          Portfolio
+          {siteTitle}
         </Link>
 
         {/* Desktop nav */}

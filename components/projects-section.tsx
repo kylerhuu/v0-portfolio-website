@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight, Crown } from "lucide-react";
 import { getMediaUrl, isDisplayableImageUrl } from "@/lib/sanity/media";
 import type { CmsProject } from "@/lib/sanity/types";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
@@ -23,7 +23,12 @@ function projectProblem(project: CmsProject): string {
   return project.problem?.trim() || "";
 }
 
-export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
+type ProjectsSectionProps = {
+  projects: CmsProject[];
+  featuredSlugs?: string[];
+};
+
+export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectionProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const reduceMotion = useReducedMotion();
   const { ref: headingRef, isVisible: headingVisible } = useScrollReveal();
@@ -46,6 +51,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
     : { type: "spring" as const, stiffness: 300, damping: 30, mass: 0.78 };
 
   const active = projects[activeIndex];
+  const featuredSet = new Set(featuredSlugs);
 
   function relativeSlot(index: number): number {
     if (!count) return 0;
@@ -153,6 +159,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                 const isCenter = rel === 0;
                 const isNear = Math.abs(rel) === 1;
                 const hidden = Math.abs(rel) > 1;
+                const isFeatured = featuredSet.has(project.slug);
 
                 const x = hidden ? (rel > 0 ? "130%" : "-130%") : isCenter ? "0%" : rel > 0 ? "88%" : "-88%";
                 const scale = isCenter ? 1 : 0.86;
@@ -183,11 +190,17 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                       style={{
                         background:
                           "linear-gradient(152deg, color-mix(in srgb, var(--scroll-card-bg) 84%, transparent), color-mix(in srgb, var(--scroll-card-bg) 48%, transparent))",
-                        border: "1px solid color-mix(in srgb, var(--scroll-border) 28%, transparent)",
+                        border: isFeatured
+                          ? "1px solid color-mix(in srgb, hsl(43,92%,65%) 60%, var(--scroll-border))"
+                          : "1px solid color-mix(in srgb, var(--scroll-border) 28%, transparent)",
                         backdropFilter: "blur(10px)",
                         boxShadow: isCenter
-                          ? "0 34px 92px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.14)"
-                          : "0 12px 36px rgba(0,0,0,0.22)",
+                          ? isFeatured
+                            ? "0 0 0 1px rgba(255,212,107,0.32), 0 34px 92px rgba(0,0,0,0.38), 0 0 42px rgba(236,180,58,0.25), inset 0 1px 0 rgba(255,255,255,0.14)"
+                            : "0 34px 92px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.14)"
+                          : isFeatured
+                            ? "0 12px 36px rgba(0,0,0,0.22), 0 0 18px rgba(236,180,58,0.16)"
+                            : "0 12px 36px rgba(0,0,0,0.22)",
                       }}
                     >
                       <div className="grid min-h-[340px] grid-cols-1 gap-6 md:min-h-[370px] md:grid-cols-[40%,1fr] md:gap-7">
@@ -244,12 +257,27 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
 
                         <div className="flex min-w-0 flex-col justify-between">
                           <div>
-                            <p
-                              className="text-[10px] uppercase tracking-[0.18em] md:text-xs"
-                              style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 62%, transparent)" }}
-                            >
-                              Case study
-                            </p>
+                            <div className="flex items-center gap-2">
+                              <p
+                                className="text-[10px] uppercase tracking-[0.18em] md:text-xs"
+                                style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 62%, transparent)" }}
+                              >
+                                Case study
+                              </p>
+                              {isFeatured ? (
+                                <span
+                                  className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.14em]"
+                                  style={{
+                                    color: "rgba(255,228,145,0.95)",
+                                    border: "1px solid rgba(255,214,102,0.45)",
+                                    backgroundColor: "rgba(236,180,58,0.14)",
+                                  }}
+                                >
+                                  <Crown className="h-3 w-3" />
+                                  Featured
+                                </span>
+                              ) : null}
+                            </div>
                             <h3
                               className="mt-2 text-[2.15rem] font-semibold leading-[1.01] tracking-tight md:text-[3.05rem]"
                               style={{ color: "var(--scroll-fg)" }}

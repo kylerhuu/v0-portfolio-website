@@ -11,13 +11,14 @@ import type { CmsExperience } from "@/lib/sanity/types";
 
 type ExperienceDetailPageProps = {
   experience: CmsExperience;
+  siteTitle?: string;
 };
 
 function experienceLogoUrl(exp: CmsExperience): string | null {
   return getMediaUrl(exp.logo) ?? getMediaUrl(exp.media?.[0]);
 }
 
-export function ExperienceDetailPage({ experience }: ExperienceDetailPageProps) {
+export function ExperienceDetailPage({ experience, siteTitle }: ExperienceDetailPageProps) {
   const { ref: heroRef, isVisible: heroVisible } = useScrollReveal(0.08);
   const { ref: bodyRef, isVisible: bodyVisible } = useScrollReveal(0.04);
   const logoSrc = experienceLogoUrl(experience);
@@ -27,7 +28,7 @@ export function ExperienceDetailPage({ experience }: ExperienceDetailPageProps) 
   return (
     <ScrollColorProvider>
       <NeuralBackground />
-      <Navbar />
+      <Navbar siteTitle={siteTitle} />
       <main className="relative z-10 min-h-screen px-6 py-24 md:py-32">
         <div className="mx-auto max-w-3xl">
           <div

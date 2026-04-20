@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { NeuralBackground } from "@/components/neural-background";
 import { ScrollColorProvider } from "@/components/scroll-color-provider";
-import { getLegalPageBySlug } from "@/lib/sanity/content";
+import { getLegalPageBySlug, getSiteSettings } from "@/lib/sanity/content";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -12,12 +12,12 @@ export const metadata: Metadata = {
 };
 
 export default async function TermsOfServicePage() {
-  const page = await getLegalPageBySlug("terms-of-service");
+  const [page, siteSettings] = await Promise.all([getLegalPageBySlug("terms-of-service"), getSiteSettings()]);
 
   return (
     <ScrollColorProvider>
       <NeuralBackground />
-      <Navbar />
+      <Navbar siteTitle={siteSettings?.siteTitle} />
       <main className="relative z-10 min-h-screen px-6 py-24 md:py-32">
         <div className="mx-auto max-w-3xl">
           <Link href="/" className="text-sm text-[hsl(15,80%,55%)] hover:underline">

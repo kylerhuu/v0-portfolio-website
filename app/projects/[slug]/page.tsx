@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProjectDetailsPage } from "@/components/project-details-page";
-import { getCaseStudyBySlug, getProjectBySlug } from "@/lib/sanity/content";
+import { getCaseStudyBySlug, getProjectBySlug, getSiteSettings } from "@/lib/sanity/content";
 
 type Params = {
   slug: string;
@@ -33,6 +33,7 @@ export default async function ProjectCaseStudyPage({ params }: { params: Promise
   }
 
   const caseStudy = await getCaseStudyBySlug(slug);
+  const siteSettings = await getSiteSettings();
 
-  return <ProjectDetailsPage project={project} caseStudy={caseStudy} />;
+  return <ProjectDetailsPage project={project} caseStudy={caseStudy} siteTitle={siteSettings?.siteTitle} />;
 }

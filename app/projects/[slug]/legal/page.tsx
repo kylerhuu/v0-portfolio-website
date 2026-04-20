@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Navbar } from "@/components/navbar";
 import { NeuralBackground } from "@/components/neural-background";
 import { ScrollColorProvider } from "@/components/scroll-color-provider";
-import { getLegalPagesByProjectSlug, getProjectBySlug } from "@/lib/sanity/content";
+import { getLegalPagesByProjectSlug, getProjectBySlug, getSiteSettings } from "@/lib/sanity/content";
 
 type Params = {
   slug: string;
@@ -37,11 +37,12 @@ export default async function ProjectLegalPage({ params }: { params: Promise<Par
 
   const legalPages = await getLegalPagesByProjectSlug(slug);
   const pagesWithPath = legalPages.filter((page) => page.projectLegalPath?.trim());
+  const siteSettings = await getSiteSettings();
 
   return (
     <ScrollColorProvider>
       <NeuralBackground />
-      <Navbar />
+      <Navbar siteTitle={siteSettings?.siteTitle} />
       <main className="relative z-10 min-h-screen px-6 py-24 md:py-32">
         <div className="mx-auto max-w-3xl">
           <Link href={`/projects/${slug}`} className="text-sm text-[hsl(15,80%,55%)] hover:underline">
