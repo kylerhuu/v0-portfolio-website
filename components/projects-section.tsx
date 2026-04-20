@@ -52,7 +52,7 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
 
   const haloTransition = reduceMotion
     ? { duration: 0.35, ease: "easeOut" as const }
-    : { type: "spring" as const, stiffness: 170, damping: 34, mass: 0.95 };
+    : { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const };
 
   const active = projects[activeIndex];
   const featuredSet = new Set(featuredSlugs);
