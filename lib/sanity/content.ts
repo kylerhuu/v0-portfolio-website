@@ -4,6 +4,7 @@ import { hasSanityEnv, sanityClient } from "@/lib/sanity/client";
 import {
   caseStudyByProjectSlugQuery,
   caseStudyBySlugQuery,
+  experienceBySlugQuery,
   experiencesQuery,
   legalPageBySlugQuery,
   projectBySlugQuery,
@@ -192,6 +193,22 @@ function fallbackProjects(): CmsProject[] {
     ...item,
     media: mapLocalMediaToSanity(item.media),
   }));
+}
+
+export async function getExperienceBySlug(slug: string): Promise<CmsExperience | null> {
+  const fallback =
+    fallbackExperiences().find((item) => item.slug === slug || item.id === slug) ?? null;
+  if (!hasSanityEnv) return fallback;
+  try {
+    const data = await sanityClient.fetch<CmsExperience | null>(
+      experienceBySlugQuery,
+      { slug },
+      sanityFetchNext,
+    );
+    return data ?? fallback;
+  } catch {
+    return fallback;
+  }
 }
 
 export async function getExperiences(): Promise<CmsExperience[]> {

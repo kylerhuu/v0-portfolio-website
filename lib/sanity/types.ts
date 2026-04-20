@@ -8,11 +8,16 @@ export type SanityImageRef = {
 
 export type CmsExperience = {
   id: string;
+  /** Public route segment; optional until CMS documents are migrated. */
+  slug?: string;
   company: string;
+  logo?: SanityImageRef;
   title: string;
   duration: string;
   location?: string;
   summary: string;
+  /** Long-form intro on the experience detail page; falls back to summary. */
+  detailOverview?: string;
   responsibilities: string[];
   outcomes: string[];
   tools: string[];

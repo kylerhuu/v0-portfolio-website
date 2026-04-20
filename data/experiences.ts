@@ -1,5 +1,7 @@
 export type Experience = {
   id: string;
+  /** URL segment for /experiences/[slug] */
+  slug: string;
   company: string;
   title: string;
   duration: string;
@@ -17,6 +19,7 @@ export type Experience = {
 export const EXPERIENCES: Experience[] = [
   {
     id: "vie-game-growth",
+    slug: "vie-game-growth",
     company: "Vie.game",
     title: "Growth Intern",
     duration: "2025",
@@ -45,6 +48,7 @@ export const EXPERIENCES: Experience[] = [
   },
   {
     id: "thinkneuro-internship",
+    slug: "thinkneuro-internship",
     company: "ThinkNeuro",
     title: "Project Manager / SWE Intern",
     duration: "2025",

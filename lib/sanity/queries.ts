@@ -3,11 +3,35 @@ import { groq } from "next-sanity";
 export const experiencesQuery = groq`
   *[_type == "experience"] | order(orderRank asc, _createdAt desc) {
     "id": coalesce(_id, company),
+    "slug": slug.current,
     company,
+    logo,
     title,
     duration,
     location,
     summary,
+    detailOverview,
+    responsibilities,
+    outcomes,
+    tools,
+    skills,
+    media,
+    "hasCaseStudy": defined(linkedProjectSlugs[0]),
+    "caseStudySlug": linkedProjectSlugs[0]
+  }
+`;
+
+export const experienceBySlugQuery = groq`
+  *[_type == "experience" && slug.current == $slug][0] {
+    "id": coalesce(_id, company),
+    "slug": slug.current,
+    company,
+    logo,
+    title,
+    duration,
+    location,
+    summary,
+    detailOverview,
     responsibilities,
     outcomes,
     tools,
