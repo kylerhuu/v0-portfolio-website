@@ -10,7 +10,7 @@ import type { CmsProject } from "@/lib/sanity/types";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { cn } from "@/lib/utils";
 
-const GAP_PX = 48;
+const GAP_PX = 56;
 
 function projectLogoUrl(project: CmsProject): string | null {
   return getMediaUrl(project.logo) ?? getMediaUrl(project.media?.[0]);
@@ -66,12 +66,12 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
       <div className="mx-auto max-w-6xl px-6">
         <div
           ref={headingRef}
-          className={`max-w-2xl transition-all duration-700 ease-out ${
+          className={`max-w-3xl transition-all duration-700 ease-out ${
             headingVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-4">Projects</h2>
-          <p className="text-2xl md:text-3xl font-medium text-pretty" style={{ color: "var(--scroll-fg)" }}>
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)]">Projects</h2>
+          <p className="text-2xl font-medium text-pretty md:text-3xl" style={{ color: "var(--scroll-fg)" }}>
             Featured builds with depth, motion, and full case study breakdowns.
           </p>
         </div>
@@ -99,16 +99,16 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
           }
         }}
       >
-        <div className="pointer-events-none absolute inset-x-0 top-[46%] -translate-y-1/2">
+        <div className="pointer-events-none absolute inset-x-0 top-[47%] -translate-y-1/2">
           <motion.div
-            className="mx-auto h-[320px] w-[min(88vw,840px)] rounded-full blur-3xl md:h-[420px]"
+            className="mx-auto h-[320px] w-[min(88vw,980px)] rounded-full blur-3xl md:h-[460px]"
             style={{
               background:
-                "radial-gradient(circle, color-mix(in srgb, hsl(15,80%,52%) 26%, transparent) 0%, transparent 72%)",
+                "radial-gradient(circle, color-mix(in srgb, hsl(15,80%,52%) 22%, transparent) 0%, transparent 74%)",
             }}
             animate={{
-              opacity: reduceMotion ? 0.3 : [0.26, 0.34, 0.26],
-              scale: reduceMotion ? 1 : [0.98, 1.03, 0.98],
+              opacity: reduceMotion ? 0.26 : [0.22, 0.3, 0.22],
+              scale: reduceMotion ? 1 : [0.98, 1.02, 0.98],
             }}
             transition={{ duration: 6.4, ease: "easeInOut", repeat: Infinity }}
           />
@@ -119,10 +119,10 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
             <button
               type="button"
               onClick={() => go(-1)}
-              className="absolute left-2 top-[46%] z-20 hidden -translate-y-1/2 rounded-full p-2.5 shadow-lg backdrop-blur-md transition hover:opacity-90 md:left-6 md:flex md:items-center md:justify-center"
+              className="absolute left-3 top-[50%] z-20 hidden -translate-y-1/2 rounded-full p-2.5 shadow-lg backdrop-blur-md transition hover:opacity-90 md:left-[calc(50%-370px)] md:flex md:items-center md:justify-center"
               style={{
                 color: "var(--scroll-fg)",
-                backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 66%, transparent)",
+                backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 74%, transparent)",
                 border: "1px solid color-mix(in srgb, var(--scroll-border) 55%, transparent)",
               }}
               aria-label="Previous project"
@@ -132,10 +132,10 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
             <button
               type="button"
               onClick={() => go(1)}
-              className="absolute right-2 top-[46%] z-20 hidden -translate-y-1/2 rounded-full p-2.5 shadow-lg backdrop-blur-md transition hover:opacity-90 md:right-6 md:flex md:items-center md:justify-center"
+              className="absolute right-3 top-[50%] z-20 hidden -translate-y-1/2 rounded-full p-2.5 shadow-lg backdrop-blur-md transition hover:opacity-90 md:right-[calc(50%-370px)] md:flex md:items-center md:justify-center"
               style={{
                 color: "var(--scroll-fg)",
-                backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 66%, transparent)",
+                backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 74%, transparent)",
                 border: "1px solid color-mix(in srgb, var(--scroll-border) 55%, transparent)",
               }}
               aria-label="Next project"
@@ -145,7 +145,11 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
           </>
         ) : null}
 
-        <div ref={viewportRef} className="relative overflow-visible px-4 pb-2 md:px-10" style={{ perspective: "1400px" }}>
+        <div
+          ref={viewportRef}
+          className="relative mx-auto max-w-[1220px] overflow-hidden px-4 pb-2 md:px-10"
+          style={{ perspective: "1600px" }}
+        >
           <motion.div
             className="flex items-stretch"
             style={{ gap: GAP_PX, willChange: "transform" }}
@@ -159,12 +163,12 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
               const rawOffset = i - activeIndex;
               const isActive = i === activeIndex;
 
-              const scale = isActive ? 1.02 : lateral === 1 ? 0.84 : Math.max(0.68, 1 - lateral * 0.1);
-              const opacity = isActive ? 1 : lateral === 1 ? 0.34 : Math.max(0.08, 1 - lateral * 0.34);
-              const rotateY = Math.max(-11, Math.min(11, -rawOffset * 5.5));
-              const x = reduceMotion ? 0 : rawOffset * 14;
-              const y = isActive ? 0 : lateral === 1 ? 18 : 26;
-              const blur = isActive ? "blur(0px)" : lateral === 1 ? "blur(1.2px)" : "blur(2px)";
+              const scale = isActive ? 1 : lateral === 1 ? 0.72 : Math.max(0.52, 1 - lateral * 0.2);
+              const opacity = isActive ? 1 : lateral === 1 ? 0.2 : Math.max(0.04, 1 - lateral * 0.48);
+              const rotateY = Math.max(-14, Math.min(14, -rawOffset * 6.8));
+              const x = reduceMotion ? 0 : rawOffset * 46;
+              const y = isActive ? 0 : lateral === 1 ? 30 : 42;
+              const blur = isActive ? "blur(0px)" : lateral === 1 ? "blur(3px)" : "blur(5px)";
               const zIndex = 30 - lateral;
 
               const slideSpring = reduceMotion
@@ -175,7 +179,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                 <motion.article
                   key={project.slug}
                   data-project-slide
-                  className="relative w-[min(90vw,560px)] shrink-0 select-none"
+                  className="relative w-[min(92vw,780px)] shrink-0 select-none"
                   style={{ transformStyle: "preserve-3d", zIndex }}
                   onClick={() => setActiveIndex(i)}
                   animate={{
@@ -189,41 +193,45 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                   transition={slideSpring}
                 >
                   <div
-                    className={cn(
-                      "flex min-h-[360px] flex-col justify-between rounded-[28px] px-7 py-8 md:min-h-[420px] md:px-10 md:py-10",
-                      isActive ? "cursor-default" : "cursor-pointer",
-                    )}
+                    className={cn("rounded-[28px] px-6 py-7 md:px-8 md:py-8", isActive ? "cursor-default" : "cursor-pointer")}
                     style={{
                       background:
-                        "linear-gradient(152deg, color-mix(in srgb, var(--scroll-card-bg) 78%, transparent), color-mix(in srgb, var(--scroll-card-bg) 42%, transparent))",
-                      border: "1px solid color-mix(in srgb, var(--scroll-border) 34%, transparent)",
+                        "linear-gradient(152deg, color-mix(in srgb, var(--scroll-card-bg) 84%, transparent), color-mix(in srgb, var(--scroll-card-bg) 48%, transparent))",
+                      border: "1px solid color-mix(in srgb, var(--scroll-border) 28%, transparent)",
                       backdropFilter: "blur(10px)",
                       boxShadow: isActive
-                        ? "0 34px 90px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.14)"
-                        : "0 12px 36px rgba(0,0,0,0.18)",
+                        ? "0 34px 92px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.14)"
+                        : "0 8px 26px rgba(0,0,0,0.14)",
                     }}
                   >
-                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-[auto,1fr] sm:gap-7">
+                    <div className="grid min-h-[380px] grid-cols-1 gap-8 md:min-h-[430px] md:grid-cols-[38%,1fr] md:gap-10">
                       <div
-                        className="relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl sm:h-24 sm:w-24"
+                        className="relative overflow-hidden rounded-[22px]"
                         style={{
                           background:
-                            "linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.02))",
-                          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.2)",
+                            "linear-gradient(145deg, color-mix(in srgb, var(--scroll-card-bg) 74%, transparent), rgba(255,255,255,0.02))",
+                          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.16)",
                         }}
                       >
+                        <div
+                          className="pointer-events-none absolute -inset-[22%]"
+                          style={{
+                            background:
+                              "radial-gradient(circle, color-mix(in srgb, hsl(15,80%,55%) 24%, transparent) 0%, transparent 68%)",
+                          }}
+                        />
                         {logoSrc && isDisplayableImageUrl(logoSrc) ? (
                           <Image
                             src={logoSrc}
                             alt={project.logo?.alt || `${project.name} logo`}
                             fill
-                            sizes="96px"
-                            className="object-contain p-2.5"
+                            sizes="(min-width: 768px) 290px, 82vw"
+                            className="object-contain p-8 md:p-10"
                             draggable={false}
                           />
                         ) : (
                           <div
-                            className="flex h-full w-full items-center justify-center text-xs font-semibold uppercase tracking-wide"
+                            className="flex h-full w-full items-center justify-center text-2xl font-semibold uppercase tracking-wide"
                             style={{ color: "var(--scroll-muted-fg)" }}
                           >
                             {project.name.slice(0, 2)}
@@ -231,63 +239,80 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                         )}
                       </div>
 
-                      <div className="min-w-0">
-                        <p
-                          className="text-[10px] uppercase tracking-[0.24em] md:text-xs"
-                          style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 75%, transparent)" }}
-                        >
-                          Featured project
-                        </p>
-                        <h3
-                          className="mt-2 text-[1.9rem] font-semibold leading-[1.05] tracking-tight md:text-[2.45rem]"
-                          style={{ color: "var(--scroll-fg)" }}
-                        >
-                          {project.name}
-                        </h3>
+                      <div className="flex min-w-0 flex-col justify-between">
+                        <div>
+                          <p
+                            className="text-[10px] uppercase tracking-[0.18em] md:text-xs"
+                            style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 62%, transparent)" }}
+                          >
+                            Case study
+                          </p>
+                          <h3
+                            className="mt-2 text-[2rem] font-semibold leading-[1.03] tracking-tight md:text-[2.85rem]"
+                            style={{ color: "var(--scroll-fg)" }}
+                          >
+                            {project.name}
+                          </h3>
+                          <div className="mt-4 flex flex-wrap gap-2">
+                            {(project.stack || []).slice(0, 3).map((tag) => (
+                              <span
+                                key={tag}
+                                className="rounded-full px-3 py-1 text-[11px] tracking-wide"
+                                style={{
+                                  color: "color-mix(in srgb, var(--scroll-muted-fg) 94%, transparent)",
+                                  backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 70%, transparent)",
+                                  border: "1px solid color-mix(in srgb, var(--scroll-border) 40%, transparent)",
+                                }}
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="mt-7">
+                          {summary ? (
+                            <p
+                              className="max-w-[44ch] text-sm leading-relaxed text-pretty md:text-base"
+                              style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 86%, transparent)" }}
+                            >
+                              {summary}
+                            </p>
+                          ) : (
+                            <p className="text-sm italic" style={{ color: "var(--scroll-muted-fg)" }}>
+                              Add a one-line descriptor in Sanity.
+                            </p>
+                          )}
+
+                          <div className="mt-8 flex flex-wrap items-center gap-4">
+                            <Link
+                              href={`/projects/${project.slug}`}
+                              className="group/cta inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-medium transition duration-300 hover:-translate-y-0.5"
+                              style={{
+                                background: "linear-gradient(120deg, hsl(15,80%,55%), hsl(15,70%,44%))",
+                                color: "#111214",
+                                boxShadow: "0 10px 24px rgba(0,0,0,0.22)",
+                              }}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              Read more
+                              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
+                            </Link>
+                            {project.demo ? (
+                              <a
+                                href={project.demo}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sm font-medium underline-offset-4 hover:underline"
+                                style={{ color: "var(--scroll-muted-fg)" }}
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                Demo
+                              </a>
+                            ) : null}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-
-                    <div className="mt-8 max-w-[52ch]">
-                      {summary ? (
-                        <p
-                          className="text-sm leading-relaxed text-pretty md:text-base"
-                          style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 88%, transparent)" }}
-                        >
-                          {summary}
-                        </p>
-                      ) : (
-                        <p className="text-sm italic" style={{ color: "var(--scroll-muted-fg)" }}>
-                          Add a one-line descriptor in Sanity.
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="mt-10 flex flex-wrap items-center gap-4">
-                      <Link
-                        href={`/projects/${project.slug}`}
-                        className="group/cta inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-medium transition duration-300 hover:-translate-y-0.5"
-                        style={{
-                          background: "linear-gradient(120deg, hsl(15,80%,55%), hsl(15,70%,44%))",
-                          color: "#111214",
-                          boxShadow: "0 10px 24px rgba(0,0,0,0.22)",
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        Read more
-                        <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
-                      </Link>
-                      {project.demo ? (
-                        <a
-                          href={project.demo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm font-medium underline-offset-4 hover:underline"
-                          style={{ color: "var(--scroll-muted-fg)" }}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          Demo
-                        </a>
-                      ) : null}
                     </div>
                   </div>
                 </motion.article>
@@ -297,13 +322,19 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
         </div>
 
         {count > 1 ? (
-          <div className="mt-12 px-6">
-            <div className="mx-auto flex w-full max-w-md items-center justify-between">
+          <div className="mt-10 px-6">
+            <div
+              className="mx-auto flex w-full max-w-lg items-center justify-between rounded-full px-4 py-3"
+              style={{
+                backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 58%, transparent)",
+                border: "1px solid color-mix(in srgb, var(--scroll-border) 35%, transparent)",
+              }}
+            >
               <span className="text-xs tabular-nums" style={{ color: "var(--scroll-muted-fg)" }}>
                 {String(activeIndex + 1).padStart(2, "0")}
               </span>
               <div
-                className="relative mx-4 h-1 flex-1 overflow-hidden rounded-full"
+                className="relative mx-4 h-1.5 flex-1 overflow-hidden rounded-full"
                 style={{ backgroundColor: "color-mix(in srgb, var(--scroll-border) 34%, transparent)" }}
               >
                 <motion.div
@@ -311,6 +342,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                   style={{
                     width: `${100 / count}%`,
                     background: "linear-gradient(90deg, hsl(15,80%,55%), hsl(15,70%,42%))",
+                    boxShadow: "0 0 12px color-mix(in srgb, hsl(15,80%,55%) 65%, transparent)",
                   }}
                   animate={{ x: `${activeIndex * 100}%` }}
                   transition={trackTransition}
@@ -320,7 +352,8 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                 {String(count).padStart(2, "0")}
               </span>
             </div>
-            <div className="mt-4 flex justify-center gap-2">
+
+            <div className="mt-3 flex justify-center gap-2">
               {projects.map((p, i) => (
                 <button
                   key={p.slug}
@@ -328,7 +361,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                   onClick={() => setActiveIndex(i)}
                   className={cn(
                     "h-1.5 rounded-full transition-all duration-300",
-                    i === activeIndex ? "w-12 bg-[hsl(15,80%,55%)]" : "w-2.5 bg-white/20 hover:bg-white/35",
+                    i === activeIndex ? "w-10 bg-[hsl(15,80%,55%)]" : "w-2 bg-white/20 hover:bg-white/35",
                   )}
                   aria-label={`Show project: ${p.name}`}
                   aria-pressed={i === activeIndex}
