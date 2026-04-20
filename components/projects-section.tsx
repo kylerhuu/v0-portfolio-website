@@ -50,9 +50,9 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
     ? { duration: 0.18, ease: "easeOut" as const }
     : { type: "spring" as const, stiffness: 300, damping: 30, mass: 0.78 };
 
-  const haloTransition = reduceMotion
-    ? { duration: 0.35, ease: "easeOut" as const }
-    : { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const };
+  // Keep halo transitions matched to the slide motion to avoid a "bright flash then settle"
+  // caused by two different springs/easings fighting each other during centering.
+  const haloTransition = trackTransition;
 
   const active = projects[activeIndex];
   const featuredSet = new Set(featuredSlugs);
@@ -170,7 +170,8 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                 const rotateY = isCenter ? 0 : rel > 0 ? -12 : 12;
                 const rotateZ = isCenter ? 0 : rel > 0 ? -0.3 : 0.3;
                 const opacity = isCenter ? 1 : isNear ? 0.34 : 0;
-                const haloStrength = Math.min(1, opacity / 0.34);
+                // Ramp glow only in the final portion of the centering fade (prevents an early brightness spike).
+                const haloStrength = Math.min(1, Math.max(0, (opacity - 0.72) / (1 - 0.72)));
 
                 return (
                   <motion.article
@@ -245,7 +246,7 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                             background:
                               "radial-gradient(circle at 12% -8%, rgba(255,228,160,0.14), rgba(255,228,160,0.03) 40%, transparent 72%)",
                             filter: "blur(0.4px)",
-                            opacity: 0.46 + 0.12 * haloStrength,
+                            opacity: 0.52,
                           }}
                         />
                       ) : null}
