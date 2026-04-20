@@ -166,6 +166,7 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                 const rotateY = isCenter ? 0 : rel > 0 ? -12 : 12;
                 const rotateZ = isCenter ? 0 : rel > 0 ? -0.3 : 0.3;
                 const opacity = isCenter ? 1 : isNear ? 0.34 : 0;
+                const haloStrength = Math.min(1, opacity / (isNear ? 0.34 : 1));
 
                 return (
                   <motion.article
@@ -185,13 +186,13 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                     }}
                     aria-hidden={!isCenter}
                   >
-                    {isFeatured && isCenter ? (
+                    {isFeatured ? (
                       <>
                         <motion.div
                           className="pointer-events-none absolute -inset-8 rounded-[42px]"
                           animate={{
-                            opacity: 0.72,
-                            scale: 1.05,
+                            opacity: 0.72 * haloStrength,
+                            scale: 1.02 + 0.03 * haloStrength,
                             filter: "blur(24px)",
                           }}
                           transition={trackTransition}
@@ -203,7 +204,7 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                         />
                         <motion.div
                           className="pointer-events-none absolute -inset-10 rounded-[46px]"
-                          animate={{ opacity: 0.24, scale: 1.03 }}
+                          animate={{ opacity: 0.24 * haloStrength, scale: 1.01 + 0.02 * haloStrength }}
                           transition={trackTransition}
                           style={{
                             background:
@@ -240,7 +241,7 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                             background:
                               "radial-gradient(circle at 12% -8%, rgba(255,228,160,0.14), rgba(255,228,160,0.03) 40%, transparent 72%)",
                             filter: "blur(0.4px)",
-                            opacity: isCenter ? 0.58 : 0.46,
+                            opacity: 0.46 + 0.12 * haloStrength,
                           }}
                         />
                       ) : null}
