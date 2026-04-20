@@ -185,6 +185,21 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                     }}
                     aria-hidden={!isCenter}
                   >
+                    {isFeatured ? (
+                      <div
+                        className="pointer-events-none absolute -inset-5 rounded-[36px]"
+                        style={{
+                          background: isCenter
+                            ? "radial-gradient(circle at 50% 50%, rgba(255,219,135,0.3) 0%, rgba(245,182,66,0.2) 28%, rgba(236,170,50,0.1) 48%, transparent 72%)"
+                            : "radial-gradient(circle at 50% 50%, rgba(255,219,135,0.18) 0%, rgba(245,182,66,0.1) 35%, transparent 72%)",
+                          filter: isCenter ? "blur(22px)" : "blur(16px)",
+                          opacity: isCenter ? 0.92 : 0.58,
+                          transform: isCenter ? "scale(1.04)" : "scale(1.01)",
+                          zIndex: -1,
+                        }}
+                      />
+                    ) : null}
+
                     <div
                       className="relative rounded-[28px] px-5 py-6 md:px-7 md:py-7"
                       style={{
