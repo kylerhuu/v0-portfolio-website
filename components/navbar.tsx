@@ -7,8 +7,8 @@ import { useScrollColor } from "@/components/scroll-color-provider";
 
 const NAV_LINKS = [
   { label: "About", href: "#about" },
-  { label: "Experiences", href: "#experiences" },
   { label: "Projects", href: "#projects" },
+  { label: "Experiences", href: "#experiences" },
   { label: "Gallery", href: "#gallery" },
   { label: "Resume", href: "#resume" },
   { label: "Contact", href: "#contact" },

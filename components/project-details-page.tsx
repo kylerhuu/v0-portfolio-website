@@ -18,6 +18,10 @@ export function ProjectDetailsPage({ project, caseStudy }: ProjectDetailsPagePro
   const { ref: heroRef, isVisible: heroVisible } = useScrollReveal(0.08);
   const { ref: bodyRef, isVisible: bodyVisible } = useScrollReveal(0.04);
   const mediaItems = caseStudy?.gallery?.length ? caseStudy.gallery : project.media;
+  const lessons =
+    caseStudy?.lessons && caseStudy.lessons.length > 0
+      ? caseStudy.lessons
+      : project.lessons || [];
 
   return (
     <ScrollColorProvider>
@@ -34,6 +38,14 @@ export function ProjectDetailsPage({ project, caseStudy }: ProjectDetailsPagePro
             <Link href="/" className="text-sm text-[hsl(15,80%,55%)] hover:underline">
               ← Back to home
             </Link>
+            <div className="mt-3">
+              <Link
+                href={`/projects/${project.slug}/legal`}
+                className="inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
+              >
+                Project Legal
+              </Link>
+            </div>
             <h1 className="text-3xl md:text-5xl font-bold mt-6 mb-4" style={{ color: "var(--scroll-fg)" }}>
               {project.name}
             </h1>
@@ -150,7 +162,7 @@ export function ProjectDetailsPage({ project, caseStudy }: ProjectDetailsPagePro
             <section>
               <h2 className="text-sm font-semibold uppercase tracking-widest text-[hsl(15,80%,55%)] mb-3">Lessons</h2>
               <ul className="list-disc pl-5 space-y-2 text-sm leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
-                {(caseStudy?.lessons?.length ? caseStudy.lessons : project.lessons).map((item) => (
+                {lessons.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>

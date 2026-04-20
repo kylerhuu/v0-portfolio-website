@@ -7,5 +7,7 @@ __v0_jsx-dev-runtime.ts
 node_modules/
 .next/
 .pnpm-store/
-.env*.local
+.env
+.env.*
+!.env.example
 .DS_Store

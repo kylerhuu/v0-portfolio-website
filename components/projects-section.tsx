@@ -143,12 +143,20 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
             <div className="flex items-start justify-between gap-4">
               <DialogTitle className="text-xl font-bold">{selected?.name}</DialogTitle>
               <div className="flex items-center gap-2">
-                {selected?.hasCaseStudy && (
+                {selected?.slug && (
                   <Link
                     href={`/projects/${selected.slug}`}
                     className="shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
                   >
                     Project Details
+                  </Link>
+                )}
+                {selected?.slug && (
+                  <Link
+                    href={`/projects/${selected.slug}/legal`}
+                    className="shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
+                  >
+                    Legal
                   </Link>
                 )}
                 {selected?.demo && (

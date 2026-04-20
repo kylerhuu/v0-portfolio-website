@@ -20,8 +20,8 @@ export default async function Home() {
       <main>
         <HeroSection />
         <AboutSection />
-        <ExperiencesSection experiences={experiences} />
         <ProjectsSection projects={projects} />
+        <ExperiencesSection experiences={experiences} />
         <GallerySection />
         <ResumeSection />
         <ContactSection />
