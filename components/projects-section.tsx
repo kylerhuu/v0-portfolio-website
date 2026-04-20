@@ -10,9 +10,9 @@ import type { CmsProject } from "@/lib/sanity/types";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { cn } from "@/lib/utils";
 
-/** Prefer richer project media for the hero visual, then fall back to logo. */
+/** Use card logo as primary front visual for the carousel. */
 function projectVisualUrl(project: CmsProject): string | null {
-  return getMediaUrl(project.media?.[0]) ?? getMediaUrl(project.logo);
+  return getMediaUrl(project.logo) ?? getMediaUrl(project.media?.[0]);
 }
 
 function projectSummary(project: CmsProject): string {
