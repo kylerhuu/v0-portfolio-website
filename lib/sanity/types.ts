@@ -71,6 +71,7 @@ export type CmsCaseStudy = {
 export type CmsLegalPage = {
   title: string;
   slug: string;
+  projectLegalPath?: string;
   body: Array<{
     _key?: string;
     _type?: string;

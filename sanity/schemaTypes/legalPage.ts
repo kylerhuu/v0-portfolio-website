@@ -35,6 +35,22 @@ export const legalPageType = defineType({
           return "Select a related project for project-level legal pages.";
         }),
     }),
+    defineField({
+      name: "projectLegalPath",
+      title: "Project legal path",
+      description:
+        "URL segment used for project legal routes: /projects/[slug]/legal/[projectLegalPath] (e.g. terms-of-service, privacy, cookies).",
+      type: "slug",
+      options: { source: "title", maxLength: 96 },
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const hasProject = Boolean(
+            (context.document as { relatedProject?: { _ref?: string } } | undefined)?.relatedProject?._ref,
+          );
+          if (!hasProject) return true;
+          return value?.current ? true : "Project-linked legal pages require a project legal path.";
+        }),
+    }),
   ],
   preview: {
     select: {

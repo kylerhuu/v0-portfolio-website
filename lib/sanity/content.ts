@@ -6,7 +6,9 @@ import {
   caseStudyBySlugQuery,
   experienceBySlugQuery,
   experiencesQuery,
+  legalPageByProjectSlugAndPathQuery,
   legalPageByProjectSlugQuery,
+  legalPagesByProjectSlugQuery,
   legalPageBySlugQuery,
   projectBySlugQuery,
   projectsQuery,
@@ -308,6 +310,33 @@ export async function getLegalPageByProjectSlug(projectSlug: string): Promise<Cm
     const data = await sanityClient.fetch<CmsLegalPage | null>(
       legalPageByProjectSlugQuery,
       { slug: projectSlug },
+      sanityFetchNext,
+    );
+    return data ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function getLegalPagesByProjectSlug(projectSlug: string): Promise<CmsLegalPage[]> {
+  if (!hasSanityEnv) return [];
+  try {
+    const data = await sanityClient.fetch<CmsLegalPage[]>(legalPagesByProjectSlugQuery, { slug: projectSlug }, sanityFetchNext);
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+export async function getLegalPageByProjectSlugAndPath(
+  projectSlug: string,
+  path: string,
+): Promise<CmsLegalPage | null> {
+  if (!hasSanityEnv) return null;
+  try {
+    const data = await sanityClient.fetch<CmsLegalPage | null>(
+      legalPageByProjectSlugAndPathQuery,
+      { slug: projectSlug, path },
       sanityFetchNext,
     );
     return data ?? null;
