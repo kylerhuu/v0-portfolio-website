@@ -6,16 +6,12 @@ import { Navbar } from "@/components/navbar";
 import { NeuralBackground } from "@/components/neural-background";
 import { ScrollColorProvider } from "@/components/scroll-color-provider";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
-import { getMediaUrl } from "@/lib/sanity/media";
+import { getMediaUrl, isDisplayableImageUrl } from "@/lib/sanity/media";
 import type { CmsExperience } from "@/lib/sanity/types";
 
 type ExperienceDetailPageProps = {
   experience: CmsExperience;
 };
-
-function isImageFile(file: string) {
-  return file.endsWith(".png") || file.endsWith(".jpg") || file.endsWith(".jpeg") || file.endsWith(".webp");
-}
 
 function experienceLogoUrl(exp: CmsExperience): string | null {
   return getMediaUrl(exp.logo) ?? getMediaUrl(exp.media?.[0]);
@@ -51,7 +47,7 @@ export function ExperienceDetailPage({ experience }: ExperienceDetailPageProps) 
                     "linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
                 }}
               >
-                {logoSrc && isImageFile(logoSrc) ? (
+                {logoSrc && isDisplayableImageUrl(logoSrc) ? (
                   <Image
                     src={logoSrc}
                     alt={experience.logo?.alt || `${experience.company} logo`}
@@ -165,7 +161,7 @@ export function ExperienceDetailPage({ experience }: ExperienceDetailPageProps) 
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   {experience.media.map((item, i) => {
                     const src = getMediaUrl(item);
-                    if (!src || !isImageFile(src)) return null;
+                    if (!src || !isDisplayableImageUrl(src)) return null;
                     return (
                       <div
                         key={`${src}-${i}`}

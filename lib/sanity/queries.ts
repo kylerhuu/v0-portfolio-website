@@ -5,7 +5,12 @@ export const experiencesQuery = groq`
     "id": coalesce(_id, company),
     "slug": slug.current,
     company,
-    logo,
+    logo {
+      alt,
+      asset->{
+        url
+      }
+    },
     title,
     duration,
     location,
@@ -15,7 +20,12 @@ export const experiencesQuery = groq`
     outcomes,
     tools,
     skills,
-    media,
+    "media": media[]{
+      alt,
+      asset->{
+        url
+      }
+    },
     "hasCaseStudy": defined(linkedProjectSlugs[0]),
     "caseStudySlug": linkedProjectSlugs[0]
   }
@@ -26,7 +36,12 @@ export const experienceBySlugQuery = groq`
     "id": coalesce(_id, company),
     "slug": slug.current,
     company,
-    logo,
+    logo {
+      alt,
+      asset->{
+        url
+      }
+    },
     title,
     duration,
     location,
@@ -36,7 +51,12 @@ export const experienceBySlugQuery = groq`
     outcomes,
     tools,
     skills,
-    media,
+    "media": media[]{
+      alt,
+      asset->{
+        url
+      }
+    },
     "hasCaseStudy": defined(linkedProjectSlugs[0]),
     "caseStudySlug": linkedProjectSlugs[0]
   }
@@ -50,7 +70,12 @@ export const projectsQuery = groq`
   *[_type == "project"] | order(orderRank asc, _createdAt desc) {
     "slug": slug.current,
     name,
-    logo,
+    logo {
+      alt,
+      asset->{
+        url
+      }
+    },
     "oneLiner": coalesce(oneLiner, (${LINKED_CASE_STUDY}).heroSummary),
     problem,
     solution,
@@ -67,8 +92,18 @@ export const projectsQuery = groq`
     videoPoster,
     hasCaseStudy,
     "media": select(
-      count(media) > 0 => media,
-      (${LINKED_CASE_STUDY}).gallery
+      count(media) > 0 => media[]{
+        alt,
+        asset->{
+          url
+        }
+      },
+      (${LINKED_CASE_STUDY}).gallery[]{
+        alt,
+        asset->{
+          url
+        }
+      }
     )
   }
 `;
@@ -77,7 +112,12 @@ export const projectBySlugQuery = groq`
   *[_type == "project" && slug.current == $slug][0] {
     "slug": slug.current,
     name,
-    logo,
+    logo {
+      alt,
+      asset->{
+        url
+      }
+    },
     "oneLiner": coalesce(oneLiner, (${LINKED_CASE_STUDY}).heroSummary),
     problem,
     solution,
@@ -94,8 +134,18 @@ export const projectBySlugQuery = groq`
     videoPoster,
     hasCaseStudy,
     "media": select(
-      count(media) > 0 => media,
-      (${LINKED_CASE_STUDY}).gallery
+      count(media) > 0 => media[]{
+        alt,
+        asset->{
+          url
+        }
+      },
+      (${LINKED_CASE_STUDY}).gallery[]{
+        alt,
+        asset->{
+          url
+        }
+      }
     )
   }
 `;
@@ -114,7 +164,12 @@ export const caseStudyBySlugQuery = groq`
     results,
     lessons,
     futureWork,
-    gallery
+    "gallery": gallery[]{
+      alt,
+      asset->{
+        url
+      }
+    }
   }
 `;
 
@@ -132,7 +187,12 @@ export const caseStudyByProjectSlugQuery = groq`
     results,
     lessons,
     futureWork,
-    gallery
+    "gallery": gallery[]{
+      alt,
+      asset->{
+        url
+      }
+    }
   }
 `;
 

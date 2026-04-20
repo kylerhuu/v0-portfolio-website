@@ -6,17 +6,13 @@ import { Navbar } from "@/components/navbar";
 import { NeuralBackground } from "@/components/neural-background";
 import { ScrollColorProvider } from "@/components/scroll-color-provider";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
-import { getMediaUrl } from "@/lib/sanity/media";
+import { getMediaUrl, isDisplayableImageUrl } from "@/lib/sanity/media";
 import type { CmsCaseStudy, CmsProject } from "@/lib/sanity/types";
 
 type ProjectDetailsPageProps = {
   project: CmsProject;
   caseStudy?: CmsCaseStudy | null;
 };
-
-function isImageFile(file: string) {
-  return file.endsWith(".png") || file.endsWith(".jpg") || file.endsWith(".jpeg") || file.endsWith(".webp");
-}
 
 function projectLogoUrl(project: CmsProject): string | null {
   return getMediaUrl(project.logo) ?? getMediaUrl(project.media?.[0]);
@@ -74,7 +70,7 @@ export function ProjectDetailsPage({ project, caseStudy }: ProjectDetailsPagePro
                 className="relative mx-auto h-24 w-24 shrink-0 overflow-hidden rounded-2xl border sm:mx-0 sm:h-28 sm:w-28"
                 style={{ borderColor: "var(--scroll-border)", backgroundColor: "var(--scroll-card-bg)" }}
               >
-                {logoSrc && isImageFile(logoSrc) ? (
+                {logoSrc && isDisplayableImageUrl(logoSrc) ? (
                   <Image
                     src={logoSrc}
                     alt={project.logo?.alt || `${project.name} logo`}

@@ -5,16 +5,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { getMediaUrl } from "@/lib/sanity/media";
+import { getMediaUrl, isDisplayableImageUrl } from "@/lib/sanity/media";
 import type { CmsProject } from "@/lib/sanity/types";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { cn } from "@/lib/utils";
 
 const GAP_PX = 40;
-
-function isImageFile(file: string) {
-  return file.endsWith(".png") || file.endsWith(".jpg") || file.endsWith(".jpeg") || file.endsWith(".webp");
-}
 
 function projectLogoUrl(project: CmsProject): string | null {
   return getMediaUrl(project.logo) ?? getMediaUrl(project.media?.[0]);
@@ -193,7 +189,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                               "linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))",
                           }}
                         >
-                          {logoSrc && isImageFile(logoSrc) ? (
+                          {logoSrc && isDisplayableImageUrl(logoSrc) ? (
                             <Image
                               src={logoSrc}
                               alt={project.logo?.alt || `${project.name} logo`}
