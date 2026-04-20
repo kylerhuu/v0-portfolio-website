@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 
 interface Node {
   x: number;
@@ -12,20 +12,8 @@ interface Node {
   pulseOffset: number;
 }
 
-function getScrollProgress(): number {
-  const scrollHeight =
-    document.documentElement.scrollHeight - window.innerHeight;
-  if (scrollHeight <= 0) return 0;
-  return Math.max(0, Math.min(1, window.scrollY / scrollHeight));
-}
-
 export function NeuralBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const progressRef = useRef(0);
-
-  const handleScroll = useCallback(() => {
-    progressRef.current = getScrollProgress();
-  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -73,14 +61,10 @@ export function NeuralBackground() {
       if (!canvas || !ctx) return;
       time += 0.004;
 
-      const p = progressRef.current;
-      // Enhanced opacity curve: visible on dark, subtle on light
-      const baseOpacity = Math.max(0.15, 1 - p * 0.6);
-
-      // Node color: warm amber → dark sienna (slightly more contrast now)
-      const nr = Math.round(220 - p * 145);
-      const ng = Math.round(130 - p * 80);
-      const nb = Math.round(65 - p * 35);
+      const baseOpacity = 0.9;
+      const nr = 220;
+      const ng = 130;
+      const nb = 65;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -170,11 +154,11 @@ export function NeuralBackground() {
                 wisp.amplitude * 0.3;
             ctx.lineTo(x, waveY);
           }
-          // Very faint: 5-8% opacity, white on dark, dark on light
+          // Subtle atmospheric line consistent across all sections
           const wispOpacity = (0.04 + Math.sin(time * 0.5) * 0.02) * baseOpacity;
-          const wR = p < 0.5 ? 255 : Math.round(255 - p * 200);
-          const wG = p < 0.5 ? 255 : Math.round(255 - p * 200);
-          const wB = p < 0.5 ? 255 : Math.round(255 - p * 200);
+          const wR = 255;
+          const wG = 255;
+          const wB = 255;
           ctx.strokeStyle = `rgba(${wR}, ${wG}, ${wB}, ${wispOpacity})`;
           ctx.lineWidth = 1.2;
           ctx.filter = "blur(2px)";
@@ -188,7 +172,6 @@ export function NeuralBackground() {
 
     resize();
     initNodes();
-    handleScroll();
     animate();
 
     const resizeHandler = () => {
@@ -197,14 +180,12 @@ export function NeuralBackground() {
     };
 
     window.addEventListener("resize", resizeHandler);
-    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", resizeHandler);
-      window.removeEventListener("scroll", handleScroll);
     };
-  }, [handleScroll]);
+  }, []);
 
   return (
     <canvas
