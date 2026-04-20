@@ -11,7 +11,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { EXPERIENCES, type Experience } from "@/data/experiences";
+import { getMediaUrl } from "@/lib/sanity/media";
+import type { CmsExperience } from "@/lib/sanity/types";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 function isImageFile(file: string) {
@@ -32,12 +33,12 @@ function ExperienceCard({
   index,
   isVisible,
 }: {
-  experience: Experience;
+  experience: CmsExperience;
   onClick: () => void;
   index: number;
   isVisible: boolean;
 }) {
-  const preview = experience.media?.[0];
+  const preview = getMediaUrl(experience.media?.[0]);
 
   return (
     <button
@@ -75,7 +76,7 @@ function ExperienceCard({
         {experience.summary}
       </p>
       <div className="flex flex-wrap gap-2">
-        {experience.skills.map((skill) => (
+        {(experience.skills || []).map((skill) => (
           <Badge
             key={skill}
             variant="secondary"
@@ -104,15 +105,17 @@ function BulletList({ items }: { items: string[] }) {
   );
 }
 
-export function ExperiencesSection() {
-  const [selected, setSelected] = useState<Experience | null>(null);
+export function ExperiencesSection({ experiences }: { experiences: CmsExperience[] }) {
+  const [selected, setSelected] = useState<CmsExperience | null>(null);
   const [previewMedia, setPreviewMedia] = useState<string | null>(null);
   const { ref: headingRef, isVisible: headingVisible } = useScrollReveal();
   const { ref: cardsRef, isVisible: cardsVisible } = useScrollReveal(0.05);
 
   const resultItems =
-    selected && selected.outcomes.length > 1 ? selected.outcomes.slice(0, selected.outcomes.length - 1) : selected?.outcomes ?? [];
-  const learnedItem = selected?.outcomes[selected.outcomes.length - 1];
+    selected && (selected.outcomes || []).length > 1
+      ? (selected.outcomes || []).slice(0, (selected.outcomes || []).length - 1)
+      : selected?.outcomes ?? [];
+  const learnedItem = selected?.outcomes?.[(selected.outcomes || []).length - 1];
 
   return (
     <section id="experiences" className="relative z-10 px-6 py-24 md:py-32">
@@ -132,7 +135,7 @@ export function ExperiencesSection() {
         </div>
 
         <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {EXPERIENCES.map((experience, i) => (
+          {experiences.map((experience, i) => (
             <ExperienceCard
               key={experience.id}
               experience={experience}
@@ -179,14 +182,14 @@ export function ExperiencesSection() {
                 <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
                   Responsibilities
                 </h4>
-                <BulletList items={selected.responsibilities} />
+                <BulletList items={selected.responsibilities || []} />
               </div>
 
               <div>
                 <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
                   Execution
                 </h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">{selected.tools.join(", ")}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{(selected.tools || []).join(", ")}</p>
               </div>
 
               <div>
@@ -200,7 +203,7 @@ export function ExperiencesSection() {
                 <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
                   Key Skills
                 </h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">{selected.skills.join(", ")}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{(selected.skills || []).join(", ")}</p>
               </div>
 
               {learnedItem && (
@@ -214,7 +217,9 @@ export function ExperiencesSection() {
 
               {selected.media && selected.media.length > 0 && (
                 <div className="flex overflow-x-auto gap-4 mt-4 pb-2">
-                  {selected.media.map((file, i) => {
+                  {selected.media.map((mediaItem, i) => {
+                    const file = getMediaUrl(mediaItem);
+                    if (!file) return null;
                     const commonClasses = "flex-0 rounded-lg border border-border cursor-pointer";
                     if (isImageFile(file)) {
                       return (

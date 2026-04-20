@@ -8,8 +8,11 @@ import GallerySection from "@/components/gallery-section";
 import { ResumeSection } from "@/components/resume-section";
 import { ContactSection } from "@/components/contact-section";
 import { ScrollColorProvider } from "@/components/scroll-color-provider";
+import { getExperiences, getProjects } from "@/lib/sanity/content";
 
-export default function Home() {
+export default async function Home() {
+  const [experiences, projects] = await Promise.all([getExperiences(), getProjects()]);
+
   return (
     <ScrollColorProvider>
       <NeuralBackground />
@@ -17,8 +20,8 @@ export default function Home() {
       <main>
         <HeroSection />
         <AboutSection />
-        <ExperiencesSection />
-        <ProjectsSection />
+        <ExperiencesSection experiences={experiences} />
+        <ProjectsSection projects={projects} />
         <GallerySection />
         <ResumeSection />
         <ContactSection />

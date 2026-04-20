@@ -1,44 +1,45 @@
 import type { Metadata } from "next";
+import { PortableText } from "@portabletext/react";
 import Link from "next/link";
+import { Navbar } from "@/components/navbar";
+import { NeuralBackground } from "@/components/neural-background";
+import { ScrollColorProvider } from "@/components/scroll-color-provider";
+import { getLegalPageBySlug } from "@/lib/sanity/content";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
   description: "Terms governing use of this website and linked project experiences.",
 };
 
-export default function TermsOfServicePage() {
+export default async function TermsOfServicePage() {
+  const page = await getLegalPageBySlug("terms-of-service");
+
   return (
-    <main className="min-h-screen px-6 py-20 md:py-24">
-      <div className="mx-auto max-w-3xl">
-        <Link href="/" className="text-sm text-[hsl(15,80%,55%)] hover:underline">
-          ← Back to home
-        </Link>
-        <h1 className="text-3xl font-bold mt-6 mb-6" style={{ color: "var(--scroll-fg)" }}>
-          Terms of Service
-        </h1>
-        <div
-          className="rounded-lg border p-6 space-y-5 text-sm leading-relaxed"
-          style={{ backgroundColor: "var(--scroll-card-bg)", borderColor: "var(--scroll-border)", color: "var(--scroll-muted-fg)" }}
-        >
-          <p>Effective date: April 19, 2026</p>
-          <p>
-            By using this website, you agree to use it only for lawful purposes and in a way that does not interfere with normal
-            site operation.
-          </p>
-          <p>
-            All content, including text, visuals, and project materials, is provided for informational purposes and may be updated
-            without notice.
-          </p>
-          <p>
-            External links and project demos may be governed by separate terms. I am not responsible for third-party service
-            availability or policies.
-          </p>
-          <p>
-            These terms may be revised over time. Continued use of this website after updates indicates acceptance of the revised
-            terms.
-          </p>
+    <ScrollColorProvider>
+      <NeuralBackground />
+      <Navbar />
+      <main className="relative z-10 min-h-screen px-6 py-24 md:py-32">
+        <div className="mx-auto max-w-3xl">
+          <Link href="/" className="text-sm text-[hsl(15,80%,55%)] hover:underline">
+            ← Back to home
+          </Link>
+          <h1 className="text-3xl font-bold mt-6 mb-6" style={{ color: "var(--scroll-fg)" }}>
+            {page?.title || "Terms of Service"}
+          </h1>
+          <div
+            className="rounded-lg border p-6 text-sm leading-relaxed"
+            style={{ backgroundColor: "var(--scroll-card-bg)", borderColor: "var(--scroll-border)", color: "var(--scroll-muted-fg)" }}
+          >
+            {page?.body?.length ? (
+              <div className="space-y-4">
+                <PortableText value={page.body} />
+              </div>
+            ) : (
+              <p>Terms of service content will be published soon.</p>
+            )}
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </ScrollColorProvider>
   );
 }

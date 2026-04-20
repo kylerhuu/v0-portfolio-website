@@ -11,7 +11,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { PROJECTS, type Project } from "@/data/projects";
+import { getMediaUrl } from "@/lib/sanity/media";
+import type { CmsProject } from "@/lib/sanity/types";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 function isImageFile(file: string) {
@@ -32,12 +33,12 @@ function ProjectCard({
   index,
   isVisible,
 }: {
-  project: Project;
+  project: CmsProject;
   onClick: () => void;
   index: number;
   isVisible: boolean;
 }) {
-  const preview = project.media?.[0];
+  const preview = getMediaUrl(project.media?.[0]);
 
   return (
     <button
@@ -71,7 +72,7 @@ function ProjectCard({
         {project.oneLiner}
       </p>
       <div className="flex flex-wrap gap-2">
-        {project.stack.slice(0, 4).map((tech) => (
+        {(project.stack || []).slice(0, 4).map((tech) => (
           <Badge
             key={tech}
             variant="secondary"
@@ -100,8 +101,8 @@ function BulletList({ items }: { items: string[] }) {
   );
 }
 
-export function ProjectsSection() {
-  const [selected, setSelected] = useState<Project | null>(null);
+export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
+  const [selected, setSelected] = useState<CmsProject | null>(null);
   const [previewMedia, setPreviewMedia] = useState<string | null>(null);
   const { ref: headingRef, isVisible: headingVisible } = useScrollReveal();
   const { ref: cardsRef, isVisible: cardsVisible } = useScrollReveal(0.05);
@@ -124,7 +125,7 @@ export function ProjectsSection() {
         </div>
 
         <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {PROJECTS.map((project, i) => (
+          {projects.map((project, i) => (
             <ProjectCard
               key={project.slug}
               project={project}
@@ -184,7 +185,7 @@ export function ProjectsSection() {
                 <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
                   Tech Stack
                 </h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">{selected.stack.join(", ")}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{(selected.stack || []).join(", ")}</p>
               </div>
 
               {selected.architecture && (
@@ -200,14 +201,14 @@ export function ProjectsSection() {
                 <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
                   Impact
                 </h4>
-                <BulletList items={selected.impact} />
+                <BulletList items={selected.impact || []} />
               </div>
 
               <div>
                 <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(15,80%,55%)] mb-2">
                   Key Lessons
                 </h4>
-                <BulletList items={selected.lessons} />
+                <BulletList items={selected.lessons || []} />
               </div>
 
               {selected.futureWork && (
@@ -221,7 +222,9 @@ export function ProjectsSection() {
 
               {selected.media && selected.media.length > 0 && (
                 <div className="flex overflow-x-auto gap-4 mt-4 pb-2">
-                  {selected.media.map((file, i) => {
+                  {selected.media.map((mediaItem, i) => {
+                    const file = getMediaUrl(mediaItem);
+                    if (!file) return null;
                     const commonClasses = "flex-0 rounded-lg border border-border cursor-pointer";
                     if (isImageFile(file)) {
                       return (
