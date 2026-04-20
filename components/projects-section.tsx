@@ -12,8 +12,9 @@ import { cn } from "@/lib/utils";
 
 const GAP_PX = 56;
 
-function projectLogoUrl(project: CmsProject): string | null {
-  return getMediaUrl(project.logo) ?? getMediaUrl(project.media?.[0]);
+/** Prefer richer project media for the hero visual, then fall back to logo. */
+function projectVisualUrl(project: CmsProject): string | null {
+  return getMediaUrl(project.media?.[0]) ?? getMediaUrl(project.logo);
 }
 
 function projectSummary(project: CmsProject): string {
@@ -157,7 +158,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
             transition={trackTransition}
           >
             {projects.map((project, i) => {
-              const logoSrc = projectLogoUrl(project);
+              const visualSrc = projectVisualUrl(project);
               const summary = projectSummary(project);
               const lateral = Math.abs(i - activeIndex);
               const rawOffset = i - activeIndex;
@@ -204,29 +205,47 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                         : "0 8px 26px rgba(0,0,0,0.14)",
                     }}
                   >
-                    <div className="grid min-h-[380px] grid-cols-1 gap-8 md:min-h-[430px] md:grid-cols-[38%,1fr] md:gap-10">
+                    <div className="grid min-h-[390px] grid-cols-1 gap-8 md:min-h-[430px] md:grid-cols-[40%,1fr] md:gap-9">
                       <div
                         className="relative overflow-hidden rounded-[22px]"
                         style={{
                           background:
-                            "linear-gradient(145deg, color-mix(in srgb, var(--scroll-card-bg) 74%, transparent), rgba(255,255,255,0.02))",
-                          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.16)",
+                            "linear-gradient(145deg, color-mix(in srgb, var(--scroll-card-bg) 79%, transparent), rgba(255,255,255,0.04))",
+                          boxShadow:
+                            "inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -24px 40px rgba(0,0,0,0.14)",
                         }}
                       >
+                        {/* Subtle texture and layered glow so the visual panel never feels empty. */}
                         <div
-                          className="pointer-events-none absolute -inset-[22%]"
+                          className="pointer-events-none absolute inset-0 opacity-[0.22]"
                           style={{
-                            background:
-                              "radial-gradient(circle, color-mix(in srgb, hsl(15,80%,55%) 24%, transparent) 0%, transparent 68%)",
+                            backgroundImage:
+                              "radial-gradient(rgba(255,255,255,0.12) 0.6px, transparent 0.6px)",
+                            backgroundSize: "8px 8px",
+                            maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.65), transparent)",
                           }}
                         />
-                        {logoSrc && isDisplayableImageUrl(logoSrc) ? (
+                        <div
+                          className="pointer-events-none absolute -inset-[26%]"
+                          style={{
+                            background:
+                              "radial-gradient(circle, color-mix(in srgb, hsl(15,80%,55%) 30%, transparent) 0%, transparent 70%)",
+                          }}
+                        />
+                        <div
+                          className="pointer-events-none absolute inset-x-0 bottom-0 h-20"
+                          style={{
+                            background:
+                              "linear-gradient(to top, color-mix(in srgb, var(--scroll-card-bg) 40%, transparent), transparent)",
+                          }}
+                        />
+                        {visualSrc && isDisplayableImageUrl(visualSrc) ? (
                           <Image
-                            src={logoSrc}
-                            alt={project.logo?.alt || `${project.name} logo`}
+                            src={visualSrc}
+                            alt={project.logo?.alt || `${project.name} visual`}
                             fill
-                            sizes="(min-width: 768px) 290px, 82vw"
-                            className="object-contain p-8 md:p-10"
+                            sizes="(min-width: 768px) 320px, 82vw"
+                            className="object-contain p-5 md:p-7"
                             draggable={false}
                           />
                         ) : (
@@ -248,7 +267,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                             Case study
                           </p>
                           <h3
-                            className="mt-2 text-[2rem] font-semibold leading-[1.03] tracking-tight md:text-[2.85rem]"
+                            className="mt-2 text-[2.1rem] font-semibold leading-[1.02] tracking-tight md:text-[3rem]"
                             style={{ color: "var(--scroll-fg)" }}
                           >
                             {project.name}
@@ -257,11 +276,11 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                             {(project.stack || []).slice(0, 3).map((tag) => (
                               <span
                                 key={tag}
-                                className="rounded-full px-3 py-1 text-[11px] tracking-wide"
+                                className="rounded-full px-3.5 py-1.5 text-[11px] tracking-wide"
                                 style={{
-                                  color: "color-mix(in srgb, var(--scroll-muted-fg) 94%, transparent)",
-                                  backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 70%, transparent)",
-                                  border: "1px solid color-mix(in srgb, var(--scroll-border) 40%, transparent)",
+                                  color: "color-mix(in srgb, var(--scroll-fg) 80%, transparent)",
+                                  backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 78%, transparent)",
+                                  border: "1px solid color-mix(in srgb, var(--scroll-border) 52%, transparent)",
                                 }}
                               >
                                 {tag}
@@ -270,7 +289,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                           </div>
                         </div>
 
-                        <div className="mt-7">
+                        <div className="mt-6">
                           {summary ? (
                             <p
                               className="max-w-[44ch] text-sm leading-relaxed text-pretty md:text-base"
@@ -284,7 +303,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                             </p>
                           )}
 
-                          <div className="mt-8 flex flex-wrap items-center gap-4">
+                          <div className="mt-6 flex flex-wrap items-center gap-4">
                             <Link
                               href={`/projects/${project.slug}`}
                               className="group/cta inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-medium transition duration-300 hover:-translate-y-0.5"
