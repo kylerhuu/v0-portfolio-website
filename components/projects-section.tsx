@@ -115,37 +115,6 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
           />
         </div>
 
-        {count > 1 ? (
-          <>
-            <button
-              type="button"
-              onClick={() => go(-1)}
-              className="absolute left-3 top-[50%] z-20 hidden -translate-y-1/2 rounded-full p-2.5 shadow-lg backdrop-blur-md transition hover:opacity-90 md:left-[calc(50%-370px)] md:flex md:items-center md:justify-center"
-              style={{
-                color: "var(--scroll-fg)",
-                backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 74%, transparent)",
-                border: "1px solid color-mix(in srgb, var(--scroll-border) 55%, transparent)",
-              }}
-              aria-label="Previous project"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => go(1)}
-              className="absolute right-3 top-[50%] z-20 hidden -translate-y-1/2 rounded-full p-2.5 shadow-lg backdrop-blur-md transition hover:opacity-90 md:right-[calc(50%-370px)] md:flex md:items-center md:justify-center"
-              style={{
-                color: "var(--scroll-fg)",
-                backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 74%, transparent)",
-                border: "1px solid color-mix(in srgb, var(--scroll-border) 55%, transparent)",
-              }}
-              aria-label="Next project"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
-          </>
-        ) : null}
-
         <div
           ref={viewportRef}
           className="relative mx-auto max-w-[1220px] overflow-hidden px-4 pb-2 md:px-10"
@@ -194,7 +163,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                   transition={slideSpring}
                 >
                   <div
-                    className={cn("rounded-[28px] px-6 py-7 md:px-8 md:py-8", isActive ? "cursor-default" : "cursor-pointer")}
+                    className={cn("rounded-[28px] px-5 py-6 md:px-7 md:py-7", isActive ? "cursor-default" : "cursor-pointer")}
                     style={{
                       background:
                         "linear-gradient(152deg, color-mix(in srgb, var(--scroll-card-bg) 84%, transparent), color-mix(in srgb, var(--scroll-card-bg) 48%, transparent))",
@@ -205,9 +174,9 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                         : "0 8px 26px rgba(0,0,0,0.14)",
                     }}
                   >
-                    <div className="grid min-h-[390px] grid-cols-1 gap-8 md:min-h-[430px] md:grid-cols-[40%,1fr] md:gap-9">
+                    <div className="grid min-h-[340px] grid-cols-1 gap-6 md:min-h-[370px] md:grid-cols-[40%,1fr] md:gap-7">
                       <div
-                        className="relative overflow-hidden rounded-[22px]"
+                        className="relative h-[220px] overflow-hidden rounded-[22px] md:h-[290px]"
                         style={{
                           background:
                             "linear-gradient(145deg, color-mix(in srgb, var(--scroll-card-bg) 79%, transparent), rgba(255,255,255,0.04))",
@@ -245,7 +214,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                             alt={project.logo?.alt || `${project.name} visual`}
                             fill
                             sizes="(min-width: 768px) 320px, 82vw"
-                            className="object-contain p-5 md:p-7"
+                            className="object-contain object-[center_42%] p-3 md:p-4 scale-[1.15]"
                             draggable={false}
                           />
                         ) : (
@@ -267,12 +236,12 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                             Case study
                           </p>
                           <h3
-                            className="mt-2 text-[2.1rem] font-semibold leading-[1.02] tracking-tight md:text-[3rem]"
+                            className="mt-2 text-[2.15rem] font-semibold leading-[1.01] tracking-tight md:text-[3.05rem]"
                             style={{ color: "var(--scroll-fg)" }}
                           >
                             {project.name}
                           </h3>
-                          <div className="mt-4 flex flex-wrap gap-2">
+                          <div className="mt-3.5 flex flex-wrap gap-2.5">
                             {(project.stack || []).slice(0, 3).map((tag) => (
                               <span
                                 key={tag}
@@ -289,7 +258,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                           </div>
                         </div>
 
-                        <div className="mt-6">
+                        <div className="mt-4.5">
                           {summary ? (
                             <p
                               className="max-w-[44ch] text-sm leading-relaxed text-pretty md:text-base"
@@ -303,7 +272,7 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
                             </p>
                           )}
 
-                          <div className="mt-6 flex flex-wrap items-center gap-4">
+                          <div className="mt-5 flex flex-wrap items-center gap-3.5">
                             <Link
                               href={`/projects/${project.slug}`}
                               className="group/cta inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-medium transition duration-300 hover:-translate-y-0.5"
@@ -339,6 +308,44 @@ export function ProjectsSection({ projects }: { projects: CmsProject[] }) {
             })}
           </motion.div>
         </div>
+
+        {count > 1 ? (
+          <div className="pointer-events-none absolute inset-0 hidden md:block">
+            <div
+              className="absolute left-1/2 top-1/2 h-0 -translate-x-1/2 -translate-y-1/2"
+              style={{ width: slideWidth }}
+            >
+              <button
+                type="button"
+                onClick={() => go(-1)}
+                className="pointer-events-auto absolute left-0 top-1/2 -translate-x-[55%] -translate-y-1/2 rounded-full p-3.5 shadow-lg backdrop-blur-md transition-all hover:scale-[1.04] hover:-translate-x-[57%]"
+                style={{
+                  color: "var(--scroll-fg)",
+                  backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 68%, transparent)",
+                  border: "1px solid color-mix(in srgb, var(--scroll-border) 58%, transparent)",
+                  boxShadow: "0 10px 24px rgba(0,0,0,0.22)",
+                }}
+                aria-label="Previous project"
+              >
+                <ChevronLeft className="h-5.5 w-5.5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => go(1)}
+                className="pointer-events-auto absolute right-0 top-1/2 translate-x-[55%] -translate-y-1/2 rounded-full p-3.5 shadow-lg backdrop-blur-md transition-all hover:scale-[1.04] hover:translate-x-[57%]"
+                style={{
+                  color: "var(--scroll-fg)",
+                  backgroundColor: "color-mix(in srgb, var(--scroll-card-bg) 68%, transparent)",
+                  border: "1px solid color-mix(in srgb, var(--scroll-border) 58%, transparent)",
+                  boxShadow: "0 10px 24px rgba(0,0,0,0.22)",
+                }}
+                aria-label="Next project"
+              >
+                <ChevronRight className="h-5.5 w-5.5" />
+              </button>
+            </div>
+          </div>
+        ) : null}
 
         {count > 1 ? (
           <div className="mt-10 px-6">
