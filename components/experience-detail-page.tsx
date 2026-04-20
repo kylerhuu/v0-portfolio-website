@@ -22,6 +22,7 @@ export function ExperienceDetailPage({ experience }: ExperienceDetailPageProps) 
   const { ref: bodyRef, isVisible: bodyVisible } = useScrollReveal(0.04);
   const logoSrc = experienceLogoUrl(experience);
   const overview = (experience.detailOverview || experience.summary || "").trim();
+  const scopeAndContext = (experience.scopeAndContext || "").trim();
 
   return (
     <ScrollColorProvider>
@@ -108,6 +109,33 @@ export function ExperienceDetailPage({ experience }: ExperienceDetailPageProps) 
               </section>
             ) : null}
 
+            {scopeAndContext ? (
+              <section>
+                <h2 className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-[hsl(15,80%,55%)]">
+                  Scope & context
+                </h2>
+                <p className="text-base leading-relaxed text-pretty md:text-lg" style={{ color: "var(--scroll-muted-fg)" }}>
+                  {scopeAndContext}
+                </p>
+              </section>
+            ) : null}
+
+            {(experience.keyInitiatives || []).length > 0 ? (
+              <section>
+                <h2 className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-[hsl(15,80%,55%)]">
+                  Key initiatives
+                </h2>
+                <ul className="space-y-3 text-sm leading-relaxed md:text-base" style={{ color: "var(--scroll-muted-fg)" }}>
+                  {experience.keyInitiatives!.map((line) => (
+                    <li key={line} className="flex gap-3">
+                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[hsl(15,80%,55%)]" aria-hidden />
+                      <span>{line}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
+
             {(experience.responsibilities || []).length > 0 ? (
               <section>
                 <h2 className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-[hsl(15,80%,55%)]">
@@ -131,6 +159,38 @@ export function ExperienceDetailPage({ experience }: ExperienceDetailPageProps) 
                 </h2>
                 <ul className="space-y-3 text-sm leading-relaxed md:text-base" style={{ color: "var(--scroll-muted-fg)" }}>
                   {experience.outcomes!.map((line) => (
+                    <li key={line} className="flex gap-3">
+                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[hsl(15,80%,48%)]" aria-hidden />
+                      <span>{line}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
+
+            {(experience.crossFunctionalCollaboration || []).length > 0 ? (
+              <section>
+                <h2 className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-[hsl(15,80%,55%)]">
+                  Cross-functional collaboration
+                </h2>
+                <ul className="space-y-3 text-sm leading-relaxed md:text-base" style={{ color: "var(--scroll-muted-fg)" }}>
+                  {experience.crossFunctionalCollaboration!.map((line) => (
+                    <li key={line} className="flex gap-3">
+                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[hsl(15,80%,48%)]" aria-hidden />
+                      <span>{line}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
+
+            {(experience.professionalGrowth || []).length > 0 ? (
+              <section>
+                <h2 className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-[hsl(15,80%,55%)]">
+                  Professional growth
+                </h2>
+                <ul className="space-y-3 text-sm leading-relaxed md:text-base" style={{ color: "var(--scroll-muted-fg)" }}>
+                  {experience.professionalGrowth!.map((line) => (
                     <li key={line} className="flex gap-3">
                       <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[hsl(15,80%,48%)]" aria-hidden />
                       <span>{line}</span>

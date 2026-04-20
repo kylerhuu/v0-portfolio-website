@@ -18,8 +18,13 @@ export type CmsExperience = {
   summary: string;
   /** Long-form intro on the experience detail page; falls back to summary. */
   detailOverview?: string;
+  /** Role-specific context details for experience pages (not project-style case studies). */
+  scopeAndContext?: string;
   responsibilities: string[];
+  keyInitiatives?: string[];
   outcomes: string[];
+  crossFunctionalCollaboration?: string[];
+  professionalGrowth?: string[];
   tools: string[];
   skills: string[];
   media?: SanityImageRef[];
