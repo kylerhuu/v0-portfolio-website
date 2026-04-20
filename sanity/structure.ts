@@ -9,6 +9,7 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem("project").title("Projects"),
       S.documentTypeListItem("caseStudy").title("Case Studies"),
       S.documentTypeListItem("experience").title("Experiences"),
+      S.documentTypeListItem("gallery").title("Portfolio Galleries"),
       S.divider(),
       S.documentTypeListItem("legalPage").title("Legal Pages"),
     ]);

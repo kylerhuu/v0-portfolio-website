@@ -8,12 +8,13 @@ import GallerySection from "@/components/gallery-section";
 import { ResumeSection } from "@/components/resume-section";
 import { ContactSection } from "@/components/contact-section";
 import { ScrollColorProvider } from "@/components/scroll-color-provider";
-import { getExperiences, getProjects, getSiteSettings } from "@/lib/sanity/content";
+import { getExperiences, getGalleries, getProjects, getSiteSettings } from "@/lib/sanity/content";
 
 export default async function Home() {
-  const [experiences, projects, siteSettings] = await Promise.all([
+  const [experiences, projects, galleries, siteSettings] = await Promise.all([
     getExperiences(),
     getProjects(),
+    getGalleries(),
     getSiteSettings(),
   ]);
   const featuredSlugs = siteSettings?.featuredProjectSlugs?.filter(Boolean) ?? [];
@@ -37,7 +38,7 @@ export default async function Home() {
         <AboutSection aboutBlurb={siteSettings?.aboutBlurb} />
         <ProjectsSection projects={orderedProjects} featuredSlugs={featuredSlugs} />
         <ExperiencesSection experiences={experiences} />
-        <GallerySection />
+        <GallerySection galleries={galleries} />
         <ResumeSection resumeUrl={siteSettings?.resumeUrl} />
         <ContactSection
           headline={siteSettings?.contactHeadline}

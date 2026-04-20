@@ -70,6 +70,19 @@ export const experienceBySlugQuery = groq`
   }
 `;
 
+export const galleriesQuery = groq`
+  *[_type == "gallery"] | order(orderRank asc, _createdAt desc) {
+    "id": coalesce(slug.current, _id),
+    title,
+    overview,
+    "photos": photos[]{
+      "src": image.asset->url,
+      "title": coalesce(title, ""),
+      "description": coalesce(description, "")
+    }
+  }
+`;
+
 /** Newest case study linked to this project (^ = parent project in list/detail projections). */
 const LINKED_CASE_STUDY =
   "*[_type == \"caseStudy\" && relatedProject._ref == ^._id] | order(_updatedAt desc)[0]";

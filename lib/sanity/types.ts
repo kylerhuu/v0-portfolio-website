@@ -6,6 +6,19 @@ export type SanityImageRef = {
   alt?: string;
 };
 
+export type CmsGalleryPhoto = {
+  src: string;
+  title: string;
+  description: string;
+};
+
+export type CmsGallery = {
+  id: string;
+  title: string;
+  overview: string;
+  photos: CmsGalleryPhoto[];
+};
+
 export type CmsExperience = {
   id: string;
   /** Public route segment; optional until CMS documents are migrated. */

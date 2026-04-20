@@ -6,6 +6,7 @@ import {
   caseStudyBySlugQuery,
   experienceBySlugQuery,
   experiencesQuery,
+  galleriesQuery,
   legalPageByProjectSlugAndPathQuery,
   legalPageByProjectSlugQuery,
   legalPagesByProjectSlugQuery,
@@ -17,6 +18,7 @@ import {
 import type {
   CmsCaseStudy,
   CmsExperience,
+  CmsGallery,
   CmsLegalPage,
   CmsProject,
   CmsSiteSettings,
@@ -236,6 +238,16 @@ export async function getExperiences(): Promise<CmsExperience[]> {
     return data;
   } catch {
     return fallbackExperiences();
+  }
+}
+
+export async function getGalleries(): Promise<CmsGallery[]> {
+  if (!hasSanityEnv) return [];
+  try {
+    const data = await sanityClient.fetch<CmsGallery[]>(galleriesQuery, {}, sanityFetchNext);
+    return (data || []).filter((gallery) => gallery.photos?.length > 0);
+  } catch {
+    return [];
   }
 }
 

@@ -3,16 +3,22 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import { GALLERIES, type GalleryPhoto } from "@/components/gallery-data"
+import type { CmsGallery } from "@/lib/sanity/types"
 import clsx from "clsx"
 
-export default function PortfolioGallery() {
+type PortfolioGalleryProps = {
+  galleries?: CmsGallery[];
+}
+
+export default function PortfolioGallery({ galleries }: PortfolioGalleryProps) {
+  const galleryItems = galleries && galleries.length > 0 ? galleries : GALLERIES
   const [activeGalleryId, setActiveGalleryId] = useState<string | null>(null)
   const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null)
   const [fadeIn, setFadeIn] = useState(false)
   const [fadeOut, setFadeOut] = useState(false)
 
   const activeGallery = activeGalleryId
-    ? GALLERIES.find((g) => g.id === activeGalleryId) ?? null
+    ? galleryItems.find((g) => g.id === activeGalleryId) ?? null
     : null
 
   // Fade-in when opening gallery
@@ -53,7 +59,7 @@ export default function PortfolioGallery() {
 
       {/* Gallery Overview Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {GALLERIES.map((gallery) => (
+        {galleryItems.map((gallery) => (
           <button
             key={gallery.id}
             onClick={() => (activeGalleryId === gallery.id ? null : switchGallery(gallery.id))}
