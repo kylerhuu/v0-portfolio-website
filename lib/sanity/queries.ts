@@ -88,7 +88,10 @@ export const projectsQuery = groq`
     impact,
     lessons,
     futureWork,
-    demo,
+    "demo": select(
+      defined(demo.asset->url) => demo.asset->url,
+      demo
+    ),
     videoPoster,
     hasCaseStudy,
     "media": select(
@@ -130,7 +133,10 @@ export const projectBySlugQuery = groq`
     impact,
     lessons,
     futureWork,
-    demo,
+    "demo": select(
+      defined(demo.asset->url) => demo.asset->url,
+      demo
+    ),
     videoPoster,
     hasCaseStudy,
     "media": select(

@@ -30,7 +30,15 @@ export const projectType = defineType({
     defineField({ name: "impact", title: "Impact", type: "array", of: [{ type: "string" }] }),
     defineField({ name: "lessons", title: "Lessons", type: "array", of: [{ type: "string" }] }),
     defineField({ name: "futureWork", title: "Future Work", type: "text", rows: 4 }),
-    defineField({ name: "demo", title: "Demo URL (video)", type: "url" }),
+    defineField({
+      name: "demo",
+      title: "Demo Video",
+      description: "Upload a video file for the project demo.",
+      type: "file",
+      options: {
+        accept: "video/*",
+      },
+    }),
     defineField({ name: "videoPoster", title: "Video Poster URL", type: "url" }),
     defineField({
       name: "media",
