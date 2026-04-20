@@ -236,14 +236,22 @@ export function ExperiencesSection({ experiences }: { experiences: CmsExperience
                   </div>
 
                   {experienceHref(activeExperience) ? (
-                    <div className="mt-9">
+                    <div className="mt-9 flex flex-wrap items-center gap-3.5">
                       <Link
                         href={experienceHref(activeExperience)!}
-                        className="inline-flex items-center gap-1.5 text-sm font-medium text-[hsl(15,80%,55%)]"
+                        className="group/cta inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-medium transition duration-300 hover:-translate-y-0.5"
+                        style={{
+                          background: "linear-gradient(120deg, hsl(15,80%,55%), hsl(15,70%,44%))",
+                          color: "#111214",
+                          boxShadow: "0 10px 24px rgba(0,0,0,0.22)",
+                        }}
                       >
-                        Read full case study
-                        <ArrowUpRight className="h-4 w-4" />
+                        Read more
+                        <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
                       </Link>
+                      <span className="text-sm" style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 88%, transparent)" }}>
+                        Full case study
+                      </span>
                     </div>
                   ) : null}
                 </motion.article>
