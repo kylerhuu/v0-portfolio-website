@@ -73,16 +73,29 @@ export function ExperiencesSection({ experiences }: { experiences: CmsExperience
                   "linear-gradient(to bottom, color-mix(in srgb, var(--scroll-border) 30%, transparent), color-mix(in srgb, var(--scroll-border) 55%, transparent), color-mix(in srgb, var(--scroll-border) 30%, transparent))",
               }}
             />
-            <div className="space-y-8">
+            <div
+              className="rounded-2xl px-3 py-3"
+              style={{
+                background:
+                  "linear-gradient(145deg, color-mix(in srgb, var(--scroll-card-bg) 48%, transparent), color-mix(in srgb, var(--scroll-card-bg) 20%, transparent))",
+              }}
+            >
+              <p
+                className="mb-5 pl-4 text-[11px] uppercase tracking-[0.18em]"
+                style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 86%, transparent)" }}
+              >
+                Choose a role to inspect
+              </p>
+            <div className="space-y-9">
               {grouped.map((group) => (
                 <div key={group.year}>
                   <p
-                    className="mb-3 pl-7 text-[11px] uppercase tracking-[0.2em]"
+                    className="mb-4 pl-7 text-[11px] uppercase tracking-[0.2em]"
                     style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 78%, transparent)" }}
                   >
                     {group.year}
                   </p>
-                  <div className="space-y-2">
+                  <div className="space-y-2.5">
                     {group.items.map(({ exp, idx }) => {
                       const isActive = idx === activeIndex;
                       return (
@@ -90,16 +103,31 @@ export function ExperiencesSection({ experiences }: { experiences: CmsExperience
                           key={exp.id}
                           type="button"
                           onClick={() => setActiveIndex(idx)}
-                          className="group relative w-full py-2 pl-7 pr-3 text-left"
+                          className="group relative w-full cursor-pointer rounded-xl px-3 py-3 pl-8 pr-3 text-left transition-all duration-200"
+                          style={{
+                            backgroundColor: isActive
+                              ? "color-mix(in srgb, hsl(15,80%,55%) 14%, transparent)"
+                              : "transparent",
+                            boxShadow: isActive
+                              ? "inset 0 1px 0 rgba(255,255,255,0.14)"
+                              : "none",
+                          }}
                         >
+                          <span
+                            className="pointer-events-none absolute bottom-2 left-1 top-2 w-[2px] rounded-full transition-opacity duration-200"
+                            style={{
+                              backgroundColor: "hsl(15,80%,55%)",
+                              opacity: isActive ? 1 : 0,
+                            }}
+                          />
                           <motion.span
                             className="pointer-events-none absolute left-[5px] top-1/2 block h-2.5 w-2.5 -translate-y-1/2 rounded-full"
                             animate={{
-                              scale: isActive ? 1.2 : 0.82,
-                              opacity: isActive ? 1 : 0.5,
+                              scale: isActive ? 1.28 : 0.8,
+                              opacity: isActive ? 1 : 0.45,
                               backgroundColor: isActive ? "hsl(15,80%,55%)" : "rgba(255,255,255,0.45)",
                               boxShadow: isActive
-                                ? "0 0 0 6px color-mix(in srgb, hsl(15,80%,55%) 16%, transparent)"
+                                ? "0 0 0 7px color-mix(in srgb, hsl(15,80%,55%) 22%, transparent)"
                                 : "none",
                             }}
                             transition={{ duration: 0.22, ease: "easeOut" }}
@@ -107,23 +135,31 @@ export function ExperiencesSection({ experiences }: { experiences: CmsExperience
                           <motion.p
                             className="text-base font-medium tracking-tight md:text-[1.05rem]"
                             style={{ color: "var(--scroll-fg)" }}
-                            animate={{ opacity: isActive ? 1 : 0.52 }}
+                            animate={{ opacity: isActive ? 1 : 0.56 }}
                           >
                             {exp.company}
                           </motion.p>
                           <motion.p
                             className="mt-0.5 text-sm"
                             style={{ color: "var(--scroll-muted-fg)" }}
-                            animate={{ opacity: isActive ? 0.9 : 0.5 }}
+                            animate={{ opacity: isActive ? 0.95 : 0.58 }}
                           >
                             {exp.title}
                           </motion.p>
+                          <span
+                            className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                            style={{
+                              background:
+                                "linear-gradient(120deg, color-mix(in srgb, hsl(15,80%,55%) 10%, transparent), transparent)",
+                            }}
+                          />
                         </button>
                       );
                     })}
                   </div>
                 </div>
               ))}
+            </div>
             </div>
           </aside>
 
@@ -136,36 +172,42 @@ export function ExperiencesSection({ experiences }: { experiences: CmsExperience
                   animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
                   exit={{ opacity: 0, x: -18, filter: "blur(2px)" }}
                   transition={{ duration: 0.26, ease: "easeOut" }}
-                  className="max-w-3xl"
+                  className="max-w-3xl rounded-2xl px-5 py-5 md:px-7 md:py-7"
+                  style={{
+                    background:
+                      "linear-gradient(145deg, color-mix(in srgb, var(--scroll-card-bg) 52%, transparent), color-mix(in srgb, var(--scroll-card-bg) 20%, transparent))",
+                    border: "1px solid color-mix(in srgb, var(--scroll-border) 24%, transparent)",
+                    backdropFilter: "blur(6px)",
+                  }}
                 >
-                  <p className="text-[11px] uppercase tracking-[0.2em]" style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 72%, transparent)" }}>
+                  <p className="text-[11px] uppercase tracking-[0.2em]" style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 84%, transparent)" }}>
                     Selected experience
                   </p>
                   <h3 className="mt-2 text-3xl font-semibold tracking-tight md:text-4xl" style={{ color: "var(--scroll-fg)" }}>
                     {activeExperience.company}
                   </h3>
-                  <p className="mt-2 text-base md:text-lg" style={{ color: "var(--scroll-muted-fg)" }}>
+                  <p className="mt-2 text-base md:text-lg" style={{ color: "color-mix(in srgb, var(--scroll-fg) 76%, transparent)" }}>
                     {activeExperience.title}
                   </p>
                   <p
                     className="mt-3 text-xs uppercase tracking-[0.15em] md:text-[11px]"
-                    style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 82%, transparent)" }}
+                    style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 92%, transparent)" }}
                   >
                     {activeExperience.duration}
                     {activeExperience.location ? ` · ${activeExperience.location}` : ""}
                   </p>
 
-                  <p className="mt-7 text-base leading-relaxed text-pretty md:text-lg" style={{ color: "var(--scroll-muted-fg)" }}>
+                  <p className="mt-7 text-base leading-relaxed text-pretty md:text-lg" style={{ color: "color-mix(in srgb, var(--scroll-fg) 72%, transparent)" }}>
                     {activeExperience.summary}
                   </p>
 
                   <div className="mt-8 grid gap-7 md:grid-cols-2">
                     {(activeExperience.responsibilities || []).length > 0 ? (
                       <div>
-                        <p className="mb-2 text-[11px] uppercase tracking-[0.16em]" style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 72%, transparent)" }}>
+                        <p className="mb-2 text-[11px] uppercase tracking-[0.16em]" style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 82%, transparent)" }}>
                           Responsibilities
                         </p>
-                        <ul className="space-y-2 text-sm leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
+                        <ul className="space-y-2 text-sm leading-relaxed" style={{ color: "color-mix(in srgb, var(--scroll-fg) 68%, transparent)" }}>
                           {(activeExperience.responsibilities || []).slice(0, 4).map((item) => (
                             <li key={item} className="flex gap-2">
                               <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[hsl(15,80%,55%)]" />
@@ -178,10 +220,10 @@ export function ExperiencesSection({ experiences }: { experiences: CmsExperience
 
                     {(activeExperience.outcomes || []).length > 0 ? (
                       <div>
-                        <p className="mb-2 text-[11px] uppercase tracking-[0.16em]" style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 72%, transparent)" }}>
+                        <p className="mb-2 text-[11px] uppercase tracking-[0.16em]" style={{ color: "color-mix(in srgb, var(--scroll-muted-fg) 82%, transparent)" }}>
                           Impact
                         </p>
-                        <ul className="space-y-2 text-sm leading-relaxed" style={{ color: "var(--scroll-muted-fg)" }}>
+                        <ul className="space-y-2 text-sm leading-relaxed" style={{ color: "color-mix(in srgb, var(--scroll-fg) 68%, transparent)" }}>
                           {(activeExperience.outcomes || []).slice(0, 4).map((item) => (
                             <li key={item} className="flex gap-2">
                               <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[hsl(15,80%,48%)]" />
