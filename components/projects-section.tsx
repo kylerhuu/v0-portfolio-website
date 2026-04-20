@@ -50,10 +50,6 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
     ? { duration: 0.18, ease: "easeOut" as const }
     : { type: "spring" as const, stiffness: 300, damping: 30, mass: 0.78 };
 
-  // Keep halo transitions matched to the slide motion to avoid a "bright flash then settle"
-  // caused by two different springs/easings fighting each other during centering.
-  const haloTransition = trackTransition;
-
   const active = projects[activeIndex];
   const featuredSet = new Set(featuredSlugs);
 
@@ -170,8 +166,6 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                 const rotateY = isCenter ? 0 : rel > 0 ? -12 : 12;
                 const rotateZ = isCenter ? 0 : rel > 0 ? -0.3 : 0.3;
                 const opacity = isCenter ? 1 : isNear ? 0.34 : 0;
-                // Ramp glow only in the final portion of the centering fade (prevents an early brightness spike).
-                const haloStrength = Math.min(1, Math.max(0, (opacity - 0.72) / (1 - 0.72)));
 
                 return (
                   <motion.article
@@ -192,33 +186,20 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                     aria-hidden={!isCenter}
                   >
                     {isFeatured ? (
-                      <>
-                        <motion.div
-                          className="pointer-events-none absolute -inset-8 rounded-[42px]"
-                          animate={{
-                            opacity: 0.72 * haloStrength,
-                            scale: 1.03,
-                            filter: "blur(24px)",
-                          }}
-                          transition={haloTransition}
-                          style={{
-                            background:
-                              "radial-gradient(circle at 50% 52%, rgba(255,221,138,0.34) 0%, rgba(244,186,74,0.2) 30%, rgba(238,173,54,0.12) 52%, transparent 76%)",
-                            zIndex: -1,
-                          }}
-                        />
-                        <motion.div
-                          className="pointer-events-none absolute -inset-10 rounded-[46px]"
-                          animate={{ opacity: 0.24 * haloStrength, scale: 1.02 }}
-                          transition={haloTransition}
-                          style={{
-                            background:
-                              "radial-gradient(circle at 50% 50%, rgba(255,228,160,0.24) 0%, rgba(246,189,84,0.12) 36%, transparent 76%)",
-                            filter: "blur(30px)",
-                            zIndex: -2,
-                          }}
-                        />
-                      </>
+                      <motion.div
+                        className="pointer-events-none absolute -inset-10 rounded-[36px]"
+                        animate={{
+                          opacity: 0.55 * opacity,
+                          scale: 1.02,
+                          filter: "blur(26px)",
+                        }}
+                        transition={trackTransition}
+                        style={{
+                          background:
+                            "radial-gradient(circle at 50% 48%, rgba(255,224,150,0.34) 0%, rgba(244,186,74,0.18) 34%, rgba(238,173,54,0.1) 56%, transparent 78%)",
+                          zIndex: -1,
+                        }}
+                      />
                     ) : null}
 
                     <div
@@ -231,22 +212,21 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                           : "1px solid color-mix(in srgb, var(--scroll-border) 28%, transparent)",
                         backdropFilter: "blur(10px)",
                         boxShadow: isCenter
-                          ? isFeatured
-                            ? "0 34px 92px rgba(0,0,0,0.38), 0 0 54px rgba(236,180,58,0.18), inset 0 1px 0 rgba(255,255,255,0.14)"
-                            : "0 34px 92px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.14)"
-                          : isFeatured
-                            ? "0 12px 36px rgba(0,0,0,0.22), 0 0 22px rgba(236,180,58,0.12)"
-                            : "0 12px 36px rgba(0,0,0,0.22)",
+                          ? "0 34px 92px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.14)"
+                          : "0 12px 36px rgba(0,0,0,0.22)",
                       }}
                     >
                       {isFeatured ? (
-                        <div
+                        <motion.div
                           className="pointer-events-none absolute inset-0 rounded-[28px]"
+                          animate={{
+                            opacity: 0.52 * opacity,
+                          }}
+                          transition={trackTransition}
                           style={{
                             background:
                               "radial-gradient(circle at 12% -8%, rgba(255,228,160,0.14), rgba(255,228,160,0.03) 40%, transparent 72%)",
                             filter: "blur(0.4px)",
-                            opacity: 0.52,
                           }}
                         />
                       ) : null}
