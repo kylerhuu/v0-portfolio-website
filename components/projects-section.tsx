@@ -185,14 +185,14 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                     }}
                     aria-hidden={!isCenter}
                   >
-                    {isFeatured ? (
+                    {isFeatured && isCenter ? (
                       <>
                         <motion.div
                           className="pointer-events-none absolute -inset-8 rounded-[42px]"
                           animate={{
-                            opacity: isCenter ? 0.86 : 0.48,
-                            scale: isCenter ? 1.06 : 1.01,
-                            filter: isCenter ? "blur(26px)" : "blur(18px)",
+                            opacity: 0.72,
+                            scale: 1.05,
+                            filter: "blur(24px)",
                           }}
                           transition={trackTransition}
                           style={{
@@ -203,20 +203,8 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                         />
                         <motion.div
                           className="pointer-events-none absolute -inset-10 rounded-[46px]"
-                          animate={
-                            reduceMotion
-                              ? { opacity: isCenter ? 0.36 : 0.14, scale: isCenter ? 1.03 : 1 }
-                              : isCenter
-                                ? { opacity: [0.22, 0.38, 0.22], scale: [1.01, 1.06, 1.01] }
-                                : { opacity: 0.12, scale: 1 }
-                          }
-                          transition={
-                            reduceMotion
-                              ? { duration: 0.2, ease: "easeOut" }
-                              : isCenter
-                                ? { duration: 2.6, ease: "easeInOut", repeat: Infinity }
-                                : { duration: 0.3, ease: "easeOut" }
-                          }
+                          animate={{ opacity: 0.24, scale: 1.03 }}
+                          transition={trackTransition}
                           style={{
                             background:
                               "radial-gradient(circle at 50% 50%, rgba(255,228,160,0.24) 0%, rgba(246,189,84,0.12) 36%, transparent 76%)",
@@ -252,7 +240,7 @@ export function ProjectsSection({ projects, featuredSlugs = [] }: ProjectsSectio
                             background:
                               "radial-gradient(circle at 12% -8%, rgba(255,228,160,0.14), rgba(255,228,160,0.03) 40%, transparent 72%)",
                             filter: "blur(0.4px)",
-                            opacity: 0.62,
+                            opacity: isCenter ? 0.58 : 0.46,
                           }}
                         />
                       ) : null}
