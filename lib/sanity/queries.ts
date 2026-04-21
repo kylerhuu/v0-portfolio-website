@@ -162,6 +162,8 @@ export const projectBySlugQuery = groq`
     ),
     videoPoster,
     hasCaseStudy,
+    productLegalFooterHeading,
+    showWebsiteLegalInProductFooter,
     "media": select(
       count(media) > 0 => media[]{
         alt,
@@ -275,6 +277,10 @@ export const siteSettingsQuery = groq`
     "resumeUrl": coalesce(resumeFile.asset->url, resumeUrl),
     contactHeadline,
     footerText,
+    privacyPolicyLinkLabel,
+    privacyPolicyLinkPath,
+    termsOfServiceLinkLabel,
+    termsOfServiceLinkPath,
     socialLinks,
     contactEmail,
     featuredProjectSlugs

@@ -15,6 +15,7 @@ import {
   projectsQuery,
   siteSettingsQuery,
 } from "@/lib/sanity/queries";
+import { cache } from "react";
 import type {
   CmsCaseStudy,
   CmsExperience,
@@ -269,7 +270,7 @@ export async function getProjects(): Promise<CmsProject[]> {
   }
 }
 
-export async function getProjectBySlug(slug: string): Promise<CmsProject | null> {
+export const getProjectBySlug = cache(async function getProjectBySlug(slug: string): Promise<CmsProject | null> {
   const fallback = fallbackProjects().find((item) => item.slug === slug) || null;
   if (!hasSanityEnv) return fallback;
   try {
@@ -282,7 +283,7 @@ export async function getProjectBySlug(slug: string): Promise<CmsProject | null>
   } catch {
     return fallback;
   }
-}
+});
 
 export async function getCaseStudyBySlug(slug: string): Promise<CmsCaseStudy | null> {
   const fallback = FALLBACK_CASE_STUDIES[slug] ?? null;

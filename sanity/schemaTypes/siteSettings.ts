@@ -25,6 +25,32 @@ export const siteSettingsType = defineType({
     defineField({ name: "contactHeadline", title: "Contact Headline", type: "string" }),
     defineField({ name: "footerText", title: "Footer Text", type: "string" }),
     defineField({
+      name: "privacyPolicyLinkLabel",
+      title: "Privacy policy — link label",
+      description: "Shown in the site-wide footer on every page (required by many app-store / OAuth verifications).",
+      type: "string",
+      initialValue: "Privacy Policy",
+    }),
+    defineField({
+      name: "privacyPolicyLinkPath",
+      title: "Privacy policy — URL path",
+      description: "Site-relative path to your privacy page, e.g. /privacy-policy. Use a full https URL only if hosted elsewhere.",
+      type: "string",
+      initialValue: "/privacy-policy",
+    }),
+    defineField({
+      name: "termsOfServiceLinkLabel",
+      title: "Terms of service — link label",
+      type: "string",
+      initialValue: "Terms of Service",
+    }),
+    defineField({
+      name: "termsOfServiceLinkPath",
+      title: "Terms of service — URL path",
+      type: "string",
+      initialValue: "/terms-of-service",
+    }),
+    defineField({
       name: "socialLinks",
       title: "Social Links",
       type: "array",

@@ -60,6 +60,21 @@ export const projectType = defineType({
       ],
     }),
     defineField({ name: "hasCaseStudy", title: "Has Case Study", type: "boolean", initialValue: false }),
+    defineField({
+      name: "productLegalFooterHeading",
+      title: "Product footer heading",
+      description:
+        "Shown above the product legal links on /projects/[this-project] (e.g. “CoverClick · Product legal”). Leave empty to use “{Project name} · Product legal”.",
+      type: "string",
+    }),
+    defineField({
+      name: "showWebsiteLegalInProductFooter",
+      title: "Show website Privacy & Terms under product legal",
+      description:
+        "When enabled, the project footer also links to your portfolio-wide Privacy Policy and Terms (from Site Settings). Turn off for a product-only footer.",
+      type: "boolean",
+      initialValue: true,
+    }),
     defineField({ name: "orderRank", title: "Order Rank", type: "number", initialValue: 100 }),
   ],
   orderings: [

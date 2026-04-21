@@ -16,14 +16,17 @@ export const viewport: Viewport = {
   themeColor: "#0f0f12",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning className={`${_geist.className} ${_geistMono.className} font-sans antialiased`}>
+      <body
+        suppressHydrationWarning
+        className={`${_geist.className} ${_geistMono.className} flex min-h-screen flex-col font-sans antialiased`}
+      >
         {children}
       </body>
     </html>

@@ -63,6 +63,10 @@ export type CmsProject = {
   demo?: string;
   videoPoster?: string;
   hasCaseStudy: boolean;
+  /** Optional override for the project route footer title */
+  productLegalFooterHeading?: string;
+  /** When false, hide portfolio Privacy/Terms in the project footer */
+  showWebsiteLegalInProductFooter?: boolean;
 };
 
 export type CmsCaseStudy = {
@@ -101,6 +105,11 @@ export type CmsSiteSettings = {
   resumeUrl?: string;
   contactHeadline?: string;
   footerText?: string;
+  /** Site-wide footer (legal); defaults applied in UI if unset */
+  privacyPolicyLinkLabel?: string;
+  privacyPolicyLinkPath?: string;
+  termsOfServiceLinkLabel?: string;
+  termsOfServiceLinkPath?: string;
   socialLinks?: Array<{
     label?: string;
     url?: string;

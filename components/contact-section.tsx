@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { Mail, Linkedin, Phone } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
@@ -112,14 +111,6 @@ export function ContactSection({ headline, footerText, contactEmail, socialLinks
             <p className="text-xs" style={{ color: "var(--scroll-muted-fg)" }}>
               {resolvedFooter}
             </p>
-            <div className="flex items-center gap-4 text-xs" style={{ color: "var(--scroll-muted-fg)" }}>
-              <Link href="/privacy-policy" className="hover:text-[hsl(15,80%,55%)] transition-colors">
-                Privacy Policy
-              </Link>
-              <Link href="/terms-of-service" className="hover:text-[hsl(15,80%,55%)] transition-colors">
-                Terms of Service
-              </Link>
-            </div>
           </div>
         </div>
       </div>
